@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
 
@@ -204,14 +204,14 @@
                     <div class="col search">
                         <div class="input-group">
                             <select
-                                class="selector form-control bg-light border-1 small" id="playerSelector"
-                                onclick="loadPlayer()"
-                                style="margin-right: 1em;">
-                            <option value="-">–- Select Player --</option>
+                                    class="selector form-control bg-light border-1 small" id="playerSelector"
+                                    onclick="loadPlayer()"
+                                    style="margin-right: 1em;">
+                                <option value="-">–- Select Player --</option>
                             </select>
                             <select
-                                class="selector form-control bg-light border-1 small" id="TeamSelector"
-                                onclick="loadTeam()">
+                                    class="selector form-control bg-light border-1 small" id="TeamSelector"
+                                    onclick="loadTeam()">
                                 <option value="all">All team</option>
                             </select>
                         </div>
@@ -219,7 +219,9 @@
                     </div>
                     <div class="col search">
                         <div class="input-group">
-                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal" data-placement="right" data-target="#exampleModal" title="Changer le fond de la carte"><i class="fas fa-palette"></i>
+                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
+                                    data-placement="right" data-target="#exampleModal"
+                                    title="Changer le fond de la carte"><i class="fas fa-palette"></i>
                             </button>
                         </div>
                     </div>
