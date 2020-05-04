@@ -30,6 +30,9 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="css/fet.css" rel="stylesheet">
 
+    <!--    TO ADD !!!!!!-->
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+
 
 </head>
 
@@ -190,11 +193,24 @@
                     <div class="col search">
                         <div class="input-group">
                             <label for="mySelect"></label><select
-                                class="selector form-control bg-light border-0 small" id="mySelect" onclick="loadPlayer()">
+                                class="selector form-control bg-light border-0 small" id="mySelect"
+                                onclick="loadPlayer()">
                             <option value="-">–- Select Player --</option>
                         </select>
                         </div>
 
+                    </div>
+
+                    <div class="col search">
+                        <div class="input-group">
+                            <div  id="picker" onmouseup="colorUpdate()"> </div>
+                        </div>
+                    </div>
+
+                    <div class="col search">
+                        <div class="input-group">
+                            <button class="btn btn-primary btn-icon-split" id="btn" onmouseup="colorUpdate()">color picker</button>
+                        </div>
                     </div>
                 </div>
 
@@ -250,8 +266,10 @@
     <!-- Page level custom scripts -->
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-area-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-pie-demo.js"></script>
-    <script type="application/javascript" src="fet.js"></script>
 
+    <!--    TO ADD !!!!!!!!! -->
+    <script type="application/javascript" src="fet.js"></script>
+</div>
 </body>
 
 </html>

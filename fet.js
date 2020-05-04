@@ -14,8 +14,16 @@ let mapMarkers = {};
 let playeNames = [];
 let playerid = [198153, 17095, 692781];
 
-let minZoom = 2;
+let minZoom = 0;
 let maxZoom = 8
+
+let colorPicker = new iro.ColorPicker("#picker", {
+  // Set the size of the color picker
+  width: 100,
+  // Set the initial color to pure red
+  color: "#484e65"
+});
+
 
 // EU
 const EU = {
@@ -158,7 +166,6 @@ let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
 })
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
-
 /*----------------- CALL -------------------*/
 
 /* POSITION LOOP */
@@ -303,6 +310,12 @@ function getPosition() {
 
   }
   // setTimeout(getJSON, 1000);
+}
+
+function colorUpdate(){
+  let hex = colorPicker.color.hexString;
+  console.log(hex)
+  $("#map").css("background-color", hex.toString());
 }
 
 /* DEBUG

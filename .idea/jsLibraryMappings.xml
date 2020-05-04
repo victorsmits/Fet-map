@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{@types/config}" />
+    <file url="PROJECT" libraries="{@jaames, @types/config, Chart, bootstrap.bundle, chart-area-demo, chart-pie-demo, jquery, jquery.easing, sb-admin-2}" />
   </component>
 </project>

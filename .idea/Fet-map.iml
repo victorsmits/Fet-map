@@ -9,5 +9,13 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="@types/config" level="application" />
+    <orderEntry type="library" name="chart-area-demo" level="application" />
+    <orderEntry type="library" name="chart-pie-demo" level="application" />
+    <orderEntry type="library" name="Chart" level="application" />
+    <orderEntry type="library" name="sb-admin-2" level="application" />
+    <orderEntry type="library" name="jquery.easing" level="application" />
+    <orderEntry type="library" name="bootstrap.bundle" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="@jaames" level="application" />
   </component>
 </module>
