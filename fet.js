@@ -206,7 +206,7 @@ $('#form').submit(function () {
 })
 
 $('#openPicker').click(function () {
-    $("#picker").toggle();
+    $("#picker").show();
 })
 
 /*----------------- FUNCTION -------------------*/
