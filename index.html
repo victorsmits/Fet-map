@@ -187,7 +187,7 @@
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
                               onsubmit="lookat(this)" id="form">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small"
+                                <input type="text" class="form-control bg-light border-1 small"
                                        placeholder="Search player"
                                        aria-label="Search"
                                        aria-describedby="basic-addon2"
@@ -203,29 +203,23 @@
 
                     <div class="col search">
                         <div class="input-group">
-                            <label for="playerSelector"></label><select
-                                class="selector form-control bg-light border-0 small" id="playerSelector"
-                                onclick="loadPlayer()">
+                            <select
+                                class="selector form-control bg-light border-1 small" id="playerSelector"
+                                onclick="loadPlayer()"
+                                style="margin-right: 1em;">
                             <option value="-">–- Select Player --</option>
-                        </select>
-                        </div>
-
-                    </div>
-
-                    <div class="col search">
-                        <div class="input-group">
-                            <label for="TeamSelector"></label><select
-                                class="selector form-control bg-light border-0 small" id="TeamSelector"
+                            </select>
+                            <select
+                                class="selector form-control bg-light border-1 small" id="TeamSelector"
                                 onclick="loadTeam()">
-                            <option value="all">All team</option>
-                        </select>
+                                <option value="all">All team</option>
+                            </select>
                         </div>
 
                     </div>
                     <div class="col search">
                         <div class="input-group">
-                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
-                                    data-target="#exampleModal">color picker
+                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal" data-placement="right" data-target="#exampleModal" title="Changer le fond de la carte"><i class="fas fa-palette"></i>
                             </button>
                         </div>
                     </div>

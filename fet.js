@@ -355,6 +355,7 @@ function colorUpdate() {
     let hex = colorPicker.color.hexString;
     console.log(hex)
     $("#map").css("background-color", hex.toString());
+    $("#openPicker").css("background-color", hex.toString());
 }
 
 function TeamSelection(val) {
