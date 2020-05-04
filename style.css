@@ -1,0 +1,8 @@
+body,html,#map {
+    background-color: #484e65;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+}

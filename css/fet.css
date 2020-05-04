@@ -1,0 +1,35 @@
+.gold {
+    border-left: .25rem solid #ffd700 !important
+}
+
+.silver {
+    border-left: .25rem solid #c0c0c0 !important
+}
+
+.bronze {
+    border-left: .25rem solid #cd7f32 !important
+}
+
+.red {
+    border-left: .25rem solid #d90b0b !important
+}
+
+.first, .second {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#map {
+    background-color: #484e65;
+    width: 100%;
+    height: 100vh;
+}
+
+.search {
+    justify-content: center;
+    margin: 1em auto;
+}
+
+#form{
+    width: 35em;
+}
