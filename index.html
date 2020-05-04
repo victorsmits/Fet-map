@@ -170,6 +170,17 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
+                <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body picker-position">
+                                <div id="picker" onmouseup="colorUpdate()"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row" style="">
                     <!-- place 1 -->
                     <div class="col search">
@@ -192,8 +203,8 @@
 
                     <div class="col search">
                         <div class="input-group">
-                            <label for="mySelect"></label><select
-                                class="selector form-control bg-light border-0 small" id="mySelect"
+                            <label for="playerSelector"></label><select
+                                class="selector form-control bg-light border-0 small" id="playerSelector"
                                 onclick="loadPlayer()">
                             <option value="-">–- Select Player --</option>
                         </select>
@@ -203,13 +214,19 @@
 
                     <div class="col search">
                         <div class="input-group">
-                            <div  id="picker" onmouseup="colorUpdate()"> </div>
+                            <label for="TeamSelector"></label><select
+                                class="selector form-control bg-light border-0 small" id="TeamSelector"
+                                onclick="loadTeam()">
+                            <option value="all">All team</option>
+                        </select>
                         </div>
-                    </div>
 
+                    </div>
                     <div class="col search">
                         <div class="input-group">
-                            <button class="btn btn-primary btn-icon-split" id="btn" onmouseup="colorUpdate()">color picker</button>
+                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
+                                    data-target="#exampleModal">color picker
+                            </button>
                         </div>
                     </div>
                 </div>

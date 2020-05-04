@@ -11,115 +11,114 @@ let s = 256;
 let markerset = false;
 
 let mapMarkers = {};
-let playeNames = [];
 let playerid = [198153, 17095, 692781];
 
 let minZoom = 0;
 let maxZoom = 8
 
 let colorPicker = new iro.ColorPicker("#picker", {
-  // Set the size of the color picker
-  width: 100,
-  // Set the initial color to pure red
-  color: "#484e65"
+    // Set the size of the color picker
+    width: 100,
+    // Set the initial color to pure red
+    color: "#484e65"
 });
 
 
 // EU
 const EU = {
-  x: 27557,
-  y: 40629
+    x: 27557,
+    y: 40629
 };
 
 ParisInGame = {
-  x: -30139,
-  y: 5874
+    x: -30139,
+    y: 5874
 }
 
 CalaisInGame = {
-  x: -29997,
-  y: -4699
+    x: -29997,
+    y: -4699
 }
 
 ParisOnMap = {
-  lat: 20886,
-  long: 41920
+    lat: 20886,
+    long: 41920
 }
 
 CalaisOnMap = {
-  lat: 20916,
-  long: 39578
+    lat: 20916,
+    long: 39578
 }
 
 // UK
 
 const UK = {
-  x: 27559,
-  y: 40616
+    x: 27559,
+    y: 40616
 };
 
 LondonInGame = {
-  x: -37967,
-  y: -11130
+    x: -37967,
+    y: -11130
 }
 
 ManchesterInGame = {
-  x: -45321,
-  y: -28013
+    x: -45321,
+    y: -28013
 }
 
 LondonOnMap = {
-  lat: 19149,
-  long: 38153
+    lat: 19149,
+    long: 38153
 }
 
 ManchesterOnMap = {
-  lat: 17515,
-  long: 34408
+    lat: 17515,
+    long: 34408
 }
 
 /*----------------- PROJECTION -------------------*/
 
 let CustomProjection = {
-  project: function (latlng) {
-    return new L.Point(latlng.lat, latlng.lng);
-  },
+    project: function (latlng) {
+        return new L.Point(latlng.lat, latlng.lng);
+    },
 
-  unproject: function (point) {
-    return new L.LatLng(point.x, point.y);
-  },
+    unproject: function (point) {
+        return new L.LatLng(point.x, point.y);
+    },
 
-  bounds: L.bounds([0, 0], [MAX_X, MAX_Y])
+    bounds: L.bounds([0, 0], [MAX_X, MAX_Y])
 };
 
 /*----------------- CRS -------------------*/
 
 let CustomCRS = L.extend({}, L.CRS, {
-  projection: CustomProjection,
-  // Why 128? Because 7 is the maximum zoom level (i.e. 1:1 scale), and pow(2, 7) = 128.
-  transformation: new L.Transformation(1.0 / s, 0, 1.0 / s, 0),
+    projection: CustomProjection,
+    // Why 128? Because 7 is the maximum zoom level (i.e. 1:1 scale), and pow(2, 7) = 128.
+    transformation: new L.Transformation(1.0 / s, 0, 1.0 / s, 0),
 
-  scale: function (zoom) {
-    return Math.pow(2, zoom);
-  },
+    scale: function (zoom) {
+        return Math.pow(2, zoom);
+    },
 
-  distance: function (latlng1, latlng2) {
-    let dx = latlng2.lng - latlng1.lng,
-        dy = latlng2.lat - latlng1.lat;
+    distance: function (latlng1, latlng2) {
+        let dx = latlng2.lng - latlng1.lng,
+            dy = latlng2.lat - latlng1.lat;
 
-    return Math.sqrt(dx * dx + dy * dy);
-  },
+        return Math.sqrt(dx * dx + dy * dy);
+    },
 
-  infinite: false
+    infinite: false
 });
 
 /*----------------- MAP -------------------*/
 
 let map = L.map('map', {
-  attributionControl: false,
-  crs: CustomCRS,
-  center: [ParisOnMap.lat, ParisOnMap.long],
-  zoom: 3,
+    attributionControl: false,
+    crs: CustomCRS,
+    center: [ParisOnMap.lat, ParisOnMap.long],
+    zoom: 3,
 });
 
 map.on('click', onMapClick);
@@ -145,24 +144,24 @@ map.zoomControl.setPosition('topright');
 // })
 
 let road = L.tileLayer(cdn + '/Road/{z}/{x}/{y}.png', {
-  minZoom: minZoom,
-  maxZoom: maxZoom,
-  tileSize: 256,
-  continuousWorld: false
+    minZoom: minZoom,
+    maxZoom: maxZoom,
+    tileSize: 256,
+    continuousWorld: false
 })
 
 let city = L.tileLayer(cdn + '/Cityname/{z}/{x}/{y}.png', {
-  minZoom: minZoom,
-  maxZoom: maxZoom,
-  tileSize: 256,
-  continuousWorld: false
+    minZoom: minZoom,
+    maxZoom: maxZoom,
+    tileSize: 256,
+    continuousWorld: false
 })
 
 let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
-  minZoom: minZoom,
-  maxZoom: maxZoom,
-  tileSize: 256,
-  continuousWorld: false
+    minZoom: minZoom,
+    maxZoom: maxZoom,
+    tileSize: 256,
+    continuousWorld: false
 })
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
@@ -177,145 +176,180 @@ setInterval(getPosition, 15000)
 
 let form = document.getElementById("form");
 if (form != null) {
-  function handleForm(event) {
-    event.preventDefault();
-  }
+    function handleForm(event) {
+        event.preventDefault();
+    }
 
-  form.addEventListener('submit', handleForm);
+    form.addEventListener('submit', handleForm);
 }
 
-$('#mySelect').change(function () {
-  lookat($(this).val());
+$('#playerSelector').change(function () {
+    let val = $(this).val()
+    if (val !== "-") {
+        lookat(val);
+    }
+})
+
+$('#TeamSelector').change(function () {
+    TeamSelection($(this).val());
 })
 
 $('#form').submit(function () {
-  console.log($(this))
-  let value = $('#search').val()
+    console.log($(this))
+    let value = $('#search').val()
 
-  for (let elem of playeNames) {
-    if (elem.name === value) {
-      lookat(elem.key)
+    for (let elem of playeNames) {
+        if (elem.name === value) {
+            lookat(elem.key)
+        }
     }
-  }
+})
 
+$('#openPicker').click(function () {
+    $("#picker").toggle();
 })
 
 /*----------------- FUNCTION -------------------*/
 
 function onMapClick(e) {
-  popup.setLatLng(e.latlng)
-  .setContent("You clicked the map at " + e.latlng.toString())
-  .openOn(map);
+    popup.setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
 }
 
 function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
-  return [
-    (x / pointsPerPixel + x0) | 0,
-    (y / pointsPerPixel + y0) | 0
-  ];
+    return [
+        (x / pointsPerPixel + x0) | 0,
+        (y / pointsPerPixel + y0) | 0
+    ];
 }
 
 function calculatePixelCoordinateEu(x, y) {
-  return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
+    return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
 }
 
 function calculatePixelCoordinateUk(x, y) {
-  return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
+    return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
 }
 
 function game_coord_to_pixels(x, y) {
-  // I suppose either x,y are both positive, or they are both negative.
-  if (x < 0) {
-    return calculatePixelCoordinateUk(x, y);
-  } else {
-    return calculatePixelCoordinateEu(x, y);
-  }
+    // I suppose either x,y are both positive, or they are both negative.
+    if (x < 0) {
+        return calculatePixelCoordinateUk(x, y);
+    } else {
+        return calculatePixelCoordinateEu(x, y);
+    }
 }
 
 function lookat(id) {
+    if (id !== "-") {
+        getJSON(url + id, (err, json) => {
+            let truck = json.response
+            map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 4)
+        })
 
-  getJSON(url + id, (err, json) => {
-    let truck = json.response
-    map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 4)
-  })
+    }
 
 }
 
 function loadPlayer() {
-  $('#mySelect').empty()
-  getPosition()
-  $(new Option("–- Select Player --", "–-")).appendTo('#mySelect');
-  for (let elem of playeNames) {
-    $(new Option(elem.value, elem.key)).appendTo('#mySelect');
-  }
+    $('#playerSelector').empty()
+    getPosition()
+    $(new Option("–- Select Player --", "–-")).appendTo('#playerSelector');
+    for (let elem in mapMarkers) {
+        let marker = mapMarkers[elem]
+        $(new Option(marker["Name"], marker["Id"])).appendTo('#playerSelector');
+    }
+}
 
+function loadTeam() {
+    $('#TeamSelector').empty()
+    getPosition()
+    $(new Option("All team", "all")).appendTo('#TeamSelector');
+    for (let elem in mapMarkers) {
+        let marker = mapMarkers[elem]
+        $(new Option(marker["Team"], marker["Team"])).appendTo('#TeamSelector');
+    }
 }
 
 function getJSON(url, callback) {
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.responseType = 'json';
-  xhr.onload = function () {
-    var status = xhr.status;
-    if (status === 200) {
-      callback(null, xhr.response);
-    } else {
-      callback(status, xhr.response);
-    }
-  };
-  xhr.send();
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function () {
+        var status = xhr.status;
+        if (status === 200) {
+            callback(null, xhr.response);
+        } else {
+            callback(status, xhr.response);
+        }
+    };
+    xhr.send();
 }
 
 function getPosition() {
-  if (playerid.length === 0) {
-    getJSON(idURL, (err, json) => {
-      if (json != null) {
-        for (let elem of json) {
-          playerid.push(elem.id)
+    if (playerid.length === 0) {
+        getJSON(idURL, (err, json) => {
+            if (json != null) {
+                for (let elem of json) {
+                    playerid.push(elem.id)
+                }
+            } else {
+                console.log(json)
+            }
+        })
+    } else {
+        for (let i = 0; i < playerid.length; i++) {
+            // getJSON(idURL, (err, json) => {
+            //     if (json != null) {
+            //         for (let elem of json) {
+            //             playerid.push(elem.id)
+            //         }
+            //     } else {
+            //         console.log(json)
+            //     }
+            // })
+
+            getJSON(url + playerid[i], (err, json) => {
+                let truck = json.response
+                if (truck.online) {
+                    if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
+                        mapMarkers[truck.name]["marker"].setLatLng(
+                            new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
+                    } else {
+                        mapMarkers[truck.name] = {
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y)).bindPopup(truck.name).addTo(map),
+                            // Team: truck.team,
+                            Id: playerid[i],
+                            Name: truck.name
+                        }
+                    }
+                }
+            })
         }
-      } else {
-        console.log(json)
-      }
-    })
-  } else {
-    for (let i = 0; i < playerid.length; i++) {
-      // getJSON(idURL, (err, json) => {
-      //     if (json != null) {
-      //         for (let elem of json) {
-      //             playerid.push(elem.id)
-      //         }
-      //     } else {
-      //         console.log(json)
-      //     }
-      // })
 
-      getJSON(url + playerid[i], (err, json) => {
-        let truck = json.response
-        if (truck.online) {
-          if (truck.name in mapMarkers && mapMarkers[truck.name] != null) {
-            mapMarkers[truck.name].setLatLng(
-                new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
-          } else {
-                  playeNames = []
-            mapMarkers[truck.name] = L.marker(
-                game_coord_to_pixels(truck.x, truck.y)).bindPopup(
-                truck.name).addTo(map);
-
-                playeNames.push({key: playerid[i], value: truck.name})
-
-          }
-        }
-      })
     }
-
-  }
-  // setTimeout(getJSON, 1000);
+    // setTimeout(getJSON, 1000);
 }
 
-function colorUpdate(){
-  let hex = colorPicker.color.hexString;
-  console.log(hex)
-  $("#map").css("background-color", hex.toString());
+function colorUpdate() {
+    let hex = colorPicker.color.hexString;
+    console.log(hex)
+    $("#map").css("background-color", hex.toString());
+}
+
+function TeamSelection(val) {
+    if (val === 'all') {
+        getPosition()
+    } else {
+        getPosition();
+        for (let player in mapMarkers) {
+            let marker = mapMarkers[player];
+            if (marker["Team"] !== val) {
+                marker["marker"].remove();
+            }
+        }
+    }
 }
 
 /* DEBUG

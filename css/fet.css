@@ -19,6 +19,10 @@
     margin-right: auto;
 }
 
+#picker{
+    display: none;
+}
+
 #map {
     background-color: #484e65;
     width: 100%;
@@ -31,11 +35,20 @@
 }
 
 #form{
-    width: 35em;
+    width: 20em;
+}
+
+#openPicker{
+    padding: 0.7em 1em ;
 }
 
 .selector {
     width: 15em;
     font-size: 18px;
     text-align-last: center;
+}
+
+.picker-position {
+    margin-left: auto;
+    margin-right: auto;
 }
