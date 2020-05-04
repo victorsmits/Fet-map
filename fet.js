@@ -77,6 +77,10 @@ ManchesterOnMap = {
     long: 34408
 }
 
+/*----------------- Index -------------------*/
+
+$( "#openPicker" ).tooltip({ show: { effect: "blind" } });
+
 /*----------------- PROJECTION -------------------*/
 
 let CustomProjection = {
