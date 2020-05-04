@@ -248,11 +248,11 @@ function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
 }
 
 function calculatePixelCoordinateEu(x, y) {
-    return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
+    return calculatePixelCoordinate(x, y, 7.278, 11367, 9962);
 }
 
 function calculatePixelCoordinateUk(x, y) {
-    return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
+    return calculatePixelCoordinate(x, y, 9.69522, 10226, 9826);
 }
 
 function game_coord_to_pixels(x, y) {
