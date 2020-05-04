@@ -173,7 +173,7 @@ let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
 
 let baseGroup = {
     "road": road,
-    "transparency": transparency
+    "zoom L9": transparency
 }
 
 let overlay = {
@@ -183,7 +183,7 @@ let overlay = {
 
 L.control.layers(baseGroup, overlay).addTo(map);
 
-// let results = new L.LayerGroup([road, ferry, city]).addTo(map);
+let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 /*----------------- CALL -------------------*/
 
 /* POSITION LOOP */
