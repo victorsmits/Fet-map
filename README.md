@@ -80,7 +80,8 @@ _line : 232_
 
 #### color picker tool 
 
-*modal* 
+***modal*** 
+
 _line:174_
 ```html
 <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
@@ -95,7 +96,8 @@ _line:174_
 </div>
 ```
 
-*bouton* 
+***bouton*** 
+
 _line:225_
 
 ```html
