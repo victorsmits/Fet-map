@@ -23,6 +23,9 @@ let colorPicker = new iro.ColorPicker("#picker", {
     color: "#484e65"
 });
 
+//Size of the icon
+let iconSize = [50, 50];
+
 
 // EU
 const EU = {
@@ -321,14 +324,10 @@ function getPosition() {
                         mapMarkers[truck.name]["marker"].setLatLng(
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
-                        var truckIcon = L.icon({
-                            iconUrl: 'img/truck.webp',
                         
-                            iconSize:     [45, 45],
-                        });
                         mapMarkers[truck.name] = {
                             
-                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: truckIcon}).bindPopup(truck.name).addTo(map),
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("DAF")}).bindPopup(truck.name).addTo(map),
                             // Team: truck.team,
                             Id: playerid[i],
                             Name: truck.name
@@ -360,6 +359,55 @@ function TeamSelection(val) {
                 marker["marker"].remove();
             }
         }
+    }
+}
+
+function getTeamIcon(team) {
+    switch (team) {
+        case "Volvo":
+            return L.icon({
+                iconUrl: 'img/volvo.png',
+                iconSize: iconSize,
+            });
+
+        case "Mercedes-Benz":
+            return L.icon({
+                iconUrl: 'img/mercedes.png',
+                iconSize: iconSize,
+            });
+
+        case "Scania":
+            return L.icon({
+                iconUrl: 'img/scania.png',
+                iconSize: iconSize,
+            });
+
+        case "MAN":
+            return L.icon({
+                iconUrl: 'img/man.png',
+                iconSize: iconSize,
+            });
+
+        case "Renault Trucks":
+            return L.icon({
+                iconUrl: 'img/renault.png',
+                iconSize: iconSize,
+            });
+
+        case "Iveco":
+            return L.icon({
+                iconUrl: 'img/iveco.png',
+                iconSize: [iconSize[0]*2, iconSize[1]*2],
+            });
+
+        case "DAF":
+            return L.icon({
+                iconUrl: 'img/daf.png',
+                iconSize: [iconSize[0]*2, iconSize[1]*2],
+            });
+    
+        default:
+            break;
     }
 }
 
