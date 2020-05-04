@@ -42,7 +42,7 @@ _line : 232_
 
 ### Control
 
-#### search tool _line:185_
+#### search tool    _line : 185_
 
 ````html
 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
@@ -62,7 +62,7 @@ _line : 232_
 </form>
 ````
 
-#### select tool _line:204_
+#### select tool    _line : 204_
 
 `````html
 <select
@@ -83,6 +83,7 @@ _line : 232_
 ***modal*** 
 
 _line:174_
+
 ```html
 <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
