@@ -135,21 +135,21 @@ map.zoomControl.setPosition('topright');
 //     continuousWorld: false
 // })
 
-let road = L.tileLayer('Tiles/Road/{z}/{x}/{y}.png', {
+let road = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/Road/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
   continuousWorld: false
 })
 
-let city = L.tileLayer('Tiles/Cityname/{z}/{x}/{y}.png', {
+let city = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/Cityname/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
   continuousWorld: false
 })
 
-let ferry = L.tileLayer('Tiles/ferry/{z}/{x}/{y}.png', {
+let ferry = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/ferry/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
