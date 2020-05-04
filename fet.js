@@ -3,6 +3,7 @@
 let MAX_X = 65408;
 let MAX_Y = 65344;
 
+let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
 let idURL = "";
 let url = "https://api.truckyapp.com/v3/map/online?playerID=";
 
@@ -135,21 +136,21 @@ map.zoomControl.setPosition('topright');
 //     continuousWorld: false
 // })
 
-let road = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/Road/{z}/{x}/{y}.png', {
+let road = L.tileLayer(cdn + '/Road/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
   continuousWorld: false
 })
 
-let city = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/Cityname/{z}/{x}/{y}.png', {
+let city = L.tileLayer(cdn + '/Cityname/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
   continuousWorld: false
 })
 
-let ferry = L.tileLayer('https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles/ferry/{z}/{x}/{y}.png', {
+let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
   minZoom: minZoom,
   maxZoom: maxZoom,
   tileSize: 256,
