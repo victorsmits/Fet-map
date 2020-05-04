@@ -1,6 +1,18 @@
 # Fet-map
 
 ## JSON
+
+### Connected Players ID
+
+```
+{
+    "ID" : Number,
+}
+```
+
+- *ID* : Id of a player connected to Promods
+
+### Player position
 ```
 {
     "Name" : STRING,
