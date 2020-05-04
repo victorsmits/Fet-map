@@ -236,7 +236,7 @@ function lookat(id) {
 
 function loadPlayer() {
   $('#mySelect').empty()
-  console.log("test");
+  getPosition()
   $(new Option("–-", "–-")).appendTo('#mySelect');
   for (let elem of playeNames) {
     $(new Option(elem.value, elem.key)).appendTo('#mySelect');
@@ -281,7 +281,7 @@ function getPosition() {
       //         console.log(json)
       //     }
       // })
-      playeNames = []
+
       getJSON(url + playerid[i], (err, json) => {
         let truck = json.response
         if (truck.online) {
@@ -289,6 +289,7 @@ function getPosition() {
             mapMarkers[truck.name].setLatLng(
                 new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
           } else {
+                  playeNames = []
             mapMarkers[truck.name] = L.marker(
                 game_coord_to_pixels(truck.x, truck.y)).bindPopup(
                 truck.name).addTo(map);
