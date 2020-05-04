@@ -142,6 +142,13 @@ map.zoomControl.setPosition('topright');
 //     tileSize: 256,
 //     continuousWorld: false
 // })
+//
+let transparency = L.tileLayer(cdn + '/transparency/{z}/{x}/{y}.png', {
+    minZoom: 3,
+    maxZoom: 9,
+    tileSize: 256,
+    continuousWorld: false
+})
 
 let road = L.tileLayer(cdn + '/Road/{z}/{x}/{y}.png', {
     minZoom: minZoom,
@@ -164,7 +171,19 @@ let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
     continuousWorld: false
 })
 
-let results = new L.LayerGroup([road, ferry, city]).addTo(map);
+let baseGroup = {
+    "road": road,
+    "transparency": transparency
+}
+
+let overlay = {
+    "ferry": ferry,
+    "city": city,
+}
+
+L.control.layers(baseGroup, overlay).addTo(map);
+
+// let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 /*----------------- CALL -------------------*/
 
 /* POSITION LOOP */
