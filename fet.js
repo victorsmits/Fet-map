@@ -321,8 +321,14 @@ function getPosition() {
                         mapMarkers[truck.name]["marker"].setLatLng(
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
+                        var truckIcon = L.icon({
+                            iconUrl: 'img/truck.webp',
+                        
+                            iconSize:     [45, 45],
+                        });
                         mapMarkers[truck.name] = {
-                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y)).bindPopup(truck.name).addTo(map),
+                            
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: truckIcon}).bindPopup(truck.name).addTo(map),
                             // Team: truck.team,
                             Id: playerid[i],
                             Name: truck.name
