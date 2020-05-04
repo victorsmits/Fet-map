@@ -148,7 +148,7 @@ map.zoomControl.setPosition('topright');
 // })
 //
 let transparency = L.tileLayer(cdn + '/transparency/{z}/{x}/{y}.png', {
-    minZoom: 3,
+    minZoom: minZoom,
     maxZoom: 9,
     tileSize: 256,
     continuousWorld: false
