@@ -206,7 +206,7 @@ $('#form').submit(function () {
 })
 
 $('#openPicker').click(function () {
-    $("#picker").toggle();
+    $("#picker").show();
 })
 
 /*----------------- FUNCTION -------------------*/
@@ -336,6 +336,7 @@ function colorUpdate() {
     let hex = colorPicker.color.hexString;
     console.log(hex)
     $("#map").css("background-color", hex.toString());
+    $("#openPicker").css("background-color", hex.toString());
 }
 
 function TeamSelection(val) {
