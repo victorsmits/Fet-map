@@ -129,7 +129,7 @@ map.zoomControl.setPosition('topright');
 //
 // })
 
-// let background = L.tileLayer('Tiles/background/{z}/{y}/{x}.png', {
+// let background = L.tileLayer(cdn + '/background/{z}/{y}/{x}.png', {
 //     minZoom: minZoom,
 //     maxZoom: maxZoom,
 //     tileSize: 256,
@@ -237,7 +237,7 @@ function lookat(id) {
 function loadPlayer() {
   $('#mySelect').empty()
   getPosition()
-  $(new Option("–-", "–-")).appendTo('#mySelect');
+  $(new Option("–- Select Player --", "–-")).appendTo('#mySelect');
   for (let elem of playeNames) {
     $(new Option(elem.value, elem.key)).appendTo('#mySelect');
   }

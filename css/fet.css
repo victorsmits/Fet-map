@@ -33,3 +33,9 @@
 #form{
     width: 35em;
 }
+
+.selector {
+    width: 15em;
+    font-size: 18px;
+    text-align-last: center;
+}
