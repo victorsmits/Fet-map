@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>
 
     <!-- Custom fonts for this template-->
-    <link href="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/fontawesome-free/css/all.min.css"
+          rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
 
@@ -170,6 +171,8 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
+                <!--   modal color picker-->
+
                 <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -182,7 +185,8 @@
                 </div>
 
                 <div class="row" style="">
-                    <!-- place 1 -->
+
+                    <!-- search tool -->
                     <div class="col search">
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
                               onsubmit="lookat(this)" id="form">
@@ -201,6 +205,7 @@
                         </form>
                     </div>
 
+                    <!-- select tool-->
                     <div class="col search">
                         <div class="input-group">
                             <select
@@ -217,6 +222,7 @@
                         </div>
 
                     </div>
+                    <!-- color picker button-->
                     <div class="col search">
                         <div class="input-group">
                             <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
@@ -227,9 +233,9 @@
                     </div>
                 </div>
 
-                <!-- Content Row -->
+
+                <!-- MAP Row -->
                 <div class="row">
-                    <!-- place 1 -->
                     <div class="col">
                         <div id="map"></div>
                     </div>
