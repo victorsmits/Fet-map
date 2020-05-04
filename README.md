@@ -33,8 +33,7 @@
 
 ## Map integration
 
-### map
-_line : 232_
+### map _line : 232_
 
 `````html
 <div id="map"></div>
@@ -42,7 +41,7 @@ _line : 232_
 
 ### Control
 
-#### search tool    _line : 185_
+#### search bar    _line : 185_
 
 ````html
 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
@@ -62,7 +61,7 @@ _line : 232_
 </form>
 ````
 
-#### select tool    _line : 204_
+#### selector    _line : 204_
 
 `````html
 <select
@@ -78,11 +77,7 @@ _line : 232_
 </select>
 `````
 
-#### color picker tool 
-
-***modal*** 
-
-_line:174_
+#### color picker modal _line : 174_
 
 ```html
 <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
@@ -97,9 +92,7 @@ _line:174_
 </div>
 ```
 
-***bouton*** 
-
-_line:225_
+#### color picker bouton _line : 225_
 
 ```html
 <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
