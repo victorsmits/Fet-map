@@ -80,6 +80,7 @@ ManchesterOnMap = {
 /*----------------- Index -------------------*/
 
 $( "#openPicker" ).tooltip({ show: { effect: "blind" } });
+showTab('_maps');
 
 /*----------------- PROJECTION -------------------*/
 
@@ -390,6 +391,162 @@ function TeamSelection(val) {
         }
     }
 }
+
+// Ajout test dam
+Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
+    
+    // Process DOM changes here now that we have data. We should only do this once.
+    if (!g_processedDomChanges) {
+        processDomChanges(data);
+    }
+
+    // Logic consistent between ETS2 and ATS
+    data.truckSpeedRounded = Math.abs(data.truck.speed > 0
+        ? Math.floor(data.truck.speed)
+        : Math.round(data.truck.speed));
+	
+    data.currentFuelPercentage = (data.truck.fuel / data.truck.fuelCapacity) * 100;
+    data.scsTruckDamage = getDamagePercentage(data);
+    data.scsTruckDamageRounded = Math.floor(data.scsTruckDamage);
+    data.wearTrailerRounded = Math.floor(data.trailer.wear * 100);
+    var tons = (data.trailer.mass / 1000.0).toFixed(2);
+    if (tons.substr(tons.length - 2) === "00") {
+        tons = parseInt(tons);
+    }
+    data.trailerMassTons = data.trailer.attached ? (tons + ' t') : '';
+
+    // ETS2-specific logic
+    data.isWorldOfTrucksContract = isWorldOfTrucksContract(data);
+	data.jobIncome = getEts2JobIncome(data.job.income);
+	
+	$('#_map').find('._no-map').hide();
+
+    // return changed data to the core for rendering
+    return data;
+};
+
+Funbit.Ets.Telemetry.Dashboard.prototype.render = function (data) {
+
+    // data - same data object as in the filter function
+    $('.fillingIcon.truckDamage .top').css('height', (100 - data.scsTruckDamage) + '%');
+    $('.fillingIcon.trailerDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
+    $('.fillingIcon.fuel .top').css('height', (100 - data.currentFuelPercentage) + '%');
+
+    // Process DOM for job
+    if (data.trailer.attached) {
+        $('.hasJob').show();
+        $('.noJob').hide();
+    } else {
+        $('.hasJob').hide();
+        $('.noJob').show();
+    }
+
+    // Process map location only if the map has been rendered
+    if (g_map) {
+
+    }
+
+    // Set the current game attribute for any properties that are game-specific
+    $('.game-specific').attr('data-game-name', data.game.gameName);
+
+    return data;
+}
+
+function getEts2JobIncome(income) {
+    /*
+        See https://github.com/mike-koch/ets2-mobile-route-advisor/wiki/Side-Notes#currency-code-multipliers
+        for more information.
+    */
+
+    var code = buildCurrencyCode(1, '', '&euro;', '');
+
+    return formatIncome(income, code);
+}
+
+function buildCurrencyCode(multiplier, symbolOne, symbolTwo, symbolThree) {
+    return {
+        "multiplier": multiplier,
+        "symbolOne": symbolOne,
+        "symbolTwo": symbolTwo,
+        "symbolThree": symbolThree
+    };
+}
+
+function formatIncome(income, currencyCode) {
+    /* Taken directly from economy_data.sii:
+          - {0} First prefix (no currency codes currently use this)
+          - {1} Second prefix (such as euro, pound, dollar, etc)
+          - {2} The actual income, already converted into the proper currency
+          - {3} Third prefix (such as CHF, Ft, or kr)
+    */
+    var incomeFormat = "{0}{1} {2}.- {3}";
+    income *= currencyCode.multiplier;
+
+    return incomeFormat.replace('{0}', currencyCode.symbolOne)
+        .replace('{1}', currencyCode.symbolTwo)
+        .replace('{2}', income)
+        .replace('{3}', currencyCode.symbolThree);
+}
+
+function getDamagePercentage(data) {
+    // Return the max value of all damage percentages.
+    return Math.max(data.truck.wearEngine,
+                    data.truck.wearTransmission,
+                    data.truck.wearCabin,
+                    data.truck.wearChassis,
+                    data.truck.wearWheels) * 100;
+}
+
+function showTab(tabName) {
+    $('._active_tab').removeClass('_active_tab');
+    $('#' + tabName).addClass('_active_tab');
+
+    $('._active_tab_button').removeClass('_active_tab_button');
+    $('#' + tabName + '_button').addClass('_active_tab_button');
+}
+
+// Wrapper function to set an item to local storage.
+function setLocalStorageItem(key, value) {
+    if (typeof(Storage) !== "undefined" && localStorage != null) {
+        localStorage.setItem(key, value);
+    }
+}
+
+// Wrapper function to get an item from local storage, or default if local storage is not supported.
+function getLocalStorageItem(key, defaultValue) {
+    if (typeof(Storage) !== "undefined" && localStorage != null) {
+        return localStorage.getItem(key);
+    }
+
+    return defaultValue;
+}
+
+// Wrapper function to remove an item from local storage
+function removeLocalStorageItem(key) {
+    if (typeof(Storage) !== "undefined" && localStorage != null) {
+        return localStorage.removeItem(key);
+    }
+}
+
+function processDomChanges(data) {
+
+	$('.speedUnits').text('km/h');
+	$('.distanceUnits').text('km');
+	$('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
+	$('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
+	$('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
+
+    $('.trailerMassKgOrT').addClass('trailerMassTons').removeClass('trailerMassKgOrT');
+
+    g_processedDomChanges = true;
+}
+
+// Global vars
+
+// Checked if we have processed the DOM changes already.
+var g_processedDomChanges;
+
+var g_map;
 
 /* DEBUG
 // EU TEST
