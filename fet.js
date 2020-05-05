@@ -32,6 +32,7 @@ let TeamSelector = $("#TeamSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
 let MapId = $("#map");
+let search = $("#search");
 
 
 /* custom icon */
@@ -218,6 +219,12 @@ setInterval(run, 15000);
 
 /* JQUERY Interaction */
 
+// search.autocomplete({
+//     source: ["test", "victor"],
+//     minLength: 2,
+//     delay: 100
+// })
+
 searchForm.submit(function (e) {
     e.preventDefault();
     let value = $('#search').val()
@@ -250,7 +257,8 @@ openPicker.click(function () {
 function run() {
     getPosition()
 
-    loadPlayer();
+    loadPlayer('#playerSelector');
+    loadPlayer('#data');
 
     loadTeam();
 }
@@ -269,16 +277,16 @@ function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
 }
 
 function calculatePixelCoordinateEu(x, y) {
-	x = x + (x * 0.0024298) + 33.6856566;
-	y = y + (y * 0.0023384) - 47.1583332 ;
-	
+    x = x + (x * 0.0024298) + 33.6856566;
+    y = y + (y * 0.0023384) - 47.1583332;
+
     return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
 }
 
 function calculatePixelCoordinateUk(x, y) {
-	x = x + (x * 0.0001243) + 30.8274705 ;
-	y = y + (y * 0.0000635) + 7.1212997 ;
-	
+    x = x + (x * 0.0001243) + 30.8274705;
+    y = y + (y * 0.0000635) + 7.1212997;
+
     return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
 }
 
@@ -295,19 +303,29 @@ function lookAt(id) {
     if (id !== "-") {
         getJSON(url + id, (err, json) => {
             let truck = json.response
-            map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 4)
+            map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 5)
         })
     }
 }
 
-function loadPlayer() {
-    $('#playerSelector').empty();
-    $(new Option("–- Select Player --", "–-")).appendTo('#playerSelector');
+function loadPlayer(item) {
+    if (item === '#playerSelector') {
+        $(item).empty();
+        $(new Option("–- Select Player --", "–-")).appendTo(item);
 
-    for (let elem in mapMarkers) {
-        let marker = mapMarkers[elem]
-        $(new Option(marker["Name"], marker["Id"])).appendTo('#playerSelector');
+        for (let elem in mapMarkers) {
+            let marker = mapMarkers[elem]
+            $(new Option(marker["Name"], marker["Id"])).appendTo(item);
+        }
+    } else {
+        $(item).empty();
+        for (let elem in mapMarkers) {
+            let marker = mapMarkers[elem]
+            $(new Option(marker["Id"], marker["Name"])).appendTo(item);
+        }
     }
+
+
 }
 
 function loadTeam() {
@@ -353,12 +371,13 @@ function getPosition() {
         getJSON(url + playerid[i], (err, json) => {
             let truck = json.response
             if (truck.online) {
-                if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
+                if (truck.name in mapMarkers ) {
                     mapMarkers[truck.name]["marker"].setLatLng(
                         new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                 } else {
                     mapMarkers[truck.name] = {
-                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("Volvo")}).bindPopup(truck.name, customPopup).addTo(map),
+                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
+                            {icon: getTeamIcon("Volvo")}).bindPopup(truck.name, customPopup).addTo(map),
                         // Team: truck.team,
                         Id: playerid[i],
                         Name: truck.name
