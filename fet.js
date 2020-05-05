@@ -40,7 +40,14 @@ let colorPicker = new iro.ColorPicker("#picker", {
     color: "#484e65"
 });
 
+//Size of the icon
+let iconSize = [100, 100];
 /* EU variable */
+
+var customPopup =
+    {
+    'className' : 'customPopup'
+    }
 
 const EU = {
     x: 27557,
@@ -332,7 +339,7 @@ function getPosition() {
                         new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                 } else {
                     mapMarkers[truck.name] = {
-                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y)).bindPopup(truck.name).addTo(map),
+                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y),{icon: getTeamIcon("Volvo")}).bindPopup(truck.name,customPopup).addTo(map),
                         // Team: truck.team,
                         Id: playerid[i],
                         Name: truck.name
@@ -340,7 +347,6 @@ function getPosition() {
                 }
             }
         })
-
     }
     return true
 }
@@ -365,6 +371,61 @@ function TeamSelection(val) {
         }
     }
 }
+
+function getTeamIcon(team) {
+    let iconUrl = "";
+
+    switch (team) {
+        case "Volvo":
+            iconUrl = 'img/volvo.png';
+            break;
+
+        case "Mercedes-Benz":
+            iconUrl = 'img/mercedes.png';
+            break;
+
+        case "Scania":
+            iconUrl = 'img/scania.png';
+            break;
+
+        case "MAN":
+            iconUrl = 'img/man.png';
+            break;
+
+        case "Renault Trucks":
+            iconUrl = 'img/renault.png';
+            break;
+
+        case "Iveco":
+            iconUrl = 'img/iveco.png';
+            break;
+
+        case "DAF":
+            iconUrl = 'img/daf.png';
+            break;
+    
+        default:
+            break;
+    }
+
+    return L.icon({
+        iconUrl,
+        iconSize: iconSize,
+        iconAnchor:   [50, 94],
+        popupAnchor: [0, 10]
+    });
+}
+
+/*----------------- Marker Test -------------------*/
+// L.marker(game_coord_to_pixels(3000, 3000), {icon: getTeamIcon("Volvo")}).addTo(map)
+// L.marker(game_coord_to_pixels(6000, 3000), {icon: getTeamIcon("Mercedes-Benz")}).addTo(map)
+// L.marker(game_coord_to_pixels(9000, 3000), {icon: getTeamIcon("Scania")}).addTo(map)
+// L.marker(game_coord_to_pixels(12000, 3000), {icon: getTeamIcon("MAN")}).addTo(map)
+// L.marker(game_coord_to_pixels(15000, 3000), {icon: getTeamIcon("Renault Trucks")}).addTo(map)
+// L.marker(game_coord_to_pixels(18000, 3000), {icon: getTeamIcon("Iveco")}).addTo(map)
+// L.marker(game_coord_to_pixels(21000, 3000), {icon: getTeamIcon("DAF")}).addTo(map)
+
+
 
 /* DEBUG
 // EU TEST
