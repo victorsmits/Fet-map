@@ -386,35 +386,35 @@ function TeamSelection(val) {
 }
 
 function getTeamIcon(team) {
-    let iconUrl = "";
+    let iconUrl = cdn + "/";
 
     switch (team) {
         case "Volvo":
-            iconUrl = 'img/volvo.png';
+            iconUrl += 'img/volvo.png';
             break;
 
         case "Mercedes-Benz":
-            iconUrl = 'img/mercedes.png';
+            iconUrl += 'img/mercedes.png';
             break;
 
         case "Scania":
-            iconUrl = 'img/scania.png';
+            iconUrl += 'img/scania.png';
             break;
 
         case "MAN":
-            iconUrl = 'img/man.png';
+            iconUrl += 'img/man.png';
             break;
 
         case "Renault Trucks":
-            iconUrl = 'img/renault.png';
+            iconUrl += 'img/renault.png';
             break;
 
         case "Iveco":
-            iconUrl = 'img/iveco.png';
+            iconUrl += 'img/iveco.png';
             break;
 
         case "DAF":
-            iconUrl = 'img/daf.png';
+            iconUrl += 'img/daf.png';
             break;
 
         default:
