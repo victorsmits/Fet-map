@@ -14,7 +14,7 @@ let mapMarkers = {};
 let playerid = [198153, 17095, 692781];
 
 let minZoom = 0;
-let maxZoom = 8
+let maxZoom = 9
 
 let colorPicker = new iro.ColorPicker("#picker", {
     // Set the size of the color picker
@@ -175,6 +175,14 @@ let ferry = L.tileLayer(cdn + '/ferry/{z}/{x}/{y}.png', {
     continuousWorld: false
 })
 
+let mapinfo = L.tileLayer(cdn + '/overlay/{z}/{x}/{y}.png', {
+    minZoom: minZoom,
+    maxZoom: maxZoom,
+    tileSize: 256,
+    continuousWorld: false
+})
+
+
 let baseGroup = {
     "road": road,
     "zoom L9": transparency
@@ -183,11 +191,12 @@ let baseGroup = {
 let overlay = {
     "ferry": ferry,
     "city": city,
+	"POI": mapinfo,
 }
 
 L.control.layers(baseGroup, overlay).addTo(map);
 
-let results = new L.LayerGroup([road, ferry, city]).addTo(map);
+let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 /*----------------- CALL -------------------*/
 
 /* POSITION LOOP */
