@@ -5,7 +5,7 @@ let MAX_Y = 65344;
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
 let idURL = "";
-let url = "https://api.truckyapp.com/v3/map/online?playerID=";
+let url = "https://fet-parser.herokuapp.com/position";
 
 let s = 256;
 let markerset = false;
@@ -182,7 +182,7 @@ let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 /* POSITION LOOP */
 getPosition()
 
-setInterval(getPosition, 15000)
+setInterval(getPosition, 1000)
 
 /* INTERACTION */
 
@@ -255,7 +255,7 @@ function game_coord_to_pixels(x, y) {
 
 function lookat(id) {
     if (id !== "-") {
-        getJSON(url + id, (err, json) => {
+        getJSON(`${url}/${id}`, (err, json) => {
             let truck = json.response
             map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 4)
         })
@@ -322,7 +322,7 @@ function getPosition() {
             //     }
             // })
 
-            getJSON(url + playerid[i], (err, json) => {
+            getJSON(`${url}/${playerid[i]}`, (err, json) => {
                 let truck = json.response
                 if (truck.online) {
                     if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
