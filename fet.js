@@ -10,6 +10,7 @@ let s = 256;
 let mapMarkers = {};
 let playerid = [198153, 17095, 692781];
 
+
 /* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
@@ -22,6 +23,7 @@ let url = "https://api.truckyapp.com/v3/map/online?playerID=";
 let minZoom = 0;
 let maxZoom = 8
 
+
 /* JQUERY variable */
 
 let playerSelector = $("#playerSelector");
@@ -30,6 +32,16 @@ let TeamSelector = $("#TeamSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
 let MapId = $("#map");
+
+
+/* custom icon */
+
+let iconSize = [100, 100];
+
+let customPopup = {
+    'className': 'customPopup'
+};
+
 
 /* colorPicker variable */
 
@@ -40,14 +52,8 @@ let colorPicker = new iro.ColorPicker("#picker", {
     color: "#484e65"
 });
 
-//Size of the icon
-let iconSize = [100, 100];
-/* EU variable */
 
-var customPopup =
-    {
-    'className' : 'customPopup'
-    }
+/* EU variable */
 
 const EU = {
     x: 27557,
@@ -72,6 +78,7 @@ const EU = {
         long: 39578
     }
 };
+
 
 /* UK variable */
 
@@ -105,6 +112,7 @@ const UK = {
 
 openPicker.tooltip({show: {effect: "blind"}});
 
+
 /*----------------- PROJECTION -------------------*/
 
 let CustomProjection = {
@@ -118,6 +126,7 @@ let CustomProjection = {
 
     bounds: L.bounds([0, 0], [MAX_X, MAX_Y])
 };
+
 
 /*----------------- CRS -------------------*/
 
@@ -139,6 +148,7 @@ let CustomCRS = L.extend({}, L.CRS, {
     infinite: false
 });
 
+
 /*----------------- MAP -------------------*/
 
 let map = L.map('map', {
@@ -151,6 +161,7 @@ let map = L.map('map', {
 let popup = L.popup();
 
 map.zoomControl.setPosition('topright');
+
 
 /*----------------- LAYER -------------------*/
 
@@ -196,6 +207,7 @@ L.control.layers(baseGroup, overlay).addTo(map);
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 
+
 /*----------------- MAIN -------------------*/
 
 /* Run LOOP */
@@ -231,6 +243,7 @@ TeamSelector.change(function () {
 openPicker.click(function () {
     picker.show();
 })
+
 
 /*----------------- FUNCTION -------------------*/
 
@@ -339,7 +352,7 @@ function getPosition() {
                         new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                 } else {
                     mapMarkers[truck.name] = {
-                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y),{icon: getTeamIcon("Volvo")}).bindPopup(truck.name,customPopup).addTo(map),
+                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("Volvo")}).bindPopup(truck.name, customPopup).addTo(map),
                         // Team: truck.team,
                         Id: playerid[i],
                         Name: truck.name
@@ -403,7 +416,7 @@ function getTeamIcon(team) {
         case "DAF":
             iconUrl = 'img/daf.png';
             break;
-    
+
         default:
             break;
     }
@@ -411,10 +424,11 @@ function getTeamIcon(team) {
     return L.icon({
         iconUrl,
         iconSize: iconSize,
-        iconAnchor:   [50, 94],
+        iconAnchor: [50, 94],
         popupAnchor: [0, 10]
     });
 }
+
 
 /*----------------- Marker Test -------------------*/
 // L.marker(game_coord_to_pixels(3000, 3000), {icon: getTeamIcon("Volvo")}).addTo(map)
@@ -424,7 +438,6 @@ function getTeamIcon(team) {
 // L.marker(game_coord_to_pixels(15000, 3000), {icon: getTeamIcon("Renault Trucks")}).addTo(map)
 // L.marker(game_coord_to_pixels(18000, 3000), {icon: getTeamIcon("Iveco")}).addTo(map)
 // L.marker(game_coord_to_pixels(21000, 3000), {icon: getTeamIcon("DAF")}).addTo(map)
-
 
 
 /* DEBUG
