@@ -1,20 +1,37 @@
 /*----------------- VARIALE -------------------*/
 
+/* COMMON variable */
+
 let MAX_X = 65408;
 let MAX_Y = 65344;
+
+let s = 256;
+
+let mapMarkers = {};
+let playerid = [198153, 17095, 692781];
+
+/* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
 let idURL = "";
 let url = "https://api.truckyapp.com/v3/map/online?playerID=";
 
-let s = 256;
-let markerset = false;
 
-let mapMarkers = {};
-let playerid = [198153, 17095, 692781];
+/* ZOOM variable */
 
 let minZoom = 0;
 let maxZoom = 8
+
+/* JQUERY variable */
+
+let playerSelector = $("#playerSelector");
+let openPicker = $("#openPicker");
+let TeamSelector = $("#TeamSelector");
+let searchForm = $("#searchForm");
+let picker = $("#picker");
+let MapId = $("#map");
+
+/* colorPicker variable */
 
 let colorPicker = new iro.ColorPicker("#picker", {
     // Set the size of the color picker
@@ -23,63 +40,63 @@ let colorPicker = new iro.ColorPicker("#picker", {
     color: "#484e65"
 });
 
+/* EU variable */
 
-// EU
 const EU = {
     x: 27557,
-    y: 40629
+    y: 40629,
+    ParisInGame: {
+        x: -30139,
+        y: 5874
+    },
+
+    CalaisInGame: {
+        x: -29997,
+        y: -4699
+    },
+
+    ParisOnMap: {
+        lat: 20886,
+        long: 41920
+    },
+
+    CalaisOnMap: {
+        lat: 20916,
+        long: 39578
+    }
 };
 
-ParisInGame = {
-    x: -30139,
-    y: 5874
-}
-
-CalaisInGame = {
-    x: -29997,
-    y: -4699
-}
-
-ParisOnMap = {
-    lat: 20886,
-    long: 41920
-}
-
-CalaisOnMap = {
-    lat: 20916,
-    long: 39578
-}
-
-// UK
+/* UK variable */
 
 const UK = {
     x: 27559,
-    y: 40616
+    y: 40616,
+    LondonInGame: {
+        x: -37967,
+        y: -11130
+    },
+
+    ManchesterInGame: {
+        x: -45321,
+        y: -28013
+    },
+
+    LondonOnMap: {
+        lat: 19149,
+        long: 38153
+    },
+
+    ManchesterOnMap: {
+        lat: 17515,
+        long: 34408
+    }
+
 };
 
-LondonInGame = {
-    x: -37967,
-    y: -11130
-}
-
-ManchesterInGame = {
-    x: -45321,
-    y: -28013
-}
-
-LondonOnMap = {
-    lat: 19149,
-    long: 38153
-}
-
-ManchesterOnMap = {
-    lat: 17515,
-    long: 34408
-}
 
 /*----------------- Index -------------------*/
 
-$( "#openPicker" ).tooltip({ show: { effect: "blind" } });
+openPicker.tooltip({show: {effect: "blind"}});
 
 /*----------------- PROJECTION -------------------*/
 
@@ -121,7 +138,7 @@ let CustomCRS = L.extend({}, L.CRS, {
 let map = L.map('map', {
     attributionControl: false,
     crs: CustomCRS,
-    center: [ParisOnMap.lat, ParisOnMap.long],
+    center: [EU.ParisOnMap.lat, EU.ParisOnMap.long],
     zoom: 3,
 });
 
@@ -133,20 +150,6 @@ map.zoomControl.setPosition('topright');
 
 /*----------------- LAYER -------------------*/
 
-// let background = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-//     attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-//     minZoom: minZoom,
-//     maxZoom: maxZoom,
-//
-// })
-
-// let background = L.tileLayer(cdn + '/background/{z}/{y}/{x}.png', {
-//     minZoom: minZoom,
-//     maxZoom: maxZoom,
-//     tileSize: 256,
-//     continuousWorld: false
-// })
-//
 let transparency = L.tileLayer(cdn + '/transparency/{z}/{x}/{y}.png', {
     minZoom: minZoom,
     maxZoom: 9,
@@ -188,51 +191,53 @@ let overlay = {
 L.control.layers(baseGroup, overlay).addTo(map);
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
-/*----------------- CALL -------------------*/
 
-/* POSITION LOOP */
-getPosition()
+/*----------------- MAIN -------------------*/
 
-setInterval(getPosition, 15000)
+/* Run LOOP */
 
-/* INTERACTION */
+run();
 
-let form = document.getElementById("form");
-if (form != null) {
-    function handleForm(event) {
-        event.preventDefault();
+setInterval(run, 15000);
+
+/* JQUERY Interaction */
+
+searchForm.submit(function (e) {
+    e.preventDefault();
+    let value = $('#search').val()
+
+    for (let elem in mapMarkers) {
+        if (elem === value) {
+            lookAt(mapMarkers[elem["Id"]])
+        }
     }
+});
 
-    form.addEventListener('submit', handleForm);
-}
-
-$('#playerSelector').change(function () {
+playerSelector.change(function () {
     let val = $(this).val()
     if (val !== "-") {
-        lookat(val);
+        lookAt(val);
     }
 })
 
-$('#TeamSelector').change(function () {
+TeamSelector.change(function () {
     TeamSelection($(this).val());
 })
 
-$('#form').submit(function () {
-    console.log($(this))
-    let value = $('#search').val()
-
-    for (let elem of playeNames) {
-        if (elem.name === value) {
-            lookat(elem.key)
-        }
-    }
-})
-
-$('#openPicker').click(function () {
-    $("#picker").show();
+openPicker.click(function () {
+    picker.show();
 })
 
 /*----------------- FUNCTION -------------------*/
+
+function run() {
+    getPosition()
+
+        loadPlayer();
+
+        loadTeam();
+
+}
 
 function onMapClick(e) {
     popup.setLatLng(e.latlng)
@@ -264,7 +269,7 @@ function game_coord_to_pixels(x, y) {
     }
 }
 
-function lookat(id) {
+function lookAt(id) {
     if (id !== "-") {
         getJSON(url + id, (err, json) => {
             let truck = json.response
@@ -276,9 +281,10 @@ function lookat(id) {
 }
 
 function loadPlayer() {
-    $('#playerSelector').empty()
-    getPosition()
+    $('#playerSelector').empty();
     $(new Option("–- Select Player --", "–-")).appendTo('#playerSelector');
+
+    console.log(mapMarkers)
     for (let elem in mapMarkers) {
         let marker = mapMarkers[elem]
         $(new Option(marker["Name"], marker["Id"])).appendTo('#playerSelector');
@@ -287,7 +293,6 @@ function loadPlayer() {
 
 function loadTeam() {
     $('#TeamSelector').empty()
-    getPosition()
     $(new Option("All team", "all")).appendTo('#TeamSelector');
     for (let elem in mapMarkers) {
         let marker = mapMarkers[elem]
@@ -310,7 +315,7 @@ function getJSON(url, callback) {
     xhr.send();
 }
 
-function getPosition() {
+function updateIDList() {
     if (playerid.length === 0) {
         getJSON(idURL, (err, json) => {
             if (json != null) {
@@ -321,45 +326,38 @@ function getPosition() {
                 console.log(json)
             }
         })
-    } else {
-        for (let i = 0; i < playerid.length; i++) {
-            // getJSON(idURL, (err, json) => {
-            //     if (json != null) {
-            //         for (let elem of json) {
-            //             playerid.push(elem.id)
-            //         }
-            //     } else {
-            //         console.log(json)
-            //     }
-            // })
+    }
+}
 
-            getJSON(url + playerid[i], (err, json) => {
-                let truck = json.response
-                if (truck.online) {
-                    if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
-                        mapMarkers[truck.name]["marker"].setLatLng(
-                            new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
-                    } else {
-                        mapMarkers[truck.name] = {
-                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y)).bindPopup(truck.name).addTo(map),
-                            // Team: truck.team,
-                            Id: playerid[i],
-                            Name: truck.name
-                        }
+function getPosition() {
+    updateIDList()
+    for (let i = 0; i < playerid.length; i++) {
+        getJSON(url + playerid[i], (err, json) => {
+            let truck = json.response
+            if (truck.online) {
+                if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
+                    mapMarkers[truck.name]["marker"].setLatLng(
+                        new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
+                } else {
+                    mapMarkers[truck.name] = {
+                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y)).bindPopup(truck.name).addTo(map),
+                        // Team: truck.team,
+                        Id: playerid[i],
+                        Name: truck.name
                     }
                 }
-            })
-        }
+            }
+        })
 
     }
-    // setTimeout(getJSON, 1000);
+    return true
 }
 
 function colorUpdate() {
     let hex = colorPicker.color.hexString;
     console.log(hex)
-    $("#map").css("background-color", hex.toString());
-    $("#openPicker").css("background-color", hex.toString());
+    MapId.css("background-color", hex.toString());
+    openPicker.css("background-color", hex.toString());
 }
 
 function TeamSelection(val) {
@@ -378,31 +376,33 @@ function TeamSelection(val) {
 
 /* DEBUG
 // EU TEST
-// v = game_coord_to_pixels(CalaisInGame.x, CalaisInGame.y)
-// P = game_coord_to_pixels(ParisInGame.x, ParisInGame.y)
+// v = game_coord_to_pixels(EU.CalaisInGame.x, EU.CalaisInGame.y)
+// P = game_coord_to_pixels(EU.ParisInGame.x, EU.ParisInGame.y)
 //
 // L.marker(v).bindPopup('Calais').addTo(map);
 // L.marker(P).bindPopup('paris').addTo(map);
 //
-// console.log("correction x : " + ((ParisOnMap.lat - P[0]) + UK.x))
-// console.log("correction y : " + ((ParisOnMap.long - P[1]) + UK.y))
-// L.marker([ParisOnMap.lat, ParisOnMap.long]).bindPopup('Paris goal').addTo(map);
-// L.marker([CalaisOnMap.lat, CalaisOnMap.long]).bindPopup('Calais goal').addTo(map);
+// console.log("correction x : " + ((EU.ParisOnMap.lat - P[0]) + UK.x))
+// console.log("correction y : " + ((EU.ParisOnMap.long - P[1]) + UK.y))
+//
+// L.marker([EU.ParisOnMap.lat, EU.ParisOnMap.long]).bindPopup('Paris goal').addTo(map);
+// L.marker([EU.CalaisOnMap.lat, EU.CalaisOnMap.long]).bindPopup('Calais goal').addTo(map);
 
 // UK TEST
 //
-// Lon = game_coord_to_pixels(LondonInGame.x, LondonInGame.y)
-// Man = game_coord_to_pixels(ManchesterInGame.x, ManchesterInGame.y)
+// Lon = game_coord_to_pixels(UK.LondonInGame.x, UK.LondonInGame.y)
+// Man = game_coord_to_pixels(UK.ManchesterInGame.x, UK.ManchesterInGame.y)
 //
 // L.marker(Lon).bindPopup('London').addTo(map);
 // L.marker(Man).bindPopup('Manchester').addTo(map);
-// L.marker([LondonOnMap.lat, LondonOnMap.long]).bindPopup('London goal').addTo(map);
-// L.marker([ManchesterOnMap.lat, ManchesterOnMap.long]).bindPopup('Manchester goal').addTo(map);
+
+// L.marker([UK.LondonOnMap.lat, UK.LondonOnMap.long]).bindPopup('London goal').addTo(map);
+// L.marker([UK.ManchesterOnMap.lat, UK.ManchesterOnMap.long]).bindPopup('Manchester goal').addTo(map);
 //
 // console.log(Man)
 //
-// console.log("correction x : " + ((ManchesterOnMap.lat - Man[0]) + UK.x))
-// console.log("correction y : " + ((ManchesterOnMap.long - Man[1]) + UK.y))
+// console.log("correction x : " + ((UK.ManchesterOnMap.lat - Man[0]) + UK.x))
+// console.log("correction y : " + ((UK.ManchesterOnMap.long - Man[1]) + UK.y))
 
 // // DEBUGGING CODE BELOW!
 // var marker1 = L.marker([0, 0]).bindPopup('marker1').addTo(map);

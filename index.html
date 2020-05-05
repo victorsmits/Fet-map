@@ -189,7 +189,7 @@
                     <!-- search tool -->
                     <div class="col search">
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
-                              onsubmit="lookat(this)" id="form">
+                              onsubmit="lookAt(this)" id="searchForm">
                             <div class="input-group">
                                 <input type="text" class="form-control bg-light border-1 small"
                                        placeholder="Search player"
@@ -210,13 +210,11 @@
                         <div class="input-group">
                             <select
                                     class="selector form-control bg-light border-1 small" id="playerSelector"
-                                    onclick="loadPlayer()"
                                     style="margin-right: 1em;">
                                 <option value="-">–- Select Player --</option>
                             </select>
                             <select
-                                    class="selector form-control bg-light border-1 small" id="TeamSelector"
-                                    onclick="loadTeam()">
+                                    class="selector form-control bg-light border-1 small" id="TeamSelector">
                                 <option value="all">All team</option>
                             </select>
                         </div>
