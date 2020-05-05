@@ -6,11 +6,11 @@
 
 ```
 {
-    "ID" : Number,
+    "id" : Number,
 }
 ```
 
-- *ID* : Id of a player connected to Promods
+- *id* : Id of a player connected to Promods
 
 ### Player position
 ```
