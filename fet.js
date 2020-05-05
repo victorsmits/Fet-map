@@ -142,8 +142,6 @@ let map = L.map('map', {
     zoom: 3,
 });
 
-map.on('click', onMapClick);
-
 let popup = L.popup();
 
 map.zoomControl.setPosition('topright');
@@ -305,7 +303,7 @@ function getJSON(url, callback) {
     xhr.open('GET', url, true);
     xhr.responseType = 'json';
     xhr.onload = function () {
-        var status = xhr.status;
+        let status = xhr.status;
         if (status === 200) {
             callback(null, xhr.response);
         } else {
