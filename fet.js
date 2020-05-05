@@ -269,10 +269,16 @@ function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
 }
 
 function calculatePixelCoordinateEu(x, y) {
+	x = x + (x * 0.0024298) + 33.6856566;
+	y = y + (y * 0.0023384) - 47.1583332 ;
+	
     return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
 }
 
 function calculatePixelCoordinateUk(x, y) {
+	x = x + (x * 0.0001243) + 30.8274705 ;
+	y = y + (y * 0.0000635) + 7.1212997 ;
+	
     return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
 }
 
