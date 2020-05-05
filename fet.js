@@ -248,11 +248,17 @@ function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
 }
 
 function calculatePixelCoordinateEu(x, y) {
-    return calculatePixelCoordinate(x, y, 7.278, 11367, 9962);
+	x = x + (x * 0.0024298) + 33.6856566;
+	y = y + (y * 0.0023384) - 47.1583332 ;
+	
+    return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
 }
 
 function calculatePixelCoordinateUk(x, y) {
-    return calculatePixelCoordinate(x, y, 9.69522, 10226, 9826);
+	x = x + (x * 0.0001243) + 30.8274705 ;
+	y = y + (y * 0.0000635) + 7.1212997 ;
+	
+    return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
 }
 
 function game_coord_to_pixels(x, y) {
