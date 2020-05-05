@@ -562,8 +562,8 @@ function getDamagePercentage(data) {
 
 function showTab(tabName) {
     if(tabName == "_cargo") {
-        const playerId = document.getElementById("selectPlayer")
-        if(!playerId) {
+        const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
+        if(playerId == "-") {
             return;
         }
     }
