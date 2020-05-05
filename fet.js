@@ -406,7 +406,7 @@ function getTeamIcon(team) {
     return L.icon({
         iconUrl,
         iconSize: iconSize,
-        popupAnchor: [0,0]
+        iconAnchor:   [50, 94]
     });
 }
 
