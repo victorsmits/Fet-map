@@ -6,11 +6,11 @@
 
 ```
 {
-    "ID" : Number,
+    "id" : Number,
 }
 ```
 
-- *ID* : Id of a player connected to Promods
+- *id* : Id of a player connected to Promods
 
 ### Player position
 ```
@@ -53,8 +53,7 @@
 #### search bar    _line : 185_
 
 ````html
-<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
-      onsubmit="lookat(this)" id="form">
+<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100" id="searchForm">
     <div class="input-group">
         <input type="text" class="form-control bg-light border-1 small"
                placeholder="Search player"
@@ -73,15 +72,11 @@
 #### selector    _line : 204_
 
 `````html
-<select
-        class="selector form-control bg-light border-1 small" id="playerSelector"
-        onclick="loadPlayer()"
+<select class="selector form-control bg-light border-1 small" id="playerSelector"
         style="margin-right: 1em;">
     <option value="-">–- Select Player --</option>
 </select>
-<select
-        class="selector form-control bg-light border-1 small" id="TeamSelector"
-        onclick="loadTeam()">
+<select class="selector form-control bg-light border-1 small" id="TeamSelector">
     <option value="all">All team</option>
 </select>
 `````
