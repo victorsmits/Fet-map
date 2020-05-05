@@ -364,10 +364,9 @@ function getPosition() {
                         mapMarkers[truck.name]["marker"].setLatLng(
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
-                        
+                        let popup = `${truck.name}<div id="selectPlayer" style="display: none;">${truck.mp_id}</div>`
                         mapMarkers[truck.name] = {
-                            
-                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("Volvo")}).bindPopup(truck.name, customPopup).addTo(map),
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
                             // Team: truck.team,
                             Id: playerid[i],
                             Name: truck.name
@@ -562,6 +561,12 @@ function getDamagePercentage(data) {
 }
 
 function showTab(tabName) {
+    if(tabName == "_cargo") {
+        const playerId = document.getElementById("selectPlayer")
+        if(!playerId) {
+            return;
+        }
+    }
     $('._active_tab').removeClass('_active_tab');
     $('#' + tabName).addClass('_active_tab');
 
