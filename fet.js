@@ -324,6 +324,7 @@ function getPosition() {
 
             getJSON(`${url}/${playerid[i]}`, (err, json) => {
                 let truck = json.response
+                console.log(truck)
                 if (truck.online) {
                     if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
                         mapMarkers[truck.name]["marker"].setLatLng(
