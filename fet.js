@@ -94,7 +94,7 @@ const UK = {
 };
 
 
-/*----------------- Index -------------------*/
+/*----------------- Tooltip -------------------*/
 
 openPicker.tooltip({show: {effect: "blind"}});
 
@@ -116,7 +116,6 @@ let CustomProjection = {
 
 let CustomCRS = L.extend({}, L.CRS, {
     projection: CustomProjection,
-    // Why 128? Because 7 is the maximum zoom level (i.e. 1:1 scale), and pow(2, 7) = 128.
     transformation: new L.Transformation(1.0 / s, 0, 1.0 / s, 0),
 
     scale: function (zoom) {
@@ -206,7 +205,7 @@ searchForm.submit(function (e) {
 
     for (let elem in mapMarkers) {
         if (elem === value) {
-            lookAt(mapMarkers[elem["Id"]])
+            lookAt(mapMarkers[elem]["Id"])
         }
     }
 });
@@ -231,10 +230,9 @@ openPicker.click(function () {
 function run() {
     getPosition()
 
-        loadPlayer();
+    loadPlayer();
 
-        loadTeam();
-
+    loadTeam();
 }
 
 function onMapClick(e) {
@@ -273,16 +271,13 @@ function lookAt(id) {
             let truck = json.response
             map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 4)
         })
-
     }
-
 }
 
 function loadPlayer() {
     $('#playerSelector').empty();
     $(new Option("–- Select Player --", "–-")).appendTo('#playerSelector');
 
-    console.log(mapMarkers)
     for (let elem in mapMarkers) {
         let marker = mapMarkers[elem]
         $(new Option(marker["Name"], marker["Id"])).appendTo('#playerSelector');
@@ -314,21 +309,20 @@ function getJSON(url, callback) {
 }
 
 function updateIDList() {
-    if (playerid.length === 0) {
-        getJSON(idURL, (err, json) => {
-            if (json != null) {
-                for (let elem of json) {
-                    playerid.push(elem.id)
-                }
-            } else {
-                console.log(json)
+    playerid = []
+    getJSON(idURL, (err, json) => {
+        if (json.response != null) {
+            for (let elem of json.response) {
+                playerid.push(elem.id)
             }
-        })
-    }
+        } else {
+            console.log(json)
+        }
+    })
 }
 
 function getPosition() {
-    updateIDList()
+    // updateIDList()
     for (let i = 0; i < playerid.length; i++) {
         getJSON(url + playerid[i], (err, json) => {
             let truck = json.response
