@@ -85,6 +85,7 @@
 ### Import in head
 
 ***leaflet import***
+
 import at the top of the head
 ```html
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
