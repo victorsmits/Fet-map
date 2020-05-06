@@ -1,5 +1,8 @@
 /*----------------- VARIALE -------------------*/
 
+let selectedPlayer = "";
+let selectedPlayerid = 0;
+
 let MAX_X = 65408;
 let MAX_Y = 65344;
 
@@ -209,9 +212,9 @@ let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 /*----------------- CALL -------------------*/
 
 /* POSITION LOOP */
-getPosition()
+update()
 
-setInterval(getPosition, 15000)
+setInterval(update, 15000)
 
 /* INTERACTION */
 
@@ -228,6 +231,7 @@ $('#playerSelector').change(function () {
     let val = $(this).val()
     if (val !== "-") {
         lookat(val);
+		selectPlayerChanged(val);
     }
 })
 
@@ -367,7 +371,7 @@ function getPosition() {
                         let popup = `${truck.name}<div id="selectPlayer" style="display: none;">${truck.mp_id}</div>`
                         mapMarkers[playerid[i]] = {
                             marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
-                                {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
+                                {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map).on('click', onClickMarker),
                             // Team: truck.team,
                             Name: truck.name
                         }
@@ -455,12 +459,42 @@ function getTeamIcon(team) {
 // L.marker(game_coord_to_pixels(21000, 3000), {icon: getTeamIcon("DAF")}).addTo(map)
 
 
-// Ajout test dam
-Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
+function update(){
+	getPosition();
+	getCurrentTraject();
+}
 
+function onClickMarker(e) {
+    selectPlayerChanged($('#selectPlayer').text());
+}
+
+
+function getCurrentTraject() {
+    if (playerid.length === 0) {
+           /* getJSON(urlTraject + playerid[i], (err, json) => {
+                let traject = json.response				
+                if (traject.online) {
+                    DashboardCompute(traject);
+					DashboardRender(traject);
+                }
+            })*/
+    }
+	//debug
+	let tmp = JSON.parse(debug);
+	let traject  = tmp[0];
+	if (traject.online === 1) {
+		traject = DashboardCompute(traject);
+		DashboardRender(traject);
+	}
+}
+
+function DashboardCompute(data) {
+    
     // Process DOM changes here now that we have data. We should only do this once.
     if (!g_processedDomChanges) {
-        processDomChanges(data);
+		$('.noCruiseControl').show();
+		$('.speedUnits').text('km/h');
+		g_processedDomChanges = true;
     }
 
     // Logic consistent between ETS2 and ATS
@@ -472,29 +506,39 @@ Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
     data.scsTruckDamage = getDamagePercentage(data);
     data.scsTruckDamageRounded = Math.floor(data.scsTruckDamage);
     data.wearTrailerRounded = Math.floor(data.trailer.wear * 100);
+	data.wearCargoRounded = Math.floor(data.cargo.wear * 100);
     var tons = (data.trailer.mass / 1000.0).toFixed(2);
     if (tons.substr(tons.length - 2) === "00") {
         tons = parseInt(tons);
     }
     data.trailerMassTons = data.trailer.attached ? (tons + ' t') : '';
 
-    // ETS2-specific logic
-    data.isWorldOfTrucksContract = isWorldOfTrucksContract(data);
-    data.jobIncome = getEts2JobIncome(data.job.income);
-
-    $('#_map').find('._no-map').hide();
-
+	data.jobIncome = getEts2JobIncome(data.job.income);
+	
+	
     // return changed data to the core for rendering
     return data;
 };
 
-Funbit.Ets.Telemetry.Dashboard.prototype.render = function (data) {
+function DashboardRender(data) {
 
     // data - same data object as in the filter function
     $('.fillingIcon.truckDamage .top').css('height', (100 - data.scsTruckDamage) + '%');
     $('.fillingIcon.trailerDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
+	$('.fillingIcon.cargoDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
     $('.fillingIcon.fuel .top').css('height', (100 - data.currentFuelPercentage) + '%');
-
+	
+	$('.truckSpeedRoundedKmhMph').text(data.truckSpeedRounded);
+	$('.game-time').text(selectedPlayer);
+	$('.scsTruckDamageRounded').text(data.scsTruckDamageRounded);
+	$('.wearTrailerRounded').text(data.wearTrailerRounded);
+	$('.wearCargoRounded').text(data.wearCargoRounded);
+	$('.trailer-name').text('poisson');
+	$('.trailerMassKgOrT').text(data.trailerMassTons);
+	$('.job-destinationCity').text(data.job.destCity);
+	$('.job-destinationCompany').text(data.job.destCompany);
+	$('.jobIncome').text(data.jobIncome);
+	
     // Process DOM for job
     if (data.trailer.attached) {
         $('.hasJob').show();
@@ -504,15 +548,16 @@ Funbit.Ets.Telemetry.Dashboard.prototype.render = function (data) {
         $('.noJob').show();
     }
 
-    // Process map location only if the map has been rendered
-    if (g_map) {
-
-    }
-
     // Set the current game attribute for any properties that are game-specific
-    $('.game-specific').attr('data-game-name', data.game.gameName);
+   // $('.game-specific').attr('data-game-name', data.game.gameName);
 
     return data;
+}
+
+function selectPlayerChanged(val){
+	selectedPlayerid = val;
+	selectedPlayer = mapMarkers[val]["Name"];
+	getCurrentTraject();
 }
 
 function getEts2JobIncome(income) {
@@ -521,7 +566,7 @@ function getEts2JobIncome(income) {
         for more information.
     */
 
-    var code = buildCurrencyCode(1, '', '&euro;', '');
+    var code = buildCurrencyCode(1, '', '€', '');
 
     return formatIncome(income, code);
 }
@@ -542,7 +587,7 @@ function formatIncome(income, currencyCode) {
           - {2} The actual income, already converted into the proper currency
           - {3} Third prefix (such as CHF, Ft, or kr)
     */
-    var incomeFormat = "{0}{1} {2}.- {3}";
+    var incomeFormat = "{0}{1} {2} {3}";
     income *= currencyCode.multiplier;
 
     return incomeFormat.replace('{0}', currencyCode.symbolOne)
@@ -561,7 +606,8 @@ function getDamagePercentage(data) {
 }
 
 function showTab(tabName) {
-    if (tabName == "_cargo" || tabName == "_damage") {
+	
+    if(tabName == "_cargo" || tabName == "_damage") {
         const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
         console.log(playerId)
         if (playerId == "-") {
@@ -600,11 +646,11 @@ function removeLocalStorageItem(key) {
 
 function processDomChanges(data) {
 
-    $('.speedUnits').text('km/h');
-    $('.distanceUnits').text('km');
-    $('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
-    $('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
-    $('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
+	$('.speedUnits').text('km/h');
+	$('.distanceUnits').text('km');
+	$('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
+	$('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
+	$('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
 
     $('.trailerMassKgOrT').addClass('trailerMassTons').removeClass('trailerMassKgOrT');
 
