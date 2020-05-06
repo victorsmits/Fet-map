@@ -1,36 +1,3 @@
-@charset "UTF-8";
-
-@import url(ol.css);
-
-/* html, body { */
-    /* margin: 0; */
-    /* padding: 0; */
-    /* height: 100%; */
-    /* overflow: hidden; */
-
-    /* /* dashboard-host.css should not have defined cursor as pointer. */ */
-    /* cursor: auto; */
-/* } */
-/* html { */
-    /* background-color: #000; */
-    /* color: #FFF; */
-    /* font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif; */
-    /* line-height: 1.0; */
-/* } */
-/* @media (min-aspect-ratio: 4/3) { */
-    /* html { font-size: 6vh; } */
-/* } */
-/* @media (max-aspect-ratio: 4/3) { */
-    /* /* This value is the font-size from min-aspect-ratio times 3 divided by 4  */ */
-    /* html { font-size: 4.5vw; } */
-/* } */
-/* ul, ol, li, p { */
-    /* margin: 0; */
-    /* padding: 0; */
-/* } */
-/* a { */
-    /* color: inherit; */
-/* } */
 
 /* Main layout, divided in 4 regions. */
 .dashboard {
@@ -116,11 +83,16 @@
     -ms-flex-preferred-size: 2.5em;
     flex-basis: 2.5em;
 }
-.dashboard > aside > div._speed,
+.dashboard > aside > div._speed{
+    color:white;
+	font-weight: bold;
+}
 .dashboard > aside > div._time {
     -webkit-flex-basis: 5em;
     -ms-flex-preferred-size: 5em;
     flex-basis: 5em;
+	color:white;
+	font-weight: bold;
 }
 .dashboard > aside > div._speed {
     background: #7F0000;
@@ -189,6 +161,9 @@
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+	color:white;
+	font-weight: bold;
+	font-size: 3vh;
 }
 ._row > * {
     -webkit-box-flex: 1;
@@ -228,6 +203,9 @@
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+	color:white;
+	font-weight: bold;
+	font-size: 3vh;
 }
 #_damage > figure {
     -webkit-box-flex: 0;

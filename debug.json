@@ -1,0 +1,1 @@
+debug = '[{"online": 1,"truck": {"speed": 123,"fuel": 500,"fuelCapacity": 1000,"wearEngine": 0.5,"wearTransmission": 0.33,"wearCabin":0.75,"wearChassis": 0.66,"wearWheels": 0.28},"trailer": {"wear": 0.25,"mass": 22652,"attached": 1},"cargo": {"wear": 0.18},"job": {"income": 12654,"destCity": "Paris","destCompany": "IKEA"}}]';

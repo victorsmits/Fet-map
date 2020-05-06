@@ -34,6 +34,9 @@
 
     <!--    TO ADD !!!!!!-->
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+	
+	<!-- DEBUG -->
+	<script type="text/javascript" src="debug.json"></script>
 
 
 </head>
@@ -49,6 +52,11 @@
         <symbol id="svg-ets2-trailer" viewBox="0 0 105 39">
             <path d="m95 34a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-14 0a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-14 0a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-31-4h13v4h-13zm-43-30h101a2 2 0 0 1 2 2v26h-105v-26a2 2 0 0 1 2-2z"/>
         </symbol>
+		
+		<!-- Based on the actual game gfx. -->
+        <symbol id="svg-ets2-cargo" viewBox="0 0 55 40">
+            <path d="m 0,38.98917 v -1.01083 h 3.95668 c 2.98115,0 3.97804,-0.0214 4.04332,-0.0866 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.0653,-0.0653 -1.06217,-0.0866 -4.04332,-0.0866 H 0 v -1.01083 -1.01083 h 27.58123 27.58122 v 1.01083 1.01083 h -3.95668 c -2.98114,0 -3.97803,0.0214 -4.04331,0.0866 -0.12394,0.12394 -0.12394,4.61253 0,4.73647 0.0653,0.0653 1.06217,0.0866 4.04331,0.0866 h 3.95668 V 38.98917 40 H 27.58123 0 Z M 24.17329,37.8917 c 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.12523,-0.12522 -9.23218,-0.12522 -9.35741,0 -0.12393,0.12394 -0.12393,4.61253 0,4.73647 0.12523,0.12522 9.23218,0.12522 9.35741,0 z m 16.17328,0 c 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.12522,-0.12522 -9.23218,-0.12522 -9.3574,0 -0.0637,0.0637 -0.0866,0.68994 -0.0866,2.36824 0,1.67829 0.0229,2.30449 0.0866,2.36823 0.12522,0.12522 9.23218,0.12522 9.3574,0 z M 8.08664,21.08303 v -6.20938 h 9.09748 9.09747 v 6.20938 6.20939 H 17.18412 8.08664 Z m 20.79423,0 v -6.20938 h 9.09747 9.09747 v 6.20938 6.20939 H 37.97834 28.88087 Z M 8.08664,6.20939 V 0 h 9.09748 9.09747 v 6.20939 6.20938 H 17.18412 8.08664 Z m 20.79423,0 V 0 h 9.09747 9.09747 v 6.20939 6.20938 h -9.09747 -9.09747 z"/>
+	   </symbol>
 
         <!-- Based on the actual game icon. 12x12 image with 2 pixel margin. -->
         <symbol id="svg-gear" viewBox="-2 -2 16 16">
@@ -284,11 +292,7 @@
 						<div class="dashboard connected">
 							<aside>
 								<div class="_speed">
-									<span class="cruiseControl">
-										<svg width="1em" height="1em"><use xlink:href="#svg-cruise-control" fill="lime"/></svg>
-										<span class="truck-cruiseControlSpeed"></span>
-									</span>
-									<span class="noCruiseControl truckSpeedRoundedKmhMph"></span> <span class="speedUnits"></span>
+									<span class="truckSpeedRoundedKmhMph"></span> <span class="speedUnits"></span>
 								</div>
 								<div class="_gear _middle">
 									<svg width="1em" height="1em"><use xlink:href="#svg-gear" fill="#969696"/></svg><span class="gear _yellow-color"></span>
@@ -314,7 +318,7 @@
 								</div>
 
 								<div class="_time">
-									<span class="game-time" id="headerTime"></span>
+									<span class="game-time"></span>
 								</div>
 							</aside>
 
@@ -329,7 +333,7 @@
 								<article id="_cargo">
 									<div class="noJob">
 										<div class="_row _yellow-color">
-											<p data-mra-text="CurrentJob"></p>
+											<p>Mission en cours</p>
 											<p><!-- There is no way to get the current balance from the telemetry. --></p>
 										</div>
 										<div class="_row">
@@ -341,7 +345,7 @@
 											<p></p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="NoJob"></p>
+											<p>Pas de mission en cours.</p>
 											<p></p>
 										</div>
 										<div class="_row">
@@ -349,39 +353,37 @@
 											<p></p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="NextRestStopIn"></p>
+											<p></p>
 											<p class="game-nextRestStopTime _yellow-color"></p>
 										</div>
 									</div>
 									<div class="hasJob">
 										<div class="_row _yellow-color">
-											<p data-mra-text="CurrentJob"></p>
+											<p>Mission en cours</p>
 											<p><!-- There is no way to get the current balance from the telemetry. --></p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="CargoName"></p>
+											<p>Nom du chargement</p>
 											<p><span class="trailer-name"></span> (<span class="trailerMassKgOrT"></span>)</p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="Destination"></p>
+											<p>Destination</p>
 											<p><span class="job-destinationCity"></span> - <span class="job-destinationCompany"></span></p>
 										</div>
 										<div class="_row" id="expected">
-											<p data-mra-text="Expected"></p>
-											<!--p><span class="job-???????"></span> - <span class="job-deadlineTime"></span></p-->
+											<p></p>
 											<p><span class="job-deadlineTime"></span></p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="JobIncome"></p>
+											<p>Revenu de la mission</p>
 											<p class="jobIncome"></p>
-											<!--p><span class="currencyCode"></span> <span class="jobIncome"></span></p-->
 										</div>
 										<div class="_row" id="remains">
-											<p data-mra-text="Remains"></p>
+											<p></p>
 											<p class="job-remainingTime"></p>
 										</div>
 										<div class="_row">
-											<p data-mra-text="NextRestStopIn"></p>
+											<p></p>
 											<p class="game-nextRestStopTime _yellow-color"></p>
 										</div>
 									</div>
@@ -393,20 +395,27 @@
 											<div class="top isEts2"><svg width="7em" height="4em"><use xlink:href="#svg-ets2-truck" fill="#969696"/></svg></div>
 											<div class="bot isEts2"><svg width="7em" height="4em"><use xlink:href="#svg-ets2-truck" fill="#930002"/></svg></div>
 										</div>
-										<figcaption><span data-mra-text="Truck"></span>: <span class="scsTruckDamageRounded"></span>%</figcaption>
+										<figcaption>Camion: <span class="scsTruckDamageRounded"></span>%</figcaption>
 									</figure>
 									<figure>
 										<div class="fillingIcon trailerDamage">
 											<div class="top isEts2"><svg width="11em" height="4em"><use xlink:href="#svg-ets2-trailer" fill="#969696"/></svg></div>
 											<div class="bot isEts2"><svg width="11em" height="4em"><use xlink:href="#svg-ets2-trailer" fill="#930002"/></svg></div>
 										</div>
-										<figcaption><span data-mra-text="Trailer"></span>: <span class="wearTrailerRounded"></span>%</figcaption>
+										<figcaption>Remorque: <span class="wearTrailerRounded"></span>%</figcaption>
+									</figure>
+									<figure>
+										<div class="fillingIcon cargoDamage">
+											<div class="top isEts2"><svg width="7em" height="4em"><use xlink:href="#svg-ets2-cargo" fill="#969696"/></svg></div>
+											<div class="bot isEts2"><svg width="7em" height="4em"><use xlink:href="#svg-ets2-cargo" fill="#930002"/></svg></div>
+										</div>
+										<figcaption>Chargement: <span class="wearCargoRounded"></span>%</figcaption>
 									</figure>
 								</article>
 							</div>
 							<!-- Content Row -->
 							<nav>
-								<div id="_map_button" onclick="showTab('_maps')">
+								<div id="_maps_button" onclick="showTab('_maps')">
 									<svg width="1em" height="1em"><use xlink:href="#svg-compass" fill="#ffffff"/></svg>
 								</div>
 								<div id="_cargo_button" onclick="showTab('_cargo')">
