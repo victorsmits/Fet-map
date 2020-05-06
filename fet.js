@@ -321,7 +321,7 @@ function loadPlayer(item) {
         $(item).empty();
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
-            $(new Option(marker["Id"], marker["Name"])).appendTo(item);
+            $(new Option(elem, marker["Name"])).appendTo(item);
         }
     }
 
@@ -375,11 +375,10 @@ function getPosition() {
                     mapMarkers[truck.name]["marker"].setLatLng(
                         new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                 } else {
-                    mapMarkers[truck.name] = {
+                    mapMarkers[playerid[i]] = {
                         marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
                             {icon: getTeamIcon("Volvo")}).bindPopup(truck.name, customPopup).addTo(map),
                         // Team: truck.team,
-                        Id: playerid[i],
                         Name: truck.name
                     }
                 }
