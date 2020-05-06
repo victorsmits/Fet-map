@@ -116,13 +116,6 @@ const UK = {
 
 openPicker.tooltip({show: {effect: "blind"}});
 
-/*------ Affichage de la carte par defaut ------*/
-
-showTab('_maps');
-$('.speedUnits').text('km/h');
-$('.distanceUnits').text('km');
-$('.noCruiseControl').show();
-$('.speedUnits').text('km/h');
 
 /*----------------- PROJECTION -------------------*/
 
@@ -517,8 +510,3 @@ function getTeamIcon(team) {
         popupAnchor: [0, 10]
     });
 }
-
-
-/*--- Dashboard ---*/
-
-

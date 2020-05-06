@@ -1,3 +1,11 @@
+
+/*------ Affichage de la carte par defaut ------*/
+
+showTab('_maps');
+$('.speedUnits').text('km/h');
+$('.distanceUnits').text('km');
+$('.noCruiseControl').show();
+
 function DashboardCompute(data) {
 
     // Logic consistent between ETS2 and ATS
