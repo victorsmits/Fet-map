@@ -219,7 +219,7 @@ let overlay = {
 
 L.control.layers(baseGroup, overlay).addTo(map);
 
-let results = new L.LayerGroup([road, ferry, city]).addTo(map);
+let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 
 
 /* MAIN LOOP */
