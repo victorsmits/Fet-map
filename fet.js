@@ -256,8 +256,8 @@ playerSelector.change(function () {
     let val = $(this).val()
     if (val !== "-") {
         lookAt(val);
-		//selectPlayerChanged(val);
-        
+        //selectPlayerChanged(val);
+
     }
 })
 
@@ -274,7 +274,7 @@ openPicker.click(function () {
 
 function run() {
     getPosition()
-	getCurrentTraject()
+    getCurrentTraject()
 
     loadPlayer('#playerSelector');
     loadPlayer('#data');
@@ -388,23 +388,23 @@ function getPosition() {
     // updateIDList()
     for (let i = 0; i < playerid.length; i++) {
         getJSON(`${url}/${playerid[i]}`, (err, json) => {
-			if (json != null){
-				let truck = json.response
-				if (truck.online) {
-					if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
-						mapMarkers[playerid[i]]["marker"].setLatLng(
-							new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
-					} else {
-						const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
-						mapMarkers[playerid[i]] = {
-							marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
-								{icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map).on('click', onClickMarker()),
-							// Team: truck.team,
-							Name: truck.name
-						}
-					}
-				}
-			}
+            if (json != null) {
+                let truck = json.response
+                if (truck.online) {
+                    if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
+                        mapMarkers[playerid[i]]["marker"].setLatLng(
+                            new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
+                    } else {
+                        const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
+                        mapMarkers[playerid[i]] = {
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
+                                {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map).on('click', onClickMarker()),
+                            // Team: truck.team,
+                            Name: truck.name
+                        }
+                    }
+                }
+            }
         })
     }
     return true
@@ -476,15 +476,6 @@ function getTeamIcon(team) {
 }
 
 
-/*----------------- Marker Test -------------------*/
-// L.marker(game_coord_to_pixels(3000, 3000), {icon: getTeamIcon("Volvo")}).addTo(map)
-// L.marker(game_coord_to_pixels(6000, 3000), {icon: getTeamIcon("Mercedes-Benz")}).addTo(map)
-// L.marker(game_coord_to_pixels(9000, 3000), {icon: getTeamIcon("Scania")}).addTo(map)
-// L.marker(game_coord_to_pixels(12000, 3000), {icon: getTeamIcon("MAN")}).addTo(map)
-// L.marker(game_coord_to_pixels(15000, 3000), {icon: getTeamIcon("Renault Trucks")}).addTo(map)
-// L.marker(game_coord_to_pixels(18000, 3000), {icon: getTeamIcon("Iveco")}).addTo(map)
-// L.marker(game_coord_to_pixels(21000, 3000), {icon: getTeamIcon("DAF")}).addTo(map)
-
 /*--- fonction event sur les click des marqueurs sur la carte ---*/
 function onClickMarker(e) {
     //selectPlayerChanged($('#selectPlayer').text());
@@ -494,21 +485,21 @@ function onClickMarker(e) {
 /*--- requete vers API pour les info mission ---*/
 function getCurrentTraject() {
     if (playerid.length === 0) {
-           /* getJSON(urlTraject + playerid[i], (err, json) => {
-                let traject = json.response				
-                if (traject.online) {
-                    DashboardCompute(traject);
-					DashboardRender(traject);
-                }
-            })*/
+        /* getJSON(urlTraject + playerid[i], (err, json) => {
+             let traject = json.response
+             if (traject.online) {
+                 DashboardCompute(traject);
+                 DashboardRender(traject);
+             }
+         })*/
     }
-	//debug
-	let tmp = JSON.parse(debug);
-	let traject  = tmp[0];
-	if (traject.online === 1) {
-		traject = DashboardCompute(traject);
-		DashboardRender(traject);
-	}
+    //debug
+    let tmp = JSON.parse(debug);
+    let traject = tmp[0];
+    if (traject.online === 1) {
+        traject = DashboardCompute(traject);
+        DashboardRender(traject);
+    }
 }
 
 /*--- traitements des info mission ---*/
@@ -523,16 +514,16 @@ function DashboardCompute(data) {
     data.scsTruckDamage = getDamagePercentage(data);
     data.scsTruckDamageRounded = Math.floor(data.scsTruckDamage);
     data.wearTrailerRounded = Math.floor(data.trailer.wear * 100);
-	data.wearCargoRounded = Math.floor(data.cargo.wear * 100);
+    data.wearCargoRounded = Math.floor(data.cargo.wear * 100);
     var tons = (data.trailer.mass / 1000.0).toFixed(2);
     if (tons.substr(tons.length - 2) === "00") {
         tons = parseInt(tons);
     }
     data.trailerMassTons = data.trailer.attached ? (tons + ' t') : '';
 
-	data.jobIncome = getEts2JobIncome(data.job.income);
-	
-	
+    data.jobIncome = getEts2JobIncome(data.job.income);
+
+
     // return changed data to the core for rendering
     return data;
 };
@@ -543,20 +534,20 @@ function DashboardRender(data) {
     // data - same data object as in the filter function
     $('.fillingIcon.truckDamage .top').css('height', (100 - data.scsTruckDamage) + '%');
     $('.fillingIcon.trailerDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
-	$('.fillingIcon.cargoDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
+    $('.fillingIcon.cargoDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
     $('.fillingIcon.fuel .top').css('height', (100 - data.currentFuelPercentage) + '%');
-	
-	$('.truckSpeedRoundedKmhMph').text(data.truckSpeedRounded);
-	$('.game-time').text(selectedPlayer);
-	$('.scsTruckDamageRounded').text(data.scsTruckDamageRounded);
-	$('.wearTrailerRounded').text(data.wearTrailerRounded);
-	$('.wearCargoRounded').text(data.wearCargoRounded);
-	$('.trailer-name').text('poisson');
-	$('.trailerMassKgOrT').text(data.trailerMassTons);
-	$('.job-destinationCity').text(data.job.destCity);
-	$('.job-destinationCompany').text(data.job.destCompany);
-	$('.jobIncome').text(data.jobIncome);
-	
+
+    $('.truckSpeedRoundedKmhMph').text(data.truckSpeedRounded);
+    $('.game-time').text(selectedPlayer);
+    $('.scsTruckDamageRounded').text(data.scsTruckDamageRounded);
+    $('.wearTrailerRounded').text(data.wearTrailerRounded);
+    $('.wearCargoRounded').text(data.wearCargoRounded);
+    $('.trailer-name').text('poisson');
+    $('.trailerMassKgOrT').text(data.trailerMassTons);
+    $('.job-destinationCity').text(data.job.destCity);
+    $('.job-destinationCompany').text(data.job.destCompany);
+    $('.jobIncome').text(data.jobIncome);
+
     // Process DOM for job
     if (data.trailer.attached) {
         $('.hasJob').show();
@@ -567,21 +558,21 @@ function DashboardRender(data) {
     }
 
     // Set the current game attribute for any properties that are game-specific
-   // $('.game-specific').attr('data-game-name', data.game.gameName);
+    // $('.game-specific').attr('data-game-name', data.game.gameName);
 
     return data;
 }
 
 /*--- fonction de mise à jour du joueurs suivi ---*/
-function selectPlayerChanged(val){
-	selectedPlayerid = val;
-	selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
-	getCurrentTraject();
+function selectPlayerChanged(val) {
+    selectedPlayerid = val;
+    selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
+    getCurrentTraject();
 }
 
 /*---- Mise en forme des revenues de la mission ----*/
 function getEts2JobIncome(income) {
-	
+
     var code = buildCurrencyCode(1, '', '€', '');
 
     return formatIncome(income, code);
@@ -624,8 +615,8 @@ function getDamagePercentage(data) {
 
 /*--- affichage de la tab que l'on souhaite ---*/
 function showTab(tabName) {
-	
-    if(tabName == "_cargo" || tabName == "_damage") {
+
+    if (tabName == "_cargo" || tabName == "_damage") {
         const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
         console.log(playerId)
         if (playerId == "-") {
@@ -662,99 +653,3 @@ function removeLocalStorageItem(key) {
     }
 }
 
-/* DEBUG
-// EU TEST
-// v = game_coord_to_pixels(EU.CalaisInGame.x, EU.CalaisInGame.y)
-// P = game_coord_to_pixels(EU.ParisInGame.x, EU.ParisInGame.y)
-//
-// L.marker(v).bindPopup('Calais').addTo(map);
-// L.marker(P).bindPopup('paris').addTo(map);
-//
-// console.log("correction x : " + ((EU.ParisOnMap.lat - P[0]) + UK.x))
-// console.log("correction y : " + ((EU.ParisOnMap.long - P[1]) + UK.y))
-//
-// L.marker([EU.ParisOnMap.lat, EU.ParisOnMap.long]).bindPopup('Paris goal').addTo(map);
-// L.marker([EU.CalaisOnMap.lat, EU.CalaisOnMap.long]).bindPopup('Calais goal').addTo(map);
-
-// UK TEST
-//
-// Lon = game_coord_to_pixels(UK.LondonInGame.x, UK.LondonInGame.y)
-// Man = game_coord_to_pixels(UK.ManchesterInGame.x, UK.ManchesterInGame.y)
-//
-// L.marker(Lon).bindPopup('London').addTo(map);
-// L.marker(Man).bindPopup('Manchester').addTo(map);
-
-// L.marker([UK.LondonOnMap.lat, UK.LondonOnMap.long]).bindPopup('London goal').addTo(map);
-// L.marker([UK.ManchesterOnMap.lat, UK.ManchesterOnMap.long]).bindPopup('Manchester goal').addTo(map);
-//
-// console.log(Man)
-//
-// console.log("correction x : " + ((UK.ManchesterOnMap.lat - Man[0]) + UK.x))
-// console.log("correction y : " + ((UK.ManchesterOnMap.long - Man[1]) + UK.y))
-
-// // DEBUGGING CODE BELOW!
-// var marker1 = L.marker([0, 0]).bindPopup('marker1').addTo(map);
-// var marker2 = L.marker([1, 1]).bindPopup('marker2').addTo(map);
-// var marker3 = L.marker([256, 256]).bindPopup('marker3').addTo(map);
-// var marker4 = L.marker([MAX_X / 2, MAX_Y / 2]).bindPopup('marker4').addTo(map);
-// var marker5 = L.marker([MAX_X / 1, MAX_Y / 2]).bindPopup('marker5').addTo(map);
-// var marker6 = L.marker([MAX_X / 2, MAX_Y / 1]).bindPopup('marker6').addTo(map);
-// var marker7 = L.marker([MAX_X / 1, MAX_Y / 1]).bindPopup('marker7').addTo(map);
-
-// For version 1.0
-// https://github.com/Leaflet/Leaflet/issues/3736
-// var DebugLayer = L.GridLayer.extend({
-//     createTile: function (coords) {
-//         // create a <canvas> element for drawing
-//         var tile = L.DomUtil.create('canvas', 'leaflet-tile');
-//
-//         // setup tile width and height according to the options
-//         var size = this.getTileSize();
-//         tile.width = size.x;
-//         tile.height = size.y;
-//
-//         // get a canvas context and draw something on it using coords.x, coords.y and coords.z
-//         var context = tile.getContext('2d');
-//
-//         context.beginPath();
-//         context.rect(0, 0, 256, 256);
-//         context.lineWidth = 2;
-//         context.strokeStyle = 'white';
-//         context.stroke();
-//
-//         context.font = "20px Arial";
-//         context.fillStyle = 'white';
-//         context.fillText(coords.x + " / " + coords.y + " / " + coords.z, 80, 140);
-//
-//         // return the tile so it can be rendered on screen
-//         return tile;
-//     }
-// });
-//
-// new DebugLayer().addTo(map);
-//
-// //
-// //
-// // // For versions earlier than 1.0
-// // // https://github.com/Leaflet/Leaflet/issues/2776
-// let debugLayer = L.tileLayer.canvas({
-//     minZoom: 0,
-//     maxZoom: 7,
-//     continuousWorld: true,
-// });
-//
-// debugLayer.drawTile = function (canvas, point, zoom) {
-//     var context = canvas.getContext('2d');
-//
-//     context.beginPath();
-//     context.rect(0, 0, 256, 256);
-//     context.lineWidth = 2;
-//     context.strokeStyle = 'white';
-//     context.stroke();
-//
-//     context.font = "20px Arial";
-//     context.fillStyle = 'white';
-//     context.fillText(point.x + " / " + point.y + " / " + zoom, 80, 140);
-// }
-// debugLayer.addTo(map);
-*/
