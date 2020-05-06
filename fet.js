@@ -11,7 +11,7 @@ let MAX_Y = 65344;
 let s = 256;
 
 let mapMarkers = {};
-let playerid = [198153, 17095, 692781, 3346691];
+let playerid = [198153, 17095, 692781, 1702890, 3407980];
 
 
 /* URL variable */
@@ -115,8 +115,14 @@ const UK = {
 /*----------------- Tooltip -------------------*/
 
 openPicker.tooltip({show: {effect: "blind"}});
-showTab('_maps');
 
+/*------ Affichage de la carte par defaut ------*/
+
+showTab('_maps');
+$('.speedUnits').text('km/h');
+$('.distanceUnits').text('km');
+$('.noCruiseControl').show();
+$('.speedUnits').text('km/h');
 
 /*----------------- PROJECTION -------------------*/
 
@@ -221,11 +227,6 @@ L.control.layers(baseGroup, overlay).addTo(map);
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 
-/* POSITION LOOP */
-getPosition()
-
-setInterval(getPosition, 15000)
-
 /* Run LOOP */
 
 run();
@@ -255,7 +256,7 @@ playerSelector.change(function () {
     let val = $(this).val()
     if (val !== "-") {
         lookAt(val);
-		selectPlayerChanged(val);
+		//selectPlayerChanged(val);
         
     }
 })
@@ -273,6 +274,7 @@ openPicker.click(function () {
 
 function run() {
     getPosition()
+	getCurrentTraject()
 
     loadPlayer('#playerSelector');
     loadPlayer('#data');
@@ -386,21 +388,23 @@ function getPosition() {
     // updateIDList()
     for (let i = 0; i < playerid.length; i++) {
         getJSON(`${url}/${playerid[i]}`, (err, json) => {
-            let truck = json.response
-            if (truck.online) {
-                if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
-                    mapMarkers[playerid[i]]["marker"].setLatLng(
-                        new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
-                } else {
-                    const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
-                    mapMarkers[playerid[i]] = {
-                        marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
-                            {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
-                        // Team: truck.team,
-                        Name: truck.name
-                    }
-                }
-            }
+			if (json != null){
+				let truck = json.response
+				if (truck.online) {
+					if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
+						mapMarkers[playerid[i]]["marker"].setLatLng(
+							new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
+					} else {
+						const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
+						mapMarkers[playerid[i]] = {
+							marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
+								{icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map).on('click', onClickMarker()),
+							// Team: truck.team,
+							Name: truck.name
+						}
+					}
+				}
+			}
         })
     }
     return true
@@ -481,17 +485,13 @@ function getTeamIcon(team) {
 // L.marker(game_coord_to_pixels(18000, 3000), {icon: getTeamIcon("Iveco")}).addTo(map)
 // L.marker(game_coord_to_pixels(21000, 3000), {icon: getTeamIcon("DAF")}).addTo(map)
 
-
-function update(){
-	getPosition();
-	getCurrentTraject();
-}
-
+/*--- fonction event sur les click des marqueurs sur la carte ---*/
 function onClickMarker(e) {
-    selectPlayerChanged($('#selectPlayer').text());
+    //selectPlayerChanged($('#selectPlayer').text());
 }
 
 
+/*--- requete vers API pour les info mission ---*/
 function getCurrentTraject() {
     if (playerid.length === 0) {
            /* getJSON(urlTraject + playerid[i], (err, json) => {
@@ -511,14 +511,8 @@ function getCurrentTraject() {
 	}
 }
 
+/*--- traitements des info mission ---*/
 function DashboardCompute(data) {
-    
-    // Process DOM changes here now that we have data. We should only do this once.
-    if (!g_processedDomChanges) {
-		$('.noCruiseControl').show();
-		$('.speedUnits').text('km/h');
-		g_processedDomChanges = true;
-    }
 
     // Logic consistent between ETS2 and ATS
     data.truckSpeedRounded = Math.abs(data.truck.speed > 0
@@ -543,6 +537,7 @@ function DashboardCompute(data) {
     return data;
 };
 
+/*--- Affichage des info mission ---*/
 function DashboardRender(data) {
 
     // data - same data object as in the filter function
@@ -577,18 +572,16 @@ function DashboardRender(data) {
     return data;
 }
 
+/*--- fonction de mise à jour du joueurs suivi ---*/
 function selectPlayerChanged(val){
 	selectedPlayerid = val;
-	selectedPlayer = mapMarkers[val]["Name"];
+	selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
 	getCurrentTraject();
 }
 
+/*---- Mise en forme des revenues de la mission ----*/
 function getEts2JobIncome(income) {
-    /*
-        See https://github.com/mike-koch/ets2-mobile-route-advisor/wiki/Side-Notes#currency-code-multipliers
-        for more information.
-    */
-
+	
     var code = buildCurrencyCode(1, '', '€', '');
 
     return formatIncome(income, code);
@@ -619,6 +612,7 @@ function formatIncome(income, currencyCode) {
         .replace('{3}', currencyCode.symbolThree);
 }
 
+/*--- calcul des pourcentage de degats du camion ---*/
 function getDamagePercentage(data) {
     // Return the max value of all damage percentages.
     return Math.max(data.truck.wearEngine,
@@ -628,8 +622,9 @@ function getDamagePercentage(data) {
         data.truck.wearWheels) * 100;
 }
 
+/*--- affichage de la tab que l'on souhaite ---*/
 function showTab(tabName) {
-	console.log($('#playerSelector').val());
+	
     if(tabName == "_cargo" || tabName == "_damage") {
         const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
         console.log(playerId)
@@ -666,26 +661,6 @@ function removeLocalStorageItem(key) {
         return localStorage.removeItem(key);
     }
 }
-
-function processDomChanges(data) {
-
-	$('.speedUnits').text('km/h');
-	$('.distanceUnits').text('km');
-	$('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
-	$('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
-	$('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
-
-    $('.trailerMassKgOrT').addClass('trailerMassTons').removeClass('trailerMassKgOrT');
-
-    g_processedDomChanges = true;
-}
-
-// Global vars
-
-// Checked if we have processed the DOM changes already.
-var g_processedDomChanges;
-
-var g_map;
 
 /* DEBUG
 // EU TEST
