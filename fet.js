@@ -284,7 +284,8 @@ function run() {
 /*--- Click event---*/
 
 function onClickMarker(e) {
-    selectPlayerChanged($('#selectPlayer').text());
+    setTimeout(() => selectPlayerChanged($('#selectPlayer').text()),200);
+    
 }
 
 function onMapClick(e) {
