@@ -15,7 +15,7 @@ let playerid = [198153, 17095, 692781];
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
 let idURL = "";
-let url = "https://api.truckyapp.com/v3/map/online?playerID=";
+let url = "https://fet-parser.herokuapp.com/position";
 
 
 /* ZOOM variable */
@@ -224,7 +224,7 @@ let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 
 run();
 
-setInterval(run, 15000);
+setInterval(run, 1000);
 
 /* JQUERY Interaction */
 
@@ -310,7 +310,7 @@ function game_coord_to_pixels(x, y) {
 
 function lookAt(id) {
     if (id !== "-") {
-        getJSON(url + id, (err, json) => {
+        getJSON(`${url}/${id}`, (err, json) => {
             let truck = json.response
             map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 5)
         })
