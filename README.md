@@ -31,22 +31,46 @@
 
 ## To add/import
 
-### Import at the end of body
-- ```<script type="application/javascript" src="fet.js"></script>```
-
 ### Import in head
-- ```<script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>``` 
-- ```<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>```
-- ```` <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>````
-- **UPDATE** css/fet.css
+
+***leaflet script 1***
+```html
+<script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+``` 
+
+***leaflet script 2***
+```` html
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+````
+
+***leaflet css***
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>
+```
+
+
+
+### Import at the end of body
+
+***main script***
+```html
+<script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet.js"></script>
+```
+
+***dashboad script***
+
+```html
+<script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+```
+
+##UPDATE 
+- css/fet.css
 
 ## Map integration
 
-### map _line : 232_
+### map 
+From line : 287 to 490 in index.html
 
-`````html
-<div id="map"></div>
-`````
 
 ### Control
 

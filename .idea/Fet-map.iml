@@ -17,5 +17,8 @@
     <orderEntry type="library" name="bootstrap.bundle" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="@jaames" level="application" />
+    <orderEntry type="library" name="jquery.nice-select" level="application" />
+    <orderEntry type="library" name="nice-select" level="application" />
+    <orderEntry type="library" name="Dashboard" level="application" />
   </component>
 </module>

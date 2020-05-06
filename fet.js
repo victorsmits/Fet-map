@@ -205,7 +205,6 @@ let mapinfo = L.tileLayer(cdn + '/overlay/{z}/{x}/{y}.png', {
     continuousWorld: false
 })
 
-
 let baseGroup = {
     "road": road,
     "zoom L9": transparency
@@ -226,7 +225,7 @@ let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 
 run();
 
-setInterval(run, 1000);
+setInterval(run, 5000);
 
 
 /* JQUERY Interaction */
@@ -264,6 +263,10 @@ openPicker.click(function () {
     picker.show();
 })
 
+$(document).ready(function() {
+    $('select').niceSelect();
+});
+
 
 /*----------------- FUNCTION -------------------*/
 
@@ -272,11 +275,9 @@ openPicker.click(function () {
 
 function run() {
     getPosition()
-    getCurrentTraject()
-
+    // getCurrentTraject()
     loadPlayer('#playerSelector');
     loadPlayer('#data');
-
     loadTeam();
 }
 
@@ -346,7 +347,6 @@ function loadPlayer(item) {
     if (item === '#playerSelector') {
         $(item).empty();
         $(new Option("–- Select Player --", "–-")).appendTo(item);
-
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
             if (checkIfExist(item, elem)) {
@@ -357,7 +357,7 @@ function loadPlayer(item) {
         $(item).empty();
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
-            if (checkIfExist(item, marker["Name"])) {
+            if (!checkIfExist(item, marker["Name"])) {
                 $(new Option(elem, marker["Name"])).appendTo(item);
             }
         }
@@ -390,7 +390,6 @@ function getJSON(url, callback) {
     };
     xhr.send();
 }
-
 
 function getPosition() {
     // updateIDList()
@@ -445,6 +444,7 @@ function getCurrentTraject() {
     }
 }
 
+
 /* UPDATE */
 
 function updateIDList() {
@@ -462,11 +462,11 @@ function updateIDList() {
 
 function checkIfExist(ID, val) {
     let IsExists = false;
-    $(`${ID} option`).each(function () {
+    $('#playerSelector option').each(function () {
         if (this.value === val)
             IsExists = true;
-        return IsExists;
     });
+    return IsExists;
 }
 
 function colorUpdate() {
@@ -476,7 +476,9 @@ function colorUpdate() {
     openPicker.css("background-color", hex.toString());
 }
 
+
 /*--- fonction de mise à jour du joueurs suivi ---*/
+
 function selectPlayerChanged(val) {
     selectedPlayerid = val;
     selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
