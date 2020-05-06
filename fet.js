@@ -115,6 +115,7 @@ const UK = {
 /*----------------- Tooltip -------------------*/
 
 openPicker.tooltip({show: {effect: "blind"}});
+showTab('_maps');
 
 
 /*----------------- PROJECTION -------------------*/
