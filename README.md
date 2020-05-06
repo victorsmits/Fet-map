@@ -6,7 +6,7 @@
 
 ```json
 {
-    "id" : Number,
+    "id" : 0
 }
 ```
 
@@ -15,11 +15,11 @@
 ### Player position
 ```json
 {
-    "Name" : STRING,
-    "Player" : STRING,
-    "x": Number,
-    "y": Number,
-    "Team": String
+    "Name" : "String",
+    "Player" : "String",
+    "x": 0,
+    "y": 0,
+    "Team": "String"
 }
 ```
 
