@@ -37,26 +37,30 @@ function DashboardRender(data) {
 
     // data - same data object as in the filter function
     $('.fillingIcon.truckDamage .top').css('height', (100 - data.scsTruckDamage) + '%');
-    $('.fillingIcon.trailerDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
-    $('.fillingIcon.cargoDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
     $('.fillingIcon.fuel .top').css('height', (100 - data.currentFuelPercentage) + '%');
 
     $('.truckSpeedRoundedKmhMph').text(data.truckSpeedRounded);
     $('.game-time').text(selectedPlayer);
     $('.scsTruckDamageRounded').text(data.scsTruckDamageRounded);
-    $('.wearTrailerRounded').text(data.wearTrailerRounded);
-    $('.wearCargoRounded').text(data.wearCargoRounded);
-    $('.trailer-name').text('poisson');
-    $('.trailerMassKgOrT').text(data.trailerMassTons);
-    $('.job-destinationCity').text(data.job.destCity);
-    $('.job-destinationCompany').text(data.job.destCompany);
-    $('.jobIncome').text(data.jobIncome);
 
     // Process DOM for job
     if (data.trailer.attached) {
+		$('.fillingIcon.trailerDamage .top').css('height', (100 - data.trailer.wear * 100) + '%');
+		$('.fillingIcon.cargoDamage .top').css('height', (100 - data.cargo.wear * 100) + '%');
+		$('.wearTrailerRounded').text(data.wearTrailerRounded);
+		$('.wearCargoRounded').text(data.wearCargoRounded);
+		$('.trailer-name').text('poisson');
+		$('.trailerMassKgOrT').text(data.trailerMassTons);
+		$('.job-destinationCity').text(data.job.destCity);
+		$('.job-destinationCompany').text(data.job.destCompany);
+		$('.jobIncome').text(data.jobIncome);
         $('.hasJob').show();
         $('.noJob').hide();
     } else {
+		$('.fillingIcon.trailerDamage .top').css('height', 100 + '%');
+		$('.fillingIcon.cargoDamage .top').css('height', 100 + '%');
+		$('.wearTrailerRounded').text("");
+		$('.wearCargoRounded').text("");
         $('.hasJob').hide();
         $('.noJob').show();
     }
