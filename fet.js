@@ -263,11 +263,6 @@ openPicker.click(function () {
     picker.show();
 })
 
-$(document).ready(function() {
-    $('select').niceSelect();
-});
-
-
 /*----------------- FUNCTION -------------------*/
 
 
