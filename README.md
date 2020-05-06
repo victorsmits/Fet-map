@@ -6,6 +6,12 @@ https://fet-map.herokuapp.com/
 
 ![Fet Map](show-off.png)
 
+## Tiles
+
+https://github.com/victorsmits/Fet-Tiles
+
+![Fet Tiles](fet-tiles.png)
+
 ## JSON
 
 ### Connected Players ID
@@ -121,12 +127,12 @@ import at the bottom of the head
 ```
 
 ## UPDATE 
-- css/fet.css
+- [css/fet.css](css/fet.css)
 
 ## Map integration
 
 ### map 
-From line : 287 to 490 in index.html
+From line : 287 to 490 in [index.html](index.html)
 
 
 ### Control
