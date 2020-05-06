@@ -4,7 +4,7 @@
 
 ### Connected Players ID
 
-```
+```json
 {
     "id" : Number,
 }
@@ -13,7 +13,7 @@
 - *id* : Id of a player connected to Promods
 
 ### Player position
-```
+```json
 {
     "Name" : STRING,
     "Player" : STRING,
@@ -54,16 +54,16 @@
 
 ***main script***
 ```html
-<script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet.js"></script>
 ```
 
 ***dashboad script***
 
 ```html
-<script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
 ```
 
-##UPDATE 
+## UPDATE 
 - css/fet.css
 
 ## Map integration
