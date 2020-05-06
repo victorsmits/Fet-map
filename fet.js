@@ -253,8 +253,7 @@ playerSelector.change(function () {
     let val = $(this).val()
     if (val !== "-") {
         lookAt(val);
-        //selectPlayerChanged(val);
-
+        selectPlayerChanged(val);
     }
 })
 
@@ -350,13 +349,17 @@ function loadPlayer(item) {
 
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
-            $(new Option(marker["Name"], elem)).appendTo(item);
+            if (checkIfExist(item, elem)) {
+                $(new Option(marker["Name"], elem)).appendTo(item);
+            }
         }
     } else {
         $(item).empty();
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
-            $(new Option(elem, marker["Name"])).appendTo(item);
+            if (checkIfExist(item, marker["Name"])) {
+                $(new Option(elem, marker["Name"])).appendTo(item);
+            }
         }
     }
 }
@@ -455,6 +458,15 @@ function updateIDList() {
             console.log(json)
         }
     })
+}
+
+function checkIfExist(ID, val) {
+    let IsExists = false;
+    $(`${ID} option`).each(function () {
+        if (this.value === val)
+            IsExists = true;
+        return IsExists;
+    });
 }
 
 function colorUpdate() {
