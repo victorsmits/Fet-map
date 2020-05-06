@@ -37,7 +37,6 @@ let searchForm = $("#searchForm");
 let picker = $("#picker");
 let MapId = $("#map");
 let search = $("#search");
-let selectPlayer = $('#selectPlayer');
 
 
 /* custom icon */
@@ -286,7 +285,7 @@ function run() {
 /*--- Click event---*/
 
 function onClickMarker(e) {
-    selectPlayerChanged(selectPlayer.text());
+    selectPlayerChanged($('#selectPlayer').text());
 }
 
 function onMapClick(e) {
