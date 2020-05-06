@@ -377,7 +377,7 @@ function updateIDList() {
 function getPosition() {
     // updateIDList()
     for (let i = 0; i < playerid.length; i++) {
-        getJSON(url + playerid[i], (err, json) => {
+        getJSON(`${url}/${playerid[i]}`, (err, json) => {
             let truck = json.response
             if (truck.online) {
                 if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
