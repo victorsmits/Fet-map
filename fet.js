@@ -12,7 +12,7 @@ let MAX_Y = 65344;
 let s = 256;
 
 let mapMarkers = {};
-let playerid = [198153, 17095, 692781, 1702890, 3407980];
+let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
 
 /* URL variable */
@@ -280,8 +280,8 @@ function run() {
 /*--- Click event---*/
 
 function onClickMarker(e) {
-    setTimeout(() => selectPlayerChanged($('#selectPlayer').text()),200);
-    
+    setTimeout(() => selectPlayerChanged($('#selectPlayer').text()), 200);
+
 }
 
 function onMapClick(e) {
@@ -409,7 +409,7 @@ function getPosition() {
                             Name: truck.name
                         }
                     }
-                } else if (!truck.online && playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
+                } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
                     mapMarkers[playerid[i]]["marker"].remove();
                     mapMarkers[playerid[i]] = undefined
                 }
