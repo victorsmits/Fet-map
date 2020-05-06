@@ -360,8 +360,8 @@ function getPosition() {
             getJSON(url + playerid[i], (err, json) => {
                 let truck = json.response
                 if (truck.online) {
-                    if (truck.name in mapMarkers && mapMarkers[truck.name] !== undefined) {
-                        mapMarkers[truck.name]["marker"].setLatLng(
+                    if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
+                        mapMarkers[playerid[i]]["marker"].setLatLng(
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
                         let popup = `${truck.name}<div id="selectPlayer" style="display: none;">${truck.mp_id}</div>`
