@@ -132,7 +132,7 @@ import at the bottom of the head
 ## Map integration
 
 ### map 
-From line : 287 to 490 in [index.html](index.html)
+From line : 287 to 490 in [index.html](index.html#287)
 
 
 ### Control
