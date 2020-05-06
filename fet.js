@@ -28,7 +28,7 @@ let iconSize = [100, 100];
 
 var customPopup =
     {
-    'className' : 'customPopup'
+        'className': 'customPopup'
     }
 
 
@@ -87,7 +87,7 @@ ManchesterOnMap = {
 
 /*----------------- Index -------------------*/
 
-$( "#openPicker" ).tooltip({ show: { effect: "blind" } });
+$("#openPicker").tooltip({show: {effect: "blind"}});
 showTab('_maps');
 
 /*----------------- PROJECTION -------------------*/
@@ -200,7 +200,7 @@ let baseGroup = {
 let overlay = {
     "ferry": ferry,
     "city": city,
-	"POI": mapinfo,
+    "POI": mapinfo,
 }
 
 L.control.layers(baseGroup, overlay).addTo(map);
@@ -266,16 +266,16 @@ function calculatePixelCoordinate(x, y, pointsPerPixel, x0, y0) {
 }
 
 function calculatePixelCoordinateEu(x, y) {
-	x = x + (x * 0.0024298) + 33.6856566;
-	y = y + (y * 0.0023384) - 47.1583332 ;
-	
+    x = x + (x * 0.0024298) + 33.6856566;
+    y = y + (y * 0.0023384) - 47.1583332;
+
     return calculatePixelCoordinate(x, y, s / 56.6, EU.x, EU.y);
 }
 
 function calculatePixelCoordinateUk(x, y) {
-	x = x + (x * 0.0001243) + 30.8274705 ;
-	y = y + (y * 0.0000635) + 7.1212997 ;
-	
+    x = x + (x * 0.0001243) + 30.8274705;
+    y = y + (y * 0.0000635) + 7.1212997;
+
     return calculatePixelCoordinate(x, y, (s / 35.25) * 0.621371, UK.x, UK.y);
 }
 
@@ -305,7 +305,7 @@ function loadPlayer() {
     $(new Option("–- Select Player --", "–-")).appendTo('#playerSelector');
     for (let elem in mapMarkers) {
         let marker = mapMarkers[elem]
-        $(new Option(marker["Name"], marker["Id"])).appendTo('#playerSelector');
+        $(new Option(marker["Name"], elem)).appendTo('#playerSelector');
     }
 }
 
@@ -365,10 +365,10 @@ function getPosition() {
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
                         let popup = `${truck.name}<div id="selectPlayer" style="display: none;">${truck.mp_id}</div>`
-                        mapMarkers[truck.name] = {
-                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y), {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
+                        mapMarkers[playerid[i]] = {
+                            marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
+                                {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
                             // Team: truck.team,
-                            Id: playerid[i],
                             Name: truck.name
                         }
                     }
@@ -432,7 +432,7 @@ function getTeamIcon(team) {
         case "DAF":
             iconUrl = 'img/daf.png';
             break;
-    
+
         default:
             break;
     }
@@ -440,7 +440,7 @@ function getTeamIcon(team) {
     return L.icon({
         iconUrl,
         iconSize: iconSize,
-        iconAnchor:   [50, 94],
+        iconAnchor: [50, 94],
         popupAnchor: [0, 10]
     });
 }
@@ -457,7 +457,7 @@ function getTeamIcon(team) {
 
 // Ajout test dam
 Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
-    
+
     // Process DOM changes here now that we have data. We should only do this once.
     if (!g_processedDomChanges) {
         processDomChanges(data);
@@ -467,7 +467,7 @@ Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
     data.truckSpeedRounded = Math.abs(data.truck.speed > 0
         ? Math.floor(data.truck.speed)
         : Math.round(data.truck.speed));
-	
+
     data.currentFuelPercentage = (data.truck.fuel / data.truck.fuelCapacity) * 100;
     data.scsTruckDamage = getDamagePercentage(data);
     data.scsTruckDamageRounded = Math.floor(data.scsTruckDamage);
@@ -480,9 +480,9 @@ Funbit.Ets.Telemetry.Dashboard.prototype.filter = function (data) {
 
     // ETS2-specific logic
     data.isWorldOfTrucksContract = isWorldOfTrucksContract(data);
-	data.jobIncome = getEts2JobIncome(data.job.income);
-	
-	$('#_map').find('._no-map').hide();
+    data.jobIncome = getEts2JobIncome(data.job.income);
+
+    $('#_map').find('._no-map').hide();
 
     // return changed data to the core for rendering
     return data;
@@ -554,17 +554,17 @@ function formatIncome(income, currencyCode) {
 function getDamagePercentage(data) {
     // Return the max value of all damage percentages.
     return Math.max(data.truck.wearEngine,
-                    data.truck.wearTransmission,
-                    data.truck.wearCabin,
-                    data.truck.wearChassis,
-                    data.truck.wearWheels) * 100;
+        data.truck.wearTransmission,
+        data.truck.wearCabin,
+        data.truck.wearChassis,
+        data.truck.wearWheels) * 100;
 }
 
 function showTab(tabName) {
-    if(tabName == "_cargo" || tabName == "_damage") {
+    if (tabName == "_cargo" || tabName == "_damage") {
         const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
         console.log(playerId)
-        if(playerId == "-") {
+        if (playerId == "-") {
             return;
         }
     }
@@ -577,14 +577,14 @@ function showTab(tabName) {
 
 // Wrapper function to set an item to local storage.
 function setLocalStorageItem(key, value) {
-    if (typeof(Storage) !== "undefined" && localStorage != null) {
+    if (typeof (Storage) !== "undefined" && localStorage != null) {
         localStorage.setItem(key, value);
     }
 }
 
 // Wrapper function to get an item from local storage, or default if local storage is not supported.
 function getLocalStorageItem(key, defaultValue) {
-    if (typeof(Storage) !== "undefined" && localStorage != null) {
+    if (typeof (Storage) !== "undefined" && localStorage != null) {
         return localStorage.getItem(key);
     }
 
@@ -593,18 +593,18 @@ function getLocalStorageItem(key, defaultValue) {
 
 // Wrapper function to remove an item from local storage
 function removeLocalStorageItem(key) {
-    if (typeof(Storage) !== "undefined" && localStorage != null) {
+    if (typeof (Storage) !== "undefined" && localStorage != null) {
         return localStorage.removeItem(key);
     }
 }
 
 function processDomChanges(data) {
 
-	$('.speedUnits').text('km/h');
-	$('.distanceUnits').text('km');
-	$('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
-	$('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
-	$('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
+    $('.speedUnits').text('km/h');
+    $('.distanceUnits').text('km');
+    $('.truckSpeedRoundedKmhMph').addClass('truckSpeedRounded').removeClass('truckSpeedRoundedKmhMph');
+    $('.speedLimitRoundedKmhMph').addClass('navigation-speedLimit').removeClass('speedLimitRoundedKmhMph');
+    $('.navigationEstimatedDistanceKmMi').addClass('navigation-estimatedDistanceKmRounded').removeClass('navigationEstimatedDistanceKmMi');
 
     $('.trailerMassKgOrT').addClass('trailerMassTons').removeClass('trailerMassKgOrT');
 
