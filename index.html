@@ -347,7 +347,7 @@
 
                                 <article id="_maps">
 
-                                    <div id="map"></div>
+                                    <div id="map" style="z-index: 1;"></div>
 
                                 </article>
 
@@ -461,6 +461,18 @@
                                         <figcaption>Chargement: <span class="wearCargoRounded"></span>%</figcaption>
                                     </figure>
                                 </article>
+								
+								<!-- The Modal -->
+								<div id="myModal" class="modal">
+
+								  <!-- Modal content -->
+								  <div class="modal-content">
+									<span class="close">&times;</span>
+									<p>Sélectionnez un joueur en cliquant sur le pointeurs sur la carte.</p>
+								  </div>
+
+								</div>
+
                             </div>
                             <!-- Content Row -->
                             <nav>
@@ -468,6 +480,7 @@
                                     <svg width="1em" height="1em">
                                         <use xlink:href="#svg-compass" fill="#ffffff"/>
                                     </svg>
+									
                                 </div>
                                 <div id="_cargo_button" onclick="showTab('_cargo')">
                                     <svg class="isEts2" width="1em" height="1em">
