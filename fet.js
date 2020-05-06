@@ -11,7 +11,7 @@ let MAX_Y = 65344;
 let s = 256;
 
 let mapMarkers = {};
-let playerid = [198153, 17095, 692781];
+let playerid = [198153, 17095, 692781, 3346691];
 
 
 /* URL variable */
@@ -392,7 +392,7 @@ function getPosition() {
                     mapMarkers[playerid[i]]["marker"].setLatLng(
                         new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                 } else {
-                    const popup = `${$truck.name}<div style='display: none'>${$truck.mp_id}</div>`
+                    const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
                     mapMarkers[playerid[i]] = {
                         marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
                             {icon: getTeamIcon("Volvo")}).bindPopup(popup, customPopup).addTo(map),
