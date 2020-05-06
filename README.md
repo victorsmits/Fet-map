@@ -110,8 +110,8 @@ import at the bottom of the head
 ### Import at the end of body
 
 ```html
-<script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
-<script type="application/javascript" src="fet.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet.js"></script>
 ```
 
 ## UPDATE 
