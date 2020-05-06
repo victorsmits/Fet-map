@@ -67,12 +67,7 @@ function DashboardRender(data) {
     return data;
 }
 
-/*--- fonction de mise à jour du joueurs suivi ---*/
-function selectPlayerChanged(val) {
-    selectedPlayerid = val;
-    selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
-    getCurrentTraject();
-}
+
 
 /*---- Mise en forme des revenues de la mission ----*/
 function getEts2JobIncome(income) {

@@ -1,4 +1,5 @@
 /*----------------- VARIALE -------------------*/
+
 /* COMMON variable */
 
 let selectedPlayer = "";
@@ -36,6 +37,7 @@ let searchForm = $("#searchForm");
 let picker = $("#picker");
 let MapId = $("#map");
 let search = $("#search");
+let selectPlayer = $('#selectPlayer');
 
 
 /* custom icon */
@@ -220,11 +222,13 @@ L.control.layers(baseGroup, overlay).addTo(map);
 
 let results = new L.LayerGroup([road, ferry, city]).addTo(map);
 
-/* Run LOOP */
+
+/* MAIN LOOP */
 
 run();
 
 setInterval(run, 1000);
+
 
 /* JQUERY Interaction */
 
@@ -267,6 +271,7 @@ openPicker.click(function () {
 
 
 /* MAIN */
+
 function run() {
     getPosition()
     getCurrentTraject()
@@ -279,8 +284,9 @@ function run() {
 
 
 /*--- Click event---*/
+
 function onClickMarker(e) {
-    selectPlayerChanged($('#selectPlayer').text());
+    selectPlayerChanged(selectPlayer.text());
 }
 
 function onMapClick(e) {
@@ -322,6 +328,7 @@ function game_coord_to_pixels(x, y) {
     }
 }
 
+
 /* Move */
 
 function lookAt(id) {
@@ -332,6 +339,7 @@ function lookAt(id) {
         })
     }
 }
+
 
 /* Loader */
 
@@ -351,8 +359,6 @@ function loadPlayer(item) {
             $(new Option(elem, marker["Name"])).appendTo(item);
         }
     }
-
-
 }
 
 function loadTeam() {
@@ -394,17 +400,21 @@ function getPosition() {
                         mapMarkers[playerid[i]]["marker"].setLatLng(
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
+
                         const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
                         mapMarkers[playerid[i]] = {
                             marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
                                 {icon: getTeamIcon("Volvo")})
                                 .bindPopup(popup, customPopup)
-                                .on('click', onClickMarker())
-                                .addTo(map),
+                                .addTo(map)
+                                .on('click', onClickMarker),
                             // Team: truck.team,
                             Name: truck.name
                         }
                     }
+                } else if (!truck.online && playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
+                    mapMarkers[playerid[i]]["marker"].remove();
+                    mapMarkers[playerid[i]] = undefined
                 }
             }
         })
@@ -422,7 +432,8 @@ function getCurrentTraject() {
              }
          })*/
     }
-    //debug
+
+    /* Debug */
     let tmp = JSON.parse(debug);
     let traject = tmp[0];
     if (traject.online === 1) {
@@ -451,6 +462,13 @@ function colorUpdate() {
     console.log(hex)
     MapId.css("background-color", hex.toString());
     openPicker.css("background-color", hex.toString());
+}
+
+/*--- fonction de mise à jour du joueurs suivi ---*/
+function selectPlayerChanged(val) {
+    selectedPlayerid = val;
+    selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
+    getCurrentTraject();
 }
 
 function TeamSelection(val) {
