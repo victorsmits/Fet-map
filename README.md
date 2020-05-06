@@ -132,7 +132,7 @@ import at the bottom of the head
 ## Map integration
 
 ### map 
-From line : 287 to 490 in [index.html](index.html#287)
+From line : 287 to 490 in [index.html](https://github.com/victorsmits/Fet-map/blob/f7b2beee3fadb8c1a6ae4c178d08ce66d46823de/index.html#L287-L476)
 
 
 ### Control
