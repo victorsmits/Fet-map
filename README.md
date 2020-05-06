@@ -29,6 +29,57 @@
 - *y* : y position in game.
 - *Team* : truck brand.
 
+### Player data
+```json
+{
+	"online": 1,
+	"truck": {
+		"speed": 0,
+		"fuel": 0,
+		"fuelCapacity": 0,
+		"wearEngine": 0,
+		"wearTransmission": 0,
+		"wearCabin":0,
+		"wearChassis": 0,
+		"wearWheels": 0
+	},
+	"trailer": {
+		"wear": 0,
+		"mass": 0,
+		"attached": 1
+	},
+	"cargo": {
+		"wear": 0
+	},
+	"job": {
+		"income": 0,
+		"destCity": "String",
+		"destCompany": "String"
+	}
+}
+```
+
+- *online* : Player connected.
+- *truck* : Truck data.
+	- *speed* : Truck speed.
+	- *fuel* : Truck fuel.
+	- *fuelCapacity* : Truck fuel capacity.
+	- *wearEngine* : Truck engine damage.
+	- *wearTransmission* : Truck transmission damage.
+	- *wearCabin* : Truck cabin damage.
+	- *wearChassis* : Truck chassis damage.
+	- *wearWheels* : Truck wheels damage.
+- *trailer* : Trailer data.
+	- *wear* : Trailer damage.
+	- *mass* : Mass of trailler in kg.
+	- *attached* : Trailler attached to the Truck.
+- *cargo* : Cargo data.
+	- *wear* : Cargo damage.
+- *job* : Mission data.
+	- *income* : income of the mission.
+	- *destCity* : City of destination.
+	- *destCompany* : Company of destination.
+
 ## To add/import
 
 ### Import in head
