@@ -409,7 +409,7 @@ function getTraject(trajectId) {
                 L.marker(points[i]).addTo(map)
                 chartData.push({
                     speed_limit: 90,
-                    speed: points[i].speed,
+                    speed: json.points[i].speed,
                     pin: i
                 });
             }
@@ -417,8 +417,8 @@ function getTraject(trajectId) {
             L.marker(points[points.length-1]).addTo(map)
             chartData.push({
                 speed_limit: 90,
-                speed: points[points.length-1].speed,
-                pin: points.length-1
+                speed: json.points[json.points.length-1].speed,
+                pin: json.points.length-1
             });
         }
         openGraph.prop('disabled', false);
