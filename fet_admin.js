@@ -396,13 +396,6 @@ function getTrajects(playerId) {
     })
 }
 
-function getTraject(trajectId) {
-    getJSON(`${trajectURL}${trajectId}`, (err, json) => {
-        if(json != null) {
-
-        }
-    })
-}
 
 // function getPosition() {
 //     // updateIDList()
