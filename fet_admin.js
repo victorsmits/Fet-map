@@ -203,8 +203,8 @@ let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 /* MAIN LOOP */
 
 run();
-
-setInterval(run, 1000);
+graph()
+// setInterval(run, 1000);
 
 
 /* JQUERY Interaction */
@@ -414,7 +414,3 @@ function getDepacementVit(x1, y1, x2, y2, t, limitation){
 		return [0,0];
 	}
 }
-
-
-
-
