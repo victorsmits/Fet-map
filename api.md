@@ -137,5 +137,8 @@ List of all players of FET with id
  - *x*: x position
  - *y*: y position
  - *speed*: truck speed
- 
+
  URL example : ".../traject/:trajectId
+
+ ## Next step
+ [HTML integration](https://github.com/victorsmits/Fet-map/blob/master/implement.md)

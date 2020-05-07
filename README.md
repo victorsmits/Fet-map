@@ -15,4 +15,4 @@ https://github.com/victorsmits/Fet-Tiles
 ## Map intégration
 
  1. First step [API integration](https://github.com/victorsmits/Fet-map/blob/master/api.md)
- 2. Second step [html integration](https://github.com/victorsmits/Fet-map/blob/master/implement.md)
+ 2. Second step [HTML integration](https://github.com/victorsmits/Fet-map/blob/master/implement.md)
