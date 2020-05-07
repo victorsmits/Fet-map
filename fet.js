@@ -18,7 +18,7 @@ let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
 let idURL = "";
-let url = "https://fet-parser.herokuapp.com/position";
+let url = "https://fet-parser.herokuapp.com/position/";
 
 
 /* ZOOM variable */
@@ -246,6 +246,7 @@ searchForm.submit(function (e) {
 });
 
 playerSelector.change(function () {
+    map.closePopup();
     let val = $(this).val()
     if (val !== "-") {
         lookAt(val);
@@ -329,7 +330,7 @@ function game_coord_to_pixels(x, y) {
 
 function lookAt(id) {
     if (id !== "-") {
-        getJSON(`${url}/${id}`, (err, json) => {
+        getJSON(`${url}${id}`, (err, json) => {
             let truck = json.response
             map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 5)
         })
@@ -390,7 +391,7 @@ function getJSON(url, callback) {
 function getPosition() {
     // updateIDList()
     for (let i = 0; i < playerid.length; i++) {
-        getJSON(`${url}/${playerid[i]}`, (err, json) => {
+        getJSON(`${url}${playerid[i]}`, (err, json) => {
             if (json != null) {
                 let truck = json.response
                 if (truck.online) {
