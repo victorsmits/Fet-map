@@ -14,7 +14,6 @@ let s = 256;
 let mapMarkers = {};
 let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
-
 /* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
@@ -269,10 +268,7 @@ openPicker.click(function () {
 
 function run() {
     getPosition()
-    // getCurrentTraject()
-    loadPlayer('#playerSelector');
-    loadPlayer('#data');
-    loadTeam();
+    getCurrentTraject()
 }
 
 
@@ -407,10 +403,19 @@ function getPosition() {
                             // Team: truck.team,
                             Name: truck.name
                         }
+						
+						loadPlayer('#playerSelector');
+						loadPlayer('#data');
+						loadTeam();
+						
                     }
-                    // } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
-                    //     mapMarkers[playerid[i]]["marker"].remove();
-                    //     mapMarkers[playerid[i]] = undefined
+                } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
+					mapMarkers[playerid[i]]["marker"].remove();
+					mapMarkers[playerid[i]] = undefined;
+					
+					loadPlayer('#playerSelector');
+					loadPlayer('#data');
+					loadTeam();
                 }
             }
         })
