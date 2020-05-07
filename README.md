@@ -146,7 +146,7 @@ From line : 287 to 490 in [index.html](https://github.com/victorsmits/Fet-map/bl
                placeholder="Search player"
                aria-label="Search"
                aria-describedby="basic-addon2"
-               id="search">
+               id="searchInput">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
                 <i class="fas fa-search fa-sm"></i>
