@@ -1613,6 +1613,13 @@ series.tooltip.background.cornerRadius = 20;
 series.tooltip.background.fillOpacity = 0.5;
 series.tooltip.label.padding(12,12,12,12)
 
+let series2 = chart.series.push(new am4charts.LineSeries());
+series2.dataFields.valueY = "speed_limit";
+series2.dataFields.valueX = "pin";
+series2.strokeWidth = 2;
+series2.minBulletDistance = 10;
+series2.stroke = am4core.color("red");
+
 // Add scrollbar
 chart.scrollbarX = new am4charts.XYChartScrollbar();
 chart.scrollbarX.series.push(series);
@@ -1628,6 +1635,7 @@ function generateChartData() {
     for (let elem of tado) {
 
         chartData.push({
+            speed_limit:90,
             speed: elem.speed,
             pin: i
         });
