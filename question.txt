@@ -1,0 +1,27 @@
+
+API necessaire :
+
+function getPlayers
+	URL_VERS_API/getPlayers?
+return liste des joueurs format :
+	id : "nom du joueurs"
+
+	
+function getTrajects
+	URL_VERS_API/getTrajects?playerId
+return liste des trajets du joueur format :
+	source
+	destination
+	id
+	
+function getTraject
+	URL_VERS_API/getTraject?trajectId
+return liste des points du trajet :
+		x,
+		y,
+		vitesse,
+		limvitesse,	//limitation de vitesse
+		ferry, // à emprunter le ferry entre le dernier point et le point actuel
+		timedate, //date et heure du point
+
+
