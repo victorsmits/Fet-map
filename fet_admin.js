@@ -203,8 +203,7 @@ let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 /* MAIN LOOP */
 
 run();
-graph()
-// setInterval(run, 1000);
+setInterval(run, 1000);
 
 
 /* JQUERY Interaction */
@@ -336,7 +335,7 @@ function getTraject(trajectId) {
                 if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]) color = "red";
                 
                 let poly = L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
-                L.marker(points[i]).addTo(map).bindTooltip(`${json.points[i].speed}`)
+                L.marker(points[i]).addTo(map).bindTooltip(`${json.points[i].speed}km/h`)
                 chartData.push({
                     speed_limit: 90,
                     speed: json.points[i].speed,
@@ -345,7 +344,7 @@ function getTraject(trajectId) {
                 cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
             }
             cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
-            L.marker(points[points.length-1]).addTo(map).bindTooltip(`50`).openTooltip()
+            L.marker(points[points.length-1]).addTo(map).bindTooltip(`${json.points[json.points.length-1]}km/h`)
             chartData.push({
                 speed_limit: 90,
                 speed: json.points[json.points.length-1].speed,
