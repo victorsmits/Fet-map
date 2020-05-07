@@ -68,3 +68,6 @@
     height: 500px;
 }
 
+.leaflet-tooltip {
+    z-index: 30000;
+}

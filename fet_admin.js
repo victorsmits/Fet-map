@@ -17,8 +17,6 @@ let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 /* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
-let idURL = "";
-let url = "https://fet-parser.herokuapp.com/position/";
 let playersURL = "https://fet-parser.herokuapp.com/players";
 let trajectsURL = "https://fet-parser.herokuapp.com/trajects/";
 let trajectURL = "https://fet-parser.herokuapp.com/traject/";
@@ -34,31 +32,9 @@ let maxZoom = 9
 
 let playerSelector = $("#playerSelector");
 let openGraph = $("#openGraph");
+let graphModal = $("#exampleModal");
 let trajectSelector = $("#trajectSelector");
-let searchForm = $("#searchForm");
-let picker = $("#picker");
 let MapId = $("#map");
-let search = $("#search");
-
-
-/* custom icon */
-
-let iconSize = [100, 100];
-
-let customPopup = {
-    'className': 'customPopup'
-};
-
-
-/* colorPicker variable */
-
-let colorPicker = new iro.ColorPicker("#picker", {
-    // Set the size of the color picker
-    width: 100,
-    // Set the initial color to pure red
-    color: "#484e65"
-});
-
 
 /* EU variable */
 
@@ -168,8 +144,6 @@ let map = L.map('map', {
     zoom: 3,
 });
 
-let popup = L.popup();
-
 map.zoomControl.setPosition('topright');
 
 
@@ -235,24 +209,6 @@ setInterval(run, 1000);
 
 /* JQUERY Interaction */
 
-// search.autocomplete({
-//     source: ["test", "victor"],
-//     minLength: 2,
-//     delay: 100
-// })
-
-
-
-searchForm.submit(function (e) {
-    e.preventDefault();
-    let value = $('#searchInput').val()
-    for (let elem in mapMarkers) {
-        if (mapMarkers[elem]["Name"] === value) {
-            lookAt(elem)
-        }
-    }
-});
-
 playerSelector.change(function () {
     let val = $(this).val()
     if (val !== "-") {
@@ -268,7 +224,7 @@ trajectSelector.change(function () {
 })
 
 openGraph.click(function () {
-    picker.show();
+    graphModal.show();
 })
 
 /*----------------- FUNCTION -------------------*/
@@ -278,19 +234,6 @@ openGraph.click(function () {
 
 function run() {
     getPlayers();
-}
-
-
-/*--- Click event---*/
-
-function onClickMarker(e) {
-
-    setTimeout(() => {
-        const id = $('#selectPlayer').text();
-        playerSelector.val(id);
-        selectPlayerChanged(id);
-    }, 200);
-
 }
 
 
@@ -325,19 +268,6 @@ function game_coord_to_pixels(x, y) {
         return calculatePixelCoordinateEu(x, y);
     }
 }
-
-
-/* Move */
-
-function lookAt(id) {
-    if (id !== "-") {
-        getJSON(`${url}${id}`, (err, json) => {
-            let truck = json.response
-            map.flyTo(new L.latLng(game_coord_to_pixels(truck.x, truck.y)), 5)
-        })
-    }
-}
-
 
 /* Loader */
 
@@ -404,17 +334,18 @@ function getTraject(trajectId) {
             for(let i = 0; i < points.length - 1; i++) {
                 var color = "green";
                 if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]) color = "red";
-                cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
-                L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
-                L.marker(points[i]).addTo(map)
+                
+                let poly = L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
+                L.marker(points[i]).addTo(map).bindTooltip(`${json.points[i].speed}`)
                 chartData.push({
                     speed_limit: 90,
                     speed: json.points[i].speed,
                     pin: i
                 });
+                cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
             }
             cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
-            L.marker(points[points.length-1]).addTo(map)
+            L.marker(points[points.length-1]).addTo(map).bindTooltip(`50`).openTooltip()
             chartData.push({
                 speed_limit: 90,
                 speed: json.points[json.points.length-1].speed,
@@ -426,46 +357,10 @@ function getTraject(trajectId) {
     })
 }
 
-
-function getCurrentTraject() {
-    if (playerid.length === 0) {
-        /* getJSON(urlTraject + playerid[i], (err, json) => {
-             let traject = json.response
-             if (traject.online) {
-                 DashboardCompute(traject);
-                 DashboardRender(traject);
-             }
-         })*/
-    }
-
-    /* Debug */
-    let tmp = JSON.parse(debug);
-    let traject = tmp[0];
-    if (traject.online === 1) {
-        traject = DashboardCompute(traject);
-        DashboardRender(traject);
-    }
-}
-
-
 /* UPDATE */
 
 function update() {
     loadPlayer('#playerSelector');
-    loadPlayer('#data');
-}
-
-function updateIDList() {
-    playerid = []
-    getJSON(idURL, (err, json) => {
-        if (json.response != null) {
-            for (let elem of json.response) {
-                playerid.push(elem.id)
-            }
-        } else {
-            console.log(json)
-        }
-    })
 }
 
 function checkIfExist(ID, val) {
@@ -477,14 +372,6 @@ function checkIfExist(ID, val) {
     return IsExists;
 }
 
-function colorUpdate() {
-    let hex = colorPicker.color.hexString;
-    console.log(hex)
-    MapId.css("background-color", hex.toString());
-    openPicker.css("background-color", hex.toString());
-}
-
-
 /*--- fonction de mise à jour du joueurs suivi ---*/
 
 function selectPlayerChanged(val) {
@@ -492,51 +379,6 @@ function selectPlayerChanged(val) {
     selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
     getCurrentTraject();
 }
-
-function getTeamIcon(team) {
-    let iconUrl = cdn + "/";
-
-    switch (team) {
-        case "Volvo":
-            iconUrl += 'img/volvo.png';
-            break;
-
-        case "Mercedes-Benz":
-            iconUrl += 'img/mercedes.png';
-            break;
-
-        case "Scania":
-            iconUrl += 'img/scania.png';
-            break;
-
-        case "MAN":
-            iconUrl += 'img/man.png';
-            break;
-
-        case "Renault Trucks":
-            iconUrl += 'img/renault.png';
-            break;
-
-        case "Iveco":
-            iconUrl += 'img/iveco.png';
-            break;
-
-        case "DAF":
-            iconUrl += 'img/daf.png';
-            break;
-
-        default:
-            break;
-    }
-
-    return L.icon({
-        iconUrl,
-        iconSize: iconSize,
-        iconAnchor: [50, 94],
-        popupAnchor: [0, 10]
-    });
-}
-
 
 /* ADMIN MAP */
 
