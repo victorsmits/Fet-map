@@ -114,6 +114,9 @@ const UK = {
 
 };
 
+/* Speed variable */
+let lastcoor = [0, 0]
+
 
 /*----------------- Tooltip -------------------*/
 
@@ -401,14 +404,17 @@ function getTrajects(playerId) {
 function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         if(json != null) {
-            console.log(json)
-            // for(let i = 0; i < json.points.length - 1; i++) {
-            //     L.polyline(game_coord_to_pixels(json.points[i], json.points[i+1])).addTo(map);
-            // }
-
-            var points = json.points.forEach(point => {
-                L.marker(game_coord_to_pixels(point.x, point.y)).bindLabel("50km/h").addTo(map)
-            })
+            let points = json.points.map(point => game_coord_to_pixels(point.x, point.y));
+            map.flyTo(new L.latLng(points[0]), 5)
+            for(let i = 0; i < points.length - 1; i++) {
+                var color = "green";
+                if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]) color = "red";
+                cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
+                L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
+                L.marker(points[i]).addTo(map)
+            }
+            cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
+            L.marker(points[points.length-1]).addTo(map)
         }
     })
 }
