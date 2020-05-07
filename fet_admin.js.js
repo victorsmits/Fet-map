@@ -402,10 +402,9 @@ function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         if(json != null) {
             console.log(json)
-            for(let i = 0; i < json.points.length - 1; i++) {
-                L.polyline(game_coord_to_pixels(json.points[i], json.points[i+1])).addTo(map);
-            }
-
+            var points = json.points.map(point => [point.x, point.y]);
+            console.log(points)
+            L.polyline(points, {color: 'green'}).addTo(map);
             // var points = json.points.forEach(point => {
             //     L.marker(game_coord_to_pixels(point.x, point.y)).bindLabel("50km/h").addTo(map)
             // })
@@ -574,40 +573,3 @@ function getTeamIcon(team) {
         popupAnchor: [0, 10]
     });
 }
-
-function cercleVit(x,y,t,v,i){
-	if (i != 0){
-		let ret = getDepacementVit(lastcoor[0], lastcoor[1], x, y, t, v);
-		if (ret[0] === 1){
-			var tmp1 = game_coord_to_pixels(0,0);
-			var tmp2 = game_coord_to_pixels(ret[1],0);
-			var rayon = tmp2[0]-tmp1[0];
-
-			var circle = L.circle(game_coord_to_pixels(x, y), {
-				color: 'red',
-				fillColor: '#f03',
-				fillOpacity: 0.5,
-				radius: rayon
-			}).addTo(map);
-		}
-	}
-	lastcoor = [x, y];
-}
-
-/*-- Return 1 si depasement de vitesse, 0 sinon --*/
-/*--- t en seconde et limitation en km/h---*/
-function getDepacementVit(x1, y1, x2, y2, t, limitation){
-	let Dmax = limitation*t/3.6;
-	let dxCarre = Math.pow( (x2-x1), 2);
-	let dyCarre = Math.pow( (y2-y1), 2);
-	let D = Math.pow( (dxCarre + dyCarre), 1/2);
-	if (D > Dmax){
-		return [1, Dmax];
-	}else{
-		return [0,0];
-	}
-}
-
-
-
-
