@@ -238,11 +238,10 @@ setInterval(run, 5000);
 
 searchForm.submit(function (e) {
     e.preventDefault();
-    let value = $('#search').val()
-
+    let value = $('#searchInput').val()
     for (let elem in mapMarkers) {
-        if (elem === value) {
-            lookAt(mapMarkers[elem]["Id"])
+        if (mapMarkers[elem]["Name"] === value) {
+            lookAt(elem)
         }
     }
 });
@@ -344,7 +343,7 @@ function loadPlayer(item) {
         $(new Option("–- Select Player --", "–-")).appendTo(item);
         for (let elem in mapMarkers) {
             let marker = mapMarkers[elem]
-            if (checkIfExist(item, elem)) {
+            if (!checkIfExist(item, elem)) {
                 $(new Option(marker["Name"], elem)).appendTo(item);
             }
         }
@@ -409,9 +408,9 @@ function getPosition() {
                             Name: truck.name
                         }
                     }
-                } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
-                    mapMarkers[playerid[i]]["marker"].remove();
-                    mapMarkers[playerid[i]] = undefined
+                    // } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
+                    //     mapMarkers[playerid[i]]["marker"].remove();
+                    //     mapMarkers[playerid[i]] = undefined
                 }
             }
         })
