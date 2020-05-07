@@ -38,7 +38,7 @@
     width: 20em;
 }
 
-#openGraph{
+#openGraph, #openPicker{
     padding: 0.7em 1em ;
     background-color: #484e65;
 }

@@ -1,0 +1,305 @@
+<!-- Main Content -->
+<div id="content">
+
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!--   modal color picker-->
+
+        <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body picker-position">
+                        <div id="picker" onmouseup="colorUpdate()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="">
+
+            <!-- search tool -->
+            <div class="col search">
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
+                      id="searchForm">
+                    <div class="input-group">
+                        <datalist id="data">
+                        </datalist>
+                        <input type="text" class="form-control bg-light border-1 small"
+                               placeholder="Search player"
+                               aria-label="Search"
+                               aria-describedby="basic-addon2"
+                               list="data" autocomplete="off" id="searchInput">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- select tool-->
+            <div class="col search">
+                <div class="input-group">
+                    <select
+                            class="selector form-control bg-light border-1 small" id="playerSelector"
+                            style="margin-right: 1em;">
+                        <option value="-">–- Select Player --</option>
+                    </select>
+                    <select
+                            class="selector form-control bg-light border-1 small" id="teamSelector">
+                        <option value="all">All team</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- color picker button-->
+            <div class="col search">
+                <div class="input-group">
+                    <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
+                            data-placement="right" data-target="#exampleModal"
+                            title="Changer le fond de la carte"><i class="fas fa-palette"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAP Row -->
+        <div class="row">
+            <div class="col">
+                <div class="dashboard connected">
+                    <aside>
+                        <div class="_speed">
+                            <span class="truckSpeedRoundedKmhMph"></span> <span class="speedUnits"></span>
+                        </div>
+                        <div class="_gear _middle">
+                            <svg width="1em" height="1em">
+                                <use xlink:href="#svg-gear" fill="#969696"/>
+                            </svg>
+                            <span class="gear _yellow-color"></span>
+                        </div>
+
+                        <div class="_damage _middle">
+                            <div class="fillingIcon truckDamage">
+                                <div class="top isEts2">
+                                    <svg width="1.5em" height="1em">
+                                        <use xlink:href="#svg-ets2-truck" fill="#969696"/>
+                                    </svg>
+                                </div>
+                                <div class="bot isEts2">
+                                    <svg width="1.5em" height="1em">
+                                        <use xlink:href="#svg-ets2-truck" fill="#930002"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_fuel _middle">
+                            <div class="fillingIcon fuel">
+                                <div class="top">
+                                    <svg width="1.5em" height="1em">
+                                        <use xlink:href="#svg-fuel" fill="#969696"/>
+                                    </svg>
+                                </div>
+                                <div class="bot">
+                                    <svg width="1.5em" height="1em">
+                                        <use xlink:href="#svg-fuel" fill="#f3c24c"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="_rest _middle">
+                            <div class="fillingIcon rest">
+                                <div class="bot">
+                                    <svg width="1.5em" height="1em">
+                                        <use xlink:href="#svg-fatigue" fill="#969696"/>
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="_time">
+                            <span class="game-time"></span>
+                        </div>
+                    </aside>
+
+                    <div class="_tabs">
+
+                        <article id="_maps">
+
+                            <div id="map" style="z-index: 1;"></div>
+
+                        </article>
+
+                        <article id="_cargo">
+                            <div class="noJob">
+                                <div class="_row _yellow-color">
+                                    <p>Mission en cours</p>
+                                    <p>
+                                        <!-- There is no way to get the current balance from the telemetry. --></p>
+                                </div>
+                                <div class="_row">
+                                    <p></p>
+                                    <p></p>
+                                </div>
+                                <div class="_row">
+                                    <p></p>
+                                    <p></p>
+                                </div>
+                                <div class="_row">
+                                    <p>Pas de mission en cours.</p>
+                                    <p></p>
+                                </div>
+                                <div class="_row">
+                                    <p></p>
+                                    <p></p>
+                                </div>
+                                <div class="_row">
+                                    <p></p>
+                                    <p class="game-nextRestStopTime _yellow-color"></p>
+                                </div>
+                            </div>
+                            <div class="hasJob">
+                                <div class="_row _yellow-color">
+                                    <p>Mission en cours</p>
+                                    <p>
+                                        <!-- There is no way to get the current balance from the telemetry. --></p>
+                                </div>
+                                <div class="_row">
+                                    <p>Nom du chargement</p>
+                                    <p><span class="trailer-name"></span> (<span
+                                            class="trailerMassKgOrT"></span>)</p>
+                                </div>
+                                <div class="_row">
+                                    <p>Destination</p>
+                                    <p><span class="job-destinationCity"></span> - <span
+                                            class="job-destinationCompany"></span></p>
+                                </div>
+                                <div class="_row" id="expected">
+                                    <p></p>
+                                    <p><span class="job-deadlineTime"></span></p>
+                                </div>
+                                <div class="_row">
+                                    <p>Revenu de la mission</p>
+                                    <p class="jobIncome"></p>
+                                </div>
+                                <div class="_row" id="remains">
+                                    <p></p>
+                                    <p class="job-remainingTime"></p>
+                                </div>
+                                <div class="_row">
+                                    <p></p>
+                                    <p class="game-nextRestStopTime _yellow-color"></p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article id="_damage">
+                            <figure>
+                                <div class="fillingIcon truckDamage">
+                                    <div class="top isEts2">
+                                        <svg width="7em" height="4em">
+                                            <use xlink:href="#svg-ets2-truck" fill="#969696"/>
+                                        </svg>
+                                    </div>
+                                    <div class="bot isEts2">
+                                        <svg width="7em" height="4em">
+                                            <use xlink:href="#svg-ets2-truck" fill="#930002"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <figcaption>Camion: <span class="scsTruckDamageRounded"></span>%</figcaption>
+                            </figure>
+                            <figure>
+                                <div class="fillingIcon trailerDamage">
+                                    <div class="top isEts2">
+                                        <svg width="11em" height="4em">
+                                            <use xlink:href="#svg-ets2-trailer" fill="#969696"/>
+                                        </svg>
+                                    </div>
+                                    <div class="bot isEts2">
+                                        <svg width="11em" height="4em">
+                                            <use xlink:href="#svg-ets2-trailer" fill="#930002"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <figcaption>Remorque: <span class="wearTrailerRounded"></span>%</figcaption>
+                            </figure>
+                            <figure>
+                                <div class="fillingIcon cargoDamage">
+                                    <div class="top isEts2">
+                                        <svg width="7em" height="4em">
+                                            <use xlink:href="#svg-ets2-cargo" fill="#969696"/>
+                                        </svg>
+                                    </div>
+                                    <div class="bot isEts2">
+                                        <svg width="7em" height="4em">
+                                            <use xlink:href="#svg-ets2-cargo" fill="#930002"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <figcaption>Chargement: <span class="wearCargoRounded"></span>%</figcaption>
+                            </figure>
+                        </article>
+                        
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal2">
+
+                          <!-- Modal content -->
+                          <div class="modal2-content">
+                            <span class="close">&times;</span>
+                            <p>Sélectionnez un joueur en cliquant sur le pointeurs sur la carte.</p>
+                          </div>
+
+                        </div>
+
+                    </div>
+                    <!-- Content Row -->
+                    <nav>
+                        <div id="_maps_button" onclick="showTab('_maps')">
+                            <svg width="1em" height="1em">
+                                <use xlink:href="#svg-compass" fill="#ffffff"/>
+                            </svg>
+                            
+                        </div>
+                        <div id="_cargo_button" onclick="showTab('_cargo')">
+                            <svg class="isEts2" width="1em" height="1em">
+                                <use xlink:href="#svg-ets2-truck" fill="#ffffff"/>
+                            </svg>
+                        </div>
+                        <div id="_damage_button" onclick="showTab('_damage')">
+                            <svg width="1em" height="1em">
+                                <use xlink:href="#svg-phone-squared" fill="#ffffff"/>
+                            </svg>
+                        </div>
+                    </nav>
+
+                    <footer>
+                        <span data-mra-text="MobileRouteAdvisor"></span>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2019</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
