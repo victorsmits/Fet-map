@@ -34,6 +34,9 @@
 
     <!--    TO ADD !!!!!!-->
     <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
     <!-- DEBUG -->
     <script type="text/javascript" src="debug.json"></script>
@@ -224,10 +227,10 @@
 
                 <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog" role="document" style="max-width: 95%">
                         <div class="modal-content">
-                            <div class="modal-body picker-position">
-                                <div id="picker" onmouseup="colorUpdate()"></div>
+                            <div class="modal-body">
+                                <div id="chartdiv"></div>
                             </div>
                         </div>
                     </div>
@@ -545,6 +548,7 @@
         <!--    TO ADD !!!!!!!!! -->
         <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
         <script type="application/javascript" src="fet_admin.js"></script>
+        <script type="application/javascript" src="admin-chart.js"></script>
 
     </div>
 </div>

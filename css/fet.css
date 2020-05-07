@@ -62,3 +62,9 @@
 .leaflet-popup-content-wrapper {
     border: black 0.2em solid;
 }
+
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+
