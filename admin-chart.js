@@ -21,15 +21,15 @@ let chart = am4core.create("chartdiv", am4charts.XYChart);
 chart.data = generateChartData();
 
 // Create axes
-let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-dateAxis.renderer.minGridDistance = 50;
+let pinAxis = chart.xAxes.push(new am4charts.ValueAxis());
+pinAxis.renderer.minGridDistance = 50;
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
 // Create series
 let series = chart.series.push(new am4charts.LineSeries());
-series.dataFields.valueY = "value";
-series.dataFields.dateX = "value";
+series.dataFields.valueY = "speed";
+series.dataFields.valueX = "pin";
 series.strokeWidth = 2;
 series.minBulletDistance = 10;
 series.tooltipText = "{valueY}";
@@ -44,7 +44,7 @@ chart.scrollbarX.series.push(series);
 
 // // Add cursor
 chart.cursor = new am4charts.XYCursor();
-chart.cursor.xAxis = dateAxis;
+chart.cursor.xAxis = pinAxis;
 chart.cursor.snapToSeries = series;
 
 function generateChartData() {
@@ -52,8 +52,8 @@ function generateChartData() {
     for (let i = 0; i < 500; i++) {
 
         chartData.push({
-            date: i,
-            visits: i
+            speed: Math.random() * 500,
+            pin: i
         });
     }
     return chartData;
