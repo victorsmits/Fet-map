@@ -550,3 +550,20 @@ function getTeamIcon(team) {
         popupAnchor: [0, 10]
     });
 }
+
+/*-- Return 1 si depasement de vitesse, 0 sinon --*/
+function getDepacementVit(x1, y1, x2, y2, t, limitation){
+	let Dmax = limitation*t;
+	let dxCarre = Math.pow( (x2-x1), 2);
+	let dyCarre = Math.pow( (y2-y1), 2);
+	let D = Math.pow( (dxCarre + dyCarre), 1/2);
+	if (D > Dmax){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+
+
+
