@@ -33,7 +33,7 @@ let maxZoom = 9
 /* JQUERY variable */
 
 let playerSelector = $("#playerSelector");
-let openPicker = $("#openPicker");
+let openGraph = $("#openGraph");
 let trajectSelector = $("#trajectSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
@@ -120,7 +120,7 @@ let lastcoor = [0, 0]
 
 /*----------------- Tooltip -------------------*/
 
-openPicker.tooltip({show: {effect: "blind"}});
+openGraph.tooltip({show: {effect: "blind"}});
 
 
 /*----------------- PROJECTION -------------------*/
@@ -241,6 +241,8 @@ setInterval(run, 1000);
 //     delay: 100
 // })
 
+
+
 searchForm.submit(function (e) {
     e.preventDefault();
     let value = $('#searchInput').val()
@@ -265,7 +267,7 @@ trajectSelector.change(function () {
     getTraject($(this).val());
 })
 
-openPicker.click(function () {
+openGraph.click(function () {
     picker.show();
 })
 
@@ -289,13 +291,6 @@ function onClickMarker(e) {
         selectPlayerChanged(id);
     }, 200);
 
-}
-
-function onMapClick(e) {
-    
-    popup.setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
 }
 
 
@@ -416,46 +411,11 @@ function getTraject(trajectId) {
             cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
             L.marker(points[points.length-1]).addTo(map)
         }
+        openGraph.prop('disabled', false);
+        chart.data = chartData
     })
 }
 
-// function getPosition() {
-//     // updateIDList()
-//     for (let i = 0; i < playerid.length; i++) {
-//         getJSON(`${url}${playerid[i]}`, (err, json) => {
-//             if (json != null) {
-//                 let truck = json.response
-//                 if (truck.online) {
-//                     if (playerid[i] in mapMarkers && mapMarkers[playerid[i]]["marker"] !== undefined) {
-//                         mapMarkers[playerid[i]]["marker"].setLatLng(
-//                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
-//                     } else {
-
-//                         const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
-//                         mapMarkers[playerid[i]] = {
-//                             marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
-//                                 {icon: getTeamIcon("Volvo")})
-//                                 .bindPopup(popup, customPopup)
-//                                 .addTo(map)
-//                                 .on('click', onClickMarker),
-//                             // Team: truck.team,
-//                             Name: truck.name
-//                         }
-
-//                         update()
-						
-//                     }
-//                 } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
-// 					mapMarkers[playerid[i]]["marker"].remove();
-// 					mapMarkers[playerid[i]] = undefined;
-					
-// 					update()
-//                 }
-//             }
-//         })
-//     }
-//     return true
-// }
 
 function getCurrentTraject() {
     if (playerid.length === 0) {
@@ -523,20 +483,6 @@ function selectPlayerChanged(val) {
     getCurrentTraject();
 }
 
-function TeamSelection(val) {
-    if (val === 'all') {
-        getPosition()
-    } else {
-        getPosition();
-        for (let player in mapMarkers) {
-            let marker = mapMarkers[player];
-            if (marker["Team"] !== val) {
-                marker["marker"].remove();
-            }
-        }
-    }
-}
-
 function getTeamIcon(team) {
     let iconUrl = cdn + "/";
 
@@ -580,6 +526,9 @@ function getTeamIcon(team) {
         popupAnchor: [0, 10]
     });
 }
+
+
+/* ADMIN MAP */
 
 function cercleVit(x,y,t,v,i){
 	if (i != 0){
