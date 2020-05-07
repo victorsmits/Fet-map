@@ -407,9 +407,19 @@ function getTraject(trajectId) {
                 cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
                 L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
                 L.marker(points[i]).addTo(map)
+                chartData.push({
+                    speed_limit: 90,
+                    speed: points[i].speed,
+                    pin: i
+                });
             }
             cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
             L.marker(points[points.length-1]).addTo(map)
+            chartData.push({
+                speed_limit: 90,
+                speed: points[points.length-1].speed,
+                pin: points.length-1
+            });
         }
         openGraph.prop('disabled', false);
         chart.data = chartData
