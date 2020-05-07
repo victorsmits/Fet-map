@@ -12,11 +12,13 @@ List of players id
 
  - *id* : Multiplayer id
 
+ URL example : ".../connectedPlayers
+
  ### Player position
  Position of one player
  ```json
  {
-     "name": "String"
+     "name": "String",
      "x": 0,
      "y": 0,
      "team": "String"
@@ -27,6 +29,8 @@ List of players id
  - *x*: x position
  - *y*: y position
  - *brand*: truck brand
+
+ URL example : ".../playerPosition/:playerId
 
  ### Player data
  If it's posible some informations about a player
@@ -77,6 +81,8 @@ List of players id
 	- *destCity* : City of destination
 	- *destCompany* : Company of destination
 
+URL example : ".../playerData/:playerId
+
 ## Admin map
 
 ### FET players
@@ -92,6 +98,8 @@ List of all players of FET with id
 ```
  - *id* : Player id
  - *name*: Player name
+
+ URL example : ".../players
 
  ### Player trajects
  List of all traject for a player id
@@ -111,6 +119,8 @@ List of all players of FET with id
  - *destination*: Traject city destination
  - *date*: Traject date
 
+ URL example : ".../playerTrajects/:playerId
+
  ### Player traject position
  List of all position of a player for a traject id
  ```json
@@ -127,3 +137,5 @@ List of all players of FET with id
  - *x*: x position
  - *y*: y position
  - *speed*: truck speed
+ 
+ URL example : ".../traject/:trajectId
