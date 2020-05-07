@@ -33,7 +33,7 @@ let maxZoom = 9
 /* JQUERY variable */
 
 let playerSelector = $("#playerSelector");
-let openPicker = $("#openPicker");
+let openGraph = $("#openGraph");
 let trajectSelector = $("#trajectSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
@@ -117,7 +117,7 @@ const UK = {
 
 /*----------------- Tooltip -------------------*/
 
-openPicker.tooltip({show: {effect: "blind"}});
+openGraph.tooltip({show: {effect: "blind"}});
 
 
 /*----------------- PROJECTION -------------------*/
@@ -238,6 +238,8 @@ setInterval(run, 1000);
 //     delay: 100
 // })
 
+
+
 searchForm.submit(function (e) {
     e.preventDefault();
     let value = $('#searchInput').val()
@@ -262,7 +264,7 @@ trajectSelector.change(function () {
     getTraject($(this).val());
 })
 
-openPicker.click(function () {
+openGraph.click(function () {
     picker.show();
 })
 
@@ -412,6 +414,7 @@ function getTraject(trajectId) {
                 });
             });
         }
+        openGraph.prop('disabled', false);
         chart.data = chartData
     })
 }
