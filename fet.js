@@ -224,7 +224,7 @@ let results = new L.LayerGroup([road, ferry, city, mapinfo]).addTo(map);
 
 run();
 
-setInterval(run, 5000);
+setInterval(run, 1000);
 
 
 /* JQUERY Interaction */
@@ -403,19 +403,15 @@ function getPosition() {
                             // Team: truck.team,
                             Name: truck.name
                         }
-						
-						loadPlayer('#playerSelector');
-						loadPlayer('#data');
-						loadTeam();
+
+                        update()
 						
                     }
                 } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
 					mapMarkers[playerid[i]]["marker"].remove();
 					mapMarkers[playerid[i]] = undefined;
 					
-					loadPlayer('#playerSelector');
-					loadPlayer('#data');
-					loadTeam();
+					update()
                 }
             }
         })
@@ -445,6 +441,12 @@ function getCurrentTraject() {
 
 
 /* UPDATE */
+
+function update() {
+    loadPlayer('#playerSelector');
+    loadPlayer('#data');
+    loadTeam();
+}
 
 function updateIDList() {
     playerid = []

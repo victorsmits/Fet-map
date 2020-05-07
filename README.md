@@ -108,7 +108,8 @@ import at the top of the head
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
 
-    <!-- Note: if this demo gets incorporated into ets2-mobile-route-advisor, I'd recommend including a copy of these files. That way, it will work even without Internet connection. -->
+    <!-- Note: if this demo gets incorporated into ets2-mobile-route-advisor, 
+        I'd recommend including a copy of these files. That way, it will work even without Internet connection. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>
 ``` 
 
