@@ -1,0 +1,72 @@
+ <!-- Main Content -->
+ <div id="content">
+
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!--   modal color picker-->
+
+        <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="max-width: 95%">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="chartdiv"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="">
+
+            <!-- select tool-->
+            <div class="col search">
+                <div class="input-group">
+                    <select
+                            class="selector form-control bg-light border-1 small" id="playerSelector"
+                            style="margin-right: 1em;">
+                        <option value="-">–- Select Player --</option>
+                    </select>
+                    <select
+                            class="selector form-control bg-light border-1 small" id="trajectSelector" disabled>
+                        <option value="-">–- Select Traject --</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- color picker button-->
+            <div class="col search">
+                <div class="input-group">
+                    <button class="btn btn-primary btn-icon-split" id="openGraph" data-toggle="modal"
+                            data-placement="right" data-target="#exampleModal" disabled="true"
+                            title="Voir le graphique de vitesse"><i class="fas fa-chart-line"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAP Row -->
+        <div class="row">
+            <div id="map" style="z-index: 1;"></div>
+        </div>
+
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2019</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>

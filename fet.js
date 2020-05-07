@@ -31,10 +31,10 @@ let maxZoom = 9
 
 let playerSelector = $("#playerSelector");
 let openPicker = $("#openPicker");
-let TeamSelector = $("#TeamSelector");
+let teamSelector = $("#teamSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
-let MapId = $("#map");
+let mapId = $("#map");
 let search = $("#search");
 
 
@@ -254,8 +254,8 @@ playerSelector.change(function () {
     }
 })
 
-TeamSelector.change(function () {
-    TeamSelection($(this).val());
+teamSelector.change(function () {
+    teamSelection($(this).val());
 })
 
 openPicker.click(function () {
@@ -362,11 +362,11 @@ function loadPlayer(item) {
 }
 
 function loadTeam() {
-    $('#TeamSelector').empty()
-    $(new Option("All team", "all")).appendTo('#TeamSelector');
+    $('#teamSelector').empty()
+    $(new Option("All team", "all")).appendTo('#teamSelector');
     for (let elem in mapMarkers) {
         let marker = mapMarkers[elem]
-        $(new Option(marker["Team"], marker["Team"])).appendTo('#TeamSelector');
+        $(new Option(marker["Team"], marker["Team"])).appendTo('#teamSelector');
     }
 }
 
@@ -493,7 +493,7 @@ function selectPlayerChanged(val) {
     getCurrentTraject();
 }
 
-function TeamSelection(val) {
+function teamSelection(val) {
     if (val === 'all') {
         getPosition()
     } else {

@@ -38,7 +38,7 @@
     width: 20em;
 }
 
-#openPicker{
+#openGraph, #openPicker{
     padding: 0.7em 1em ;
     background-color: #484e65;
 }
@@ -61,4 +61,13 @@
 
 .leaflet-popup-content-wrapper {
     border: black 0.2em solid;
+}
+
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+
+.leaflet-tooltip {
+    z-index: 30000;
 }
