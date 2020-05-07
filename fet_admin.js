@@ -21,7 +21,7 @@ let idURL = "";
 let url = "https://fet-parser.herokuapp.com/position/";
 let playersURL = "https://fet-parser.herokuapp.com/players";
 let trajectsURL = "https://fet-parser.herokuapp.com/trajects/";
-let trajectURL = "http://localhost:5000/traject/";
+let trajectURL = "https://fet-parser.herokuapp.com/traject/";
 
 
 /* ZOOM variable */
@@ -402,13 +402,13 @@ function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         if(json != null) {
             console.log(json)
-            for(let i = 0; i < json.points.length - 1; i++) {
-                L.polyline(game_coord_to_pixels(json.points[i], json.points[i+1])).addTo(map);
-            }
+            // for(let i = 0; i < json.points.length - 1; i++) {
+            //     L.polyline(game_coord_to_pixels(json.points[i], json.points[i+1])).addTo(map);
+            // }
 
-            // var points = json.points.forEach(point => {
-            //     L.marker(game_coord_to_pixels(point.x, point.y)).bindLabel("50km/h").addTo(map)
-            // })
+            var points = json.points.forEach(point => {
+                L.marker(game_coord_to_pixels(point.x, point.y)).bindLabel("50km/h").addTo(map)
+            })
         }
     })
 }
