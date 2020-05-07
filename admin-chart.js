@@ -1585,6 +1585,8 @@ let tado = [
     }
 ]
 
+let chartData = [];
+
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
@@ -1593,7 +1595,7 @@ am4core.useTheme(am4themes_animated);
 let chart = am4core.create("chartdiv", am4charts.XYChart);
 
 // Add data
-chart.data = generateChartData();
+// chart.data = generateChartData();
 
 // Create axes
 let pinAxis = chart.xAxes.push(new am4charts.ValueAxis());
@@ -1633,7 +1635,6 @@ function generateChartData() {
     let chartData = [];
     let i=0
     for (let elem of tado) {
-
         chartData.push({
             speed_limit:90,
             speed: elem.speed,
