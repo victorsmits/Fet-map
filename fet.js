@@ -275,11 +275,17 @@ function run() {
 /*--- Click event---*/
 
 function onClickMarker(e) {
-    setTimeout(() => selectPlayerChanged($('#selectPlayer').text()), 200);
+
+    setTimeout(() => {
+        const id = $('#selectPlayer').text();
+        playerSelector.val(id);
+        selectPlayerChanged(id);
+    }, 200);
 
 }
 
 function onMapClick(e) {
+    
     popup.setLatLng(e.latlng)
         .setContent("You clicked the map at " + e.latlng.toString())
         .openOn(map);
