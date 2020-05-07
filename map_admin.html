@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+
+    <!-- Note: if this demo gets incorporated into ets2-mobile-route-advisor, I'd recommend including a copy of these files. That way, it will work even without Internet connection. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css"/>
+
+    <!-- Custom fonts for this template-->
+    <link href="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/fontawesome-free/css/all.min.css"
+          rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/fet.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!--    TO ADD !!!!!!-->
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+
+    <!-- DEBUG -->
+    <script type="text/javascript" src="debug.json"></script>
+
+
+</head>
+
+<svg style="display: none">
+    <defs>
+        <!-- Based on the actual game gfx. -->
+        <symbol id="svg-ets2-truck" viewBox="0 0 54 36">
+            <path d="m14 31a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-14-25h8v8h-8zm45 25a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-38-31-3 3h-8l-1 1v10h-1v10h2v2h-2v6h6.0859a6 6 0 0 1 -0.0859 -1 6 6 0 0 1 6 -6 6 6 0 0 1 6 6 6 6 0 0 1 -0.08984 1h8.09v-1h7v1h7.0859a6 6 0 0 1 -0.086 -1 6 6 0 0 1 6 -6 6 6 0 0 1 6 6 6 6 0 0 1 -0.08984 1h2.09v-6h-1v-2h-3v-3h-12v3h-17v-2h3v-19h-1v-3h-10z"/>
+        </symbol>
+
+        <!-- Based on the actual game gfx. -->
+        <symbol id="svg-ets2-trailer" viewBox="0 0 105 39">
+            <path d="m95 34a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-14 0a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-14 0a2 2 0 0 0 -2 -2 2 2 0 0 0 -2 2 2 2 0 0 0 2 2 2 2 0 0 0 2 -2zm3 0a5 5 0 0 1 -5 5 5 5 0 0 1 -5 -5 5 5 0 0 1 5 -5 5 5 0 0 1 5 5zm-31-4h13v4h-13zm-43-30h101a2 2 0 0 1 2 2v26h-105v-26a2 2 0 0 1 2-2z"/>
+        </symbol>
+
+        <!-- Based on the actual game gfx. -->
+        <symbol id="svg-ets2-cargo" viewBox="0 0 55 40">
+            <path d="m 0,38.98917 v -1.01083 h 3.95668 c 2.98115,0 3.97804,-0.0214 4.04332,-0.0866 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.0653,-0.0653 -1.06217,-0.0866 -4.04332,-0.0866 H 0 v -1.01083 -1.01083 h 27.58123 27.58122 v 1.01083 1.01083 h -3.95668 c -2.98114,0 -3.97803,0.0214 -4.04331,0.0866 -0.12394,0.12394 -0.12394,4.61253 0,4.73647 0.0653,0.0653 1.06217,0.0866 4.04331,0.0866 h 3.95668 V 38.98917 40 H 27.58123 0 Z M 24.17329,37.8917 c 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.12523,-0.12522 -9.23218,-0.12522 -9.35741,0 -0.12393,0.12394 -0.12393,4.61253 0,4.73647 0.12523,0.12522 9.23218,0.12522 9.35741,0 z m 16.17328,0 c 0.12393,-0.12394 0.12393,-4.61253 0,-4.73647 -0.12522,-0.12522 -9.23218,-0.12522 -9.3574,0 -0.0637,0.0637 -0.0866,0.68994 -0.0866,2.36824 0,1.67829 0.0229,2.30449 0.0866,2.36823 0.12522,0.12522 9.23218,0.12522 9.3574,0 z M 8.08664,21.08303 v -6.20938 h 9.09748 9.09747 v 6.20938 6.20939 H 17.18412 8.08664 Z m 20.79423,0 v -6.20938 h 9.09747 9.09747 v 6.20938 6.20939 H 37.97834 28.88087 Z M 8.08664,6.20939 V 0 h 9.09748 9.09747 v 6.20939 6.20938 H 17.18412 8.08664 Z m 20.79423,0 V 0 h 9.09747 9.09747 v 6.20939 6.20938 h -9.09747 -9.09747 z"/>
+        </symbol>
+
+        <!-- Based on the actual game icon. 12x12 image with 2 pixel margin. -->
+        <symbol id="svg-gear" viewBox="-2 -2 16 16">
+            <path d="m0 0v12h2v-5h3v5h2v-5h3 2v-2-5h-2v5h-3v-5h-2v5h-3v-5h-2z"/>
+        </symbol>
+
+        <!-- Based on the actual game icon. -->
+        <symbol id="svg-fuel" viewBox="0 0 16 16">
+            <path d="m9 3h-6v3h6zm-8-2h10v6h-1v6h2v-11h1v3h1v2h-1v8h-12v-2h1v-6h-1z"/>
+        </symbol>
+
+        <!-- Based on the actual game icon. -->
+        <symbol id="svg-fatigue" viewBox="0 0 18 12">
+            <path d="m5.5 4.5a1.5 1.5 0 0 1 -1.5 1.5 1.5 1.5 0 0 1 -1.5 -1.5 1.5 1.5 0 0 1 1.5 -1.5 1.5 1.5 0 0 1 1.5 1.5zm0.5-1.5v3h1 8a4 3 0 0 0 -4 -3h-5zm-6-3h2v7h14v-5h2v10h-2v-3h-14v3h-2z"/>
+        </symbol>
+
+        <!-- Based on http://typicons.com/ 24x24 image with 3 pixel margin. -->
+        <symbol id="svg-compass" viewBox="3 3 18 18">
+            <path d="M12 5c3.859.001 7 3.142 7 7.001 0 3.858-3.141 6.998-7 6.999-3.859 0-7-3.14-7-6.999s3.141-7 7-7.001m0-2c-4.971.001-9 4.03-9 9.001 0 4.97 4.029 8.999 9 8.999 4.97-.001 9-4.03 9-8.999 0-4.971-4.029-9-9-9.001zM16.182 7.819c-.129-.128-.315-.178-.491-.127l-5.951 1.706c-.166.048-.295.177-.342.343l-1.707 5.951c-.051.175-.002.363.127.491.095.095.223.146.354.146l.138-.02 5.95-1.708c.165-.047.295-.177.342-.343l1.707-5.949c.05-.173.002-.361-.127-.49zm-7.282 7.282l1.383-4.817 3.434 3.435-4.817 1.382z"/>
+        </symbol>
+
+        <!-- Based on http://fontawesome.io/ -->
+        <symbol id="svg-phone-squared" viewBox="0 0 857 858">
+            <path d="m714 595q0-6-1-9-1-5-21-17t-50-27l-29-16q-3-2-11-8t-14-8-12-3q-10 0-26 18t-32 37-24 18q-4 0-9-2t-9-3-9-6-8-4q-56-31-95-71t-71-95q-1-2-5-8t-5-9-4-9-2-9q0-8 12-19t25-21 25-23 11-20q0-5-2-12t-9-14-7-10q-2-4-8-16t-14-25-15-27-14-23-9-10-9-1q-27 0-56 13-26 11-45 52t-19 73q0 9 1 19t3 17 5 19 6 16 7 18 6 17q33 92 121 179t178 121q4 1 17 6t19 7 16 5 18 5 17 3 19 2q32 0 73-19t53-45q12-30 12-56zm143-434v536q0 66-47 113t-114 48h-535q-67 0-114-48t-47-113v-536q0-66 47-113t114-48h535q67 0 114 48t47 113z"/>
+        </symbol>
+
+    </defs>
+</svg>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Interface
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Components</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Custom Components:</h6>
+                    <a class="collapse-item" href="buttons.html">Buttons</a>
+                    <a class="collapse-item" href="cards.html">Cards</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+               aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Utilities</span>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Custom Utilities:</h6>
+                    <a class="collapse-item" href="utilities-color.html">Colors</a>
+                    <a class="collapse-item" href="utilities-border.html">Borders</a>
+                    <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                    <a class="collapse-item" href="utilities-other.html">Other</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Addons
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+               aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Pages</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Login Screens:</h6>
+                    <a class="collapse-item" href="login.html">Login</a>
+                    <a class="collapse-item" href="register.html">Register</a>
+                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Charts -->
+        <li class="nav-item">
+            <a class="nav-link" href="charts.html">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Charts</span></a>
+        </li>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="tables.html">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Tables</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!--   modal color picker-->
+
+                <div class="modal fade" id="exampleModal" tabindex="-2" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body picker-position">
+                                <div id="picker" onmouseup="colorUpdate()"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="">
+
+                    <!-- search tool -->
+                    <div class="col search">
+                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100"
+                              id="searchForm">
+                            <div class="input-group">
+                                <datalist id="data">
+                                </datalist>
+                                <input type="text" class="form-control bg-light border-1 small"
+                                       placeholder="Search player"
+                                       aria-label="Search"
+                                       aria-describedby="basic-addon2"
+                                       list="data" autocomplete="off" id="searchInput">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- select tool-->
+                    <div class="col search">
+                        <div class="input-group">
+                            <select
+                                    class="selector form-control bg-light border-1 small" id="playerSelector"
+                                    style="margin-right: 1em;">
+                                <option value="-">–- Select Player --</option>
+                            </select>
+                            <select
+                                    class="selector form-control bg-light border-1 small" id="TeamSelector">
+                                <option value="all">All team</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!-- color picker button-->
+                    <div class="col search">
+                        <div class="input-group">
+                            <button class="btn btn-primary btn-icon-split" id="openPicker" data-toggle="modal"
+                                    data-placement="right" data-target="#exampleModal"
+                                    title="Changer le fond de la carte"><i class="fas fa-palette"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- MAP Row -->
+                <div class="row">
+                    <div class="col">
+                        <div class="dashboard connected">
+                            <aside>
+                                <div class="_speed">
+                                    <span class="truckSpeedRoundedKmhMph"></span> <span class="speedUnits"></span>
+                                </div>
+                                <div class="_gear _middle">
+                                    <svg width="1em" height="1em">
+                                        <use xlink:href="#svg-gear" fill="#969696"/>
+                                    </svg>
+                                    <span class="gear _yellow-color"></span>
+                                </div>
+
+                                <div class="_damage _middle">
+                                    <div class="fillingIcon truckDamage">
+                                        <div class="top isEts2">
+                                            <svg width="1.5em" height="1em">
+                                                <use xlink:href="#svg-ets2-truck" fill="#969696"/>
+                                            </svg>
+                                        </div>
+                                        <div class="bot isEts2">
+                                            <svg width="1.5em" height="1em">
+                                                <use xlink:href="#svg-ets2-truck" fill="#930002"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_fuel _middle">
+                                    <div class="fillingIcon fuel">
+                                        <div class="top">
+                                            <svg width="1.5em" height="1em">
+                                                <use xlink:href="#svg-fuel" fill="#969696"/>
+                                            </svg>
+                                        </div>
+                                        <div class="bot">
+                                            <svg width="1.5em" height="1em">
+                                                <use xlink:href="#svg-fuel" fill="#f3c24c"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_rest _middle">
+                                    <div class="fillingIcon rest">
+                                        <div class="bot">
+                                            <svg width="1.5em" height="1em">
+                                                <use xlink:href="#svg-fatigue" fill="#969696"/>
+                                            </svg>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="_time">
+                                    <span class="game-time"></span>
+                                </div>
+                            </aside>
+
+                            <div class="_tabs">
+
+                                <article id="_maps">
+
+                                    <div id="map" style="z-index: 1;"></div>
+
+                                </article>
+
+                                <article id="_cargo">
+                                    <div class="noJob">
+                                        <div class="_row _yellow-color">
+                                            <p>Mission en cours</p>
+                                            <p>
+                                                <!-- There is no way to get the current balance from the telemetry. --></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p></p>
+                                            <p></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p></p>
+                                            <p></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p>Pas de mission en cours.</p>
+                                            <p></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p></p>
+                                            <p></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p></p>
+                                            <p class="game-nextRestStopTime _yellow-color"></p>
+                                        </div>
+                                    </div>
+                                    <div class="hasJob">
+                                        <div class="_row _yellow-color">
+                                            <p>Mission en cours</p>
+                                            <p>
+                                                <!-- There is no way to get the current balance from the telemetry. --></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p>Nom du chargement</p>
+                                            <p><span class="trailer-name"></span> (<span
+                                                    class="trailerMassKgOrT"></span>)</p>
+                                        </div>
+                                        <div class="_row">
+                                            <p>Destination</p>
+                                            <p><span class="job-destinationCity"></span> - <span
+                                                    class="job-destinationCompany"></span></p>
+                                        </div>
+                                        <div class="_row" id="expected">
+                                            <p></p>
+                                            <p><span class="job-deadlineTime"></span></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p>Revenu de la mission</p>
+                                            <p class="jobIncome"></p>
+                                        </div>
+                                        <div class="_row" id="remains">
+                                            <p></p>
+                                            <p class="job-remainingTime"></p>
+                                        </div>
+                                        <div class="_row">
+                                            <p></p>
+                                            <p class="game-nextRestStopTime _yellow-color"></p>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article id="_damage">
+                                    <figure>
+                                        <div class="fillingIcon truckDamage">
+                                            <div class="top isEts2">
+                                                <svg width="7em" height="4em">
+                                                    <use xlink:href="#svg-ets2-truck" fill="#969696"/>
+                                                </svg>
+                                            </div>
+                                            <div class="bot isEts2">
+                                                <svg width="7em" height="4em">
+                                                    <use xlink:href="#svg-ets2-truck" fill="#930002"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <figcaption>Camion: <span class="scsTruckDamageRounded"></span>%</figcaption>
+                                    </figure>
+                                    <figure>
+                                        <div class="fillingIcon trailerDamage">
+                                            <div class="top isEts2">
+                                                <svg width="11em" height="4em">
+                                                    <use xlink:href="#svg-ets2-trailer" fill="#969696"/>
+                                                </svg>
+                                            </div>
+                                            <div class="bot isEts2">
+                                                <svg width="11em" height="4em">
+                                                    <use xlink:href="#svg-ets2-trailer" fill="#930002"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <figcaption>Remorque: <span class="wearTrailerRounded"></span>%</figcaption>
+                                    </figure>
+                                    <figure>
+                                        <div class="fillingIcon cargoDamage">
+                                            <div class="top isEts2">
+                                                <svg width="7em" height="4em">
+                                                    <use xlink:href="#svg-ets2-cargo" fill="#969696"/>
+                                                </svg>
+                                            </div>
+                                            <div class="bot isEts2">
+                                                <svg width="7em" height="4em">
+                                                    <use xlink:href="#svg-ets2-cargo" fill="#930002"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <figcaption>Chargement: <span class="wearCargoRounded"></span>%</figcaption>
+                                    </figure>
+                                </article>
+								
+								<!-- The Modal -->
+								<div id="myModal" class="modal2">
+
+								  <!-- Modal content -->
+								  <div class="modal2-content">
+									<span class="close">&times;</span>
+									<p>Sélectionnez un joueur en cliquant sur le pointeurs sur la carte.</p>
+								  </div>
+
+								</div>
+
+                            </div>
+                            <!-- Content Row -->
+                            <nav>
+                                <div id="_maps_button" onclick="showTab('_maps')">
+                                    <svg width="1em" height="1em">
+                                        <use xlink:href="#svg-compass" fill="#ffffff"/>
+                                    </svg>
+									
+                                </div>
+                                <div id="_cargo_button" onclick="showTab('_cargo')">
+                                    <svg class="isEts2" width="1em" height="1em">
+                                        <use xlink:href="#svg-ets2-truck" fill="#ffffff"/>
+                                    </svg>
+                                </div>
+                                <div id="_damage_button" onclick="showTab('_damage')">
+                                    <svg width="1em" height="1em">
+                                        <use xlink:href="#svg-phone-squared" fill="#ffffff"/>
+                                    </svg>
+                                </div>
+                            </nav>
+
+                            <footer>
+                                <span data-mra-text="MobileRouteAdvisor"></span>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2019</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/jquery/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-area-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-pie-demo.js"></script>
+
+        <!--    TO ADD !!!!!!!!! -->
+        <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+        <script type="application/javascript" src="fet.js"></script>
+
+    </div>
+</div>
+</body>
+
+</html>
