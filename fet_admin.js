@@ -375,12 +375,12 @@ function getTraject(trajectId) {
 
             for (let i = 0; i < mapPoints.length; i++) {
                 if (i < mapPoints.length - 1) {
-
+                    let line_color = "green"
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
-                        rawPoints[i + 1].y, TimeBetweenPoint, speed_limit)[0]) color = "red";
+                        rawPoints[i + 1].y, TimeBetweenPoint, speed_limit)[0]) line_color = "red";
 
                     lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
-                        {color: color}).addTo(map))
+                        {color: line_color}).addTo(map))
                 }
                 let marker_color;
 
@@ -388,7 +388,7 @@ function getTraject(trajectId) {
 
                 pointMarker.addLayer(L.marker(mapPoints[i])
                     .setIcon(new L.icon({
-                        iconUrl: `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
+                        iconUrl: `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-${marker_color}.png`,
                         iconAnchor: [12, 41],
                     }))
                     .addTo(map)
