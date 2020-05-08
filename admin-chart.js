@@ -1599,7 +1599,7 @@ chart.data = [];
 // Create axes
 let pinAxis = chart.xAxes.push(new am4charts.ValueAxis());
 pinAxis.renderer.minGridDistance = 50;
-pinAxis.title.text = "Pin n° {$M}"
+pinAxis.title.text = "Pin numéro {$M}"
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.title.text = "vitesse (Km/h) {$M}"
