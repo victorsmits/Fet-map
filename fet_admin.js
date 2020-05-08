@@ -370,7 +370,7 @@ function getTrajects(playerId) {
 
 function getTraject(trajectId) {
     cleanMap();
-
+    let chart_data = []
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         let color = "green";
         if (json != null) {
@@ -401,16 +401,16 @@ function getTraject(trajectId) {
                     .addTo(map)
                     .bindTooltip(`${rawPoints[i].speed}km/h`))
 
-                chartData.push({
+                chart_data.push({
                     speed_limit: speed_limit,
                     speed: rawPoints[i].speed,
                     pin: i
                 });
                 cercleVit(rawPoints[i].x, rawPoints[i].y, TimeBetweenPoint, speed_limit, i);
+                chart.data = chart_data
             }
         }
         openGraph.prop('disabled', false);
-        chart.data = chartData
     })
 }
 
