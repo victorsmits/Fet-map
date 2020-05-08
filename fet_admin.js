@@ -273,7 +273,7 @@ function game_coord_to_pixels(x, y) {
 function loadPlayer(item) {
     if (item === '#playerSelector') {
         players.forEach(player => {
-            if (!checkIfExist(item, player.id)) {
+            if (!checkIfExist(player.id)) {
                 $(new Option(player.name, player.id)).appendTo(item);
             }
         })
@@ -319,7 +319,6 @@ function getPlayers() {
 function getTrajects(playerId) {
     getJSON(`${trajectsURL}${playerId}`, (err, json) => {
         if (json != null) {
-            console.log(json)
             loadTrajects(json);
         }
     })
@@ -328,28 +327,26 @@ function getTrajects(playerId) {
 function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         if(json != null) {
-            let points = json.points.map(point => game_coord_to_pixels(point.x, point.y));
-            map.flyTo(new L.latLng(points[0]), 5)
-            for(let i = 0; i < points.length - 1; i++) {
-                var color = "green";
-                if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]) color = "red";
-                
-                let poly = L.polyline([points[i], points[i+1]], {color: color}).addTo(map);
-                L.marker(points[i]).addTo(map).bindTooltip(`${json.points[i].speed}km/h`)
+           
+            let rawPoints = json.points
+            let mapPoints = rawPoints.map(point => game_coord_to_pixels(point.x, point.y))
+
+            map.flyTo(new L.latLng(mapPoints[0]), 5)
+            for(let i = 0; i < mapPoints.length; i++) {
+                if(i < mapPoints.length - 1) {
+                    var color = "green";
+                    if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i+1].x, rawPoints[i+1].y, 60, 90)[0]) color = "red";
+                    
+                    L.polyline([mapPoints[i], mapPoints[i+1]], {color: color}).addTo(map);
+                }
+                L.marker(mapPoints[i]).addTo(map).bindTooltip(`${rawPoints[i].speed}km/h`)
                 chartData.push({
                     speed_limit: 90,
-                    speed: json.points[i].speed,
+                    speed: rawPoints[i].speed,
                     pin: i
                 });
-                cercleVit(json.points[i].x, json.points[i].y, 60, 90, i);
+                cercleVit(rawPoints[i].x, rawPoints[i].y, 60, 90, i);
             }
-            cercleVit(json.points[json.points.length-1].x, json.points[json.points.length-1].y, 60, 90);
-            L.marker(points[points.length-1]).addTo(map).bindTooltip(`${json.points[json.points.length-1]}km/h`)
-            chartData.push({
-                speed_limit: 90,
-                speed: json.points[json.points.length-1].speed,
-                pin: json.points.length-1
-            });
         }
         openGraph.prop('disabled', false);
         chart.data = chartData
@@ -362,21 +359,10 @@ function update() {
     loadPlayer('#playerSelector');
 }
 
-function checkIfExist(ID, val) {
-    let IsExists = false;
-    $('#playerSelector option').each(function () {
-        if (this.value == val)
-            IsExists = true;
-    });
-    return IsExists;
-}
-
-/*--- fonction de mise à jour du joueurs suivi ---*/
-
-function selectPlayerChanged(val) {
-    selectedPlayerid = val;
-    selectedPlayer = mapMarkers[selectedPlayerid]["Name"];
-    getCurrentTraject();
+function checkIfExist(val) {
+    return $('#playerSelector option').map(function() {
+        return this.value == val
+    }).get().some(v => v);
 }
 
 /* ADMIN MAP */
@@ -389,7 +375,7 @@ function cercleVit(x,y,t,v,i){
 			var tmp2 = game_coord_to_pixels((x+ret[1]),y);
 			var rayon = tmp2[0]-tmp1[0];
 
-			var circle = L.circle(tmp1, {
+			L.circle(tmp1, {
 				color: 'red',
 				fillColor: '#f03',
 				fillOpacity: 0.5,

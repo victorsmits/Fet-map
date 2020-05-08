@@ -68,6 +68,22 @@
     height: 500px;
 }
 
-.leaflet-tooltip {
-    z-index: 30000;
+.leaflet-shadow-pane {
+    z-index: 1000;
+}
+
+.leaflet-overlay-pane {
+    z-index: 1001;
+}
+
+.leaflet-marker-pane {
+    z-index: 1002;
+}
+
+.leaflet-tooltip-pane {
+    z-index: 1003;
+}
+
+.leaflet-popup-pane {
+    z-index: 1004;
 }
