@@ -359,7 +359,6 @@ function getTrajects(playerId) {
 
 function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
-        let color = "green";
         if (json != null) {
 
             let rawPoints = json.points
@@ -368,6 +367,7 @@ function getTraject(trajectId) {
             map.flyTo(new L.latLng(mapPoints[0]), 5)
             for (let i = 0; i < mapPoints.length; i++) {
                 if (i < mapPoints.length - 1) {
+                    let color = "green";
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
                         rawPoints[i + 1].y, TimeBetweenPoint, speedLimit[0].value)[0]) color = "red";
 
