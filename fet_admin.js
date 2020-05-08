@@ -440,7 +440,7 @@ function filtreSpeedTraject(){
     }
 
     filtreSpeed.html('<i class="fas fa-check"></i>')
-
+    setTimeout(() => filtreSpeed.html('<i class="fas fa-filter"></i>'), 2000)
     trajectSelector.prop('disabled', false);
 }
 
