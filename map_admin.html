@@ -175,7 +175,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-<!--                <canvas id="myChart"></canvas>-->
+                <!--                <canvas id="myChart"></canvas>-->
 
 
                 <!-- Speed graph -->
@@ -214,7 +214,7 @@
                             <button class="btn" id="filtreSpeed" disabled="true"
                                     title="filtre"><i class="fas fa-filter"> Speed</i>
                             </button>
-							<button class="btn" id="filtreDistance" disabled="true"
+                            <button class="btn" id="filtreDistance" disabled="true"
                                     title="filtre"><i class="fas fa-filter"> Distance</i>
                             </button>
 
@@ -222,8 +222,22 @@
                                     data-placement="right" data-target="#exampleModal" disabled="true"
                                     title="Voir le graphique de vitesse"><i class="fas fa-chart-line"></i>
                             </button>
-							
-							<span id="speedLimit"> Vitesse d'alerte : <input type="text" id="speedLimit" maxlength="3" size="2"></span>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col search">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="radius">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Speed limit</span>
+
+                                </div>
+                                <input id="speed_limit_input" type="number" class="form-control"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default">
+                            </div>
                         </div>
                     </div>
 

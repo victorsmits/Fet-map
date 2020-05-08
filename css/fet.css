@@ -30,6 +30,7 @@
 }
 
 .search {
+    display: inline;
     justify-content: center;
     margin: 1em auto;
 }
@@ -41,6 +42,7 @@
 #openGraph, #openPicker{
     padding: 0.7em 1em ;
     background-color: #484e65;
+    margin-right: 15px;
 }
 
 #filtreSpeed, #filtreDistance{
@@ -49,13 +51,13 @@
 	margin-right: 15px;
 }
 
-#speedLimit{
-    background-color: #484e65;
-	color: white;
-	margin-left: 15px;
-	vertical-align: middle;
-	padding: .2rem .75rem;
-}
+/*#speedLimit{*/
+/*    background-color: #484e65;*/
+/*	color: white;*/
+/*	margin-left: 15px;*/
+/*	vertical-align: middle;*/
+/*	padding: .2rem .75rem;*/
+/*}*/
 
 .selector {
     width: 15em;
@@ -100,4 +102,8 @@
 
 .leaflet-popup-pane {
     z-index: 1004;
+}
+
+.radius {
+    border-radius:102px;
 }

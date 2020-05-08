@@ -6,6 +6,7 @@ let selectedPlayer = "";
 let selectedPlayerid = 0;
 
 let speed_limit = 90;
+let time_limit = 60;
 
 let MAX_X = 65408;
 let MAX_Y = 65344;
@@ -40,6 +41,7 @@ let trajectSelector = $("#trajectSelector");
 let MapId = $("#map");
 let filtreSpeed = $("#filtreSpeed");
 let filtreDistance = $("#filtreDistance");
+let speed_limit_input = $("#speed_limit_input");
 
 
 /* EU variable */
@@ -255,6 +257,12 @@ filtreDistance.click(function () {
     filtreDistanceTraject();
 })
 
+speed_limit_input.prop("value", speed_limit)
+
+speed_limit_input.change(e => {
+    speed_limit = $(speed_limit_input).val()
+})
+
 /*----------------- FUNCTION -------------------*/
 
 
@@ -364,17 +372,19 @@ function getTraject(trajectId) {
             let mapPoints = rawPoints.map(point => game_coord_to_pixels(point.x, point.y))
 
             map.flyTo(new L.latLng(mapPoints[0]), 5)
+
             for (let i = 0; i < mapPoints.length; i++) {
                 if (i < mapPoints.length - 1) {
+
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
-                        rawPoints[i + 1].y, 60, 90)[0]) color = "red";
+                        rawPoints[i + 1].y, time_limit, speed_limit)[0]) color = "red";
 
                     lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
                         {color: color}).addTo(map))
                 }
                 let marker_color;
-                console.log(rawPoints.speed)
-                if(rawPoints.speed >= speed_limit) marker_color =  "red" ; else marker_color = "green"
+
+                if (rawPoints[i].speed >= speed_limit) marker_color = "red"; else marker_color = "green"
 
                 pointMarker.addLayer(L.marker(mapPoints[i])
                     .setIcon(new L.icon({
@@ -385,11 +395,11 @@ function getTraject(trajectId) {
                     .bindTooltip(`${rawPoints[i].speed}km/h`))
 
                 chartData.push({
-                    speed_limit: 90,
+                    speed_limit: speed_limit,
                     speed: rawPoints[i].speed,
                     pin: i
                 });
-                cercleVit(rawPoints[i].x, rawPoints[i].y, 60, 90, i);
+                cercleVit(rawPoints[i].x, rawPoints[i].y, time_limit, speed_limit, i);
             }
         }
         openGraph.prop('disabled', false);
