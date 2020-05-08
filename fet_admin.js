@@ -376,7 +376,7 @@ function getTraject(trajectId) {
                 }
                 let marker_color;
                 console.log(rawPoints.speed)
-                if(rawPoints.speed >= speed_limit) marker_color =  "red" ; else marker_color = "green"
+                if(rawPoints.speed >= speedLimit[0].value) marker_color =  "red" ; else marker_color = "green"
 
                 pointMarker.addLayer(L.marker(mapPoints[i])
                     .setIcon(new L.icon({
