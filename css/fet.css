@@ -49,6 +49,14 @@
 	margin-right: 15px;
 }
 
+#speedLimit{
+    background-color: #484e65;
+	color: white;
+	margin-left: 15px;
+	vertical-align: middle;
+	padding: .2rem .75rem;
+}
+
 .selector {
     width: 15em;
     font-size: 18px;
