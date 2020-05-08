@@ -14,6 +14,8 @@ let s = 256;
 let players = [];
 let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
+let trajectId = [];
+
 /* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
@@ -35,6 +37,7 @@ let openGraph = $("#openGraph");
 let graphModal = $("#exampleModal");
 let trajectSelector = $("#trajectSelector");
 let MapId = $("#map");
+let filtreSpeed = $("#filtreSpeed");
 
 /* EU variable */
 
@@ -213,8 +216,10 @@ playerSelector.change(function () {
     if (val !== "-") {
         getTrajects(val);
         trajectSelector.prop("disabled", false);
+		filtreSpeed.prop('disabled', false);
     } else {
         trajectSelector.prop("disabled", true);
+		filtreSpeed.prop('disabled', true);
     }
 })
 
@@ -224,6 +229,10 @@ trajectSelector.change(function () {
 
 openGraph.click(function () {
     graphModal.show();
+})
+
+filtreSpeed.click(function () {
+    filtreSpeedTraject();
 })
 
 /*----------------- FUNCTION -------------------*/
@@ -281,10 +290,12 @@ function loadPlayer(item) {
 }
 
 function loadTrajects(trajects) {
+	trajectId = []
     $('#trajectSelector').empty()
     $(new Option("–- Select Traject --", "--")).appendTo('#trajectSelector');
     trajects.forEach(traject => {
         console.log(traject)
+		trajectId.push(traject.id);
         $(new Option(`${traject.source} -> ${traject.destination}`, traject.id)).appendTo('#trajectSelector');
     })
 }
@@ -399,3 +410,25 @@ function getDepacementVit(x1, y1, x2, y2, t, limitation){
 		return [0,0];
 	}
 }
+
+function filtreSpeedTraject(){
+	$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
+	
+	for(let i = 0; i < trajectId.length; i++) {
+		getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
+        if(json != null) {
+			let tooFast = false;
+            for(let i = 0; i < json.points.length - 1; i++) {
+                if (json.points[i].speed < 94){
+					tooFast = true;
+					break;
+				}
+            }
+			if(!tooFast){
+				$(`#trajectSelector option[value=${trajectId[i]}]`).remove();
+			}
+        }
+    })
+	}
+}
+

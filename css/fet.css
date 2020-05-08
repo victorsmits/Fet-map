@@ -43,6 +43,12 @@
     background-color: #484e65;
 }
 
+#filtreSpeed{
+    background-color: #484e65;
+	color: white;
+	margin-left: 15px;
+}
+
 .selector {
     width: 15em;
     font-size: 18px;
