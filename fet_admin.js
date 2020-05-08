@@ -44,7 +44,6 @@ let filtreSpeed = $("#filtreSpeed");
 let filtreDistance = $("#filtreDistance");
 let speed_limit_input = $("#speed_limit_input");
 
-speedLimit[0].value ="90";
 
 /* EU variable */
 
