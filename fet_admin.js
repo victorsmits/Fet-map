@@ -190,8 +190,8 @@ let mapinfo = L.tileLayer(cdn + '/overlay/{z}/{x}/{y}.png', {
 })
 
 let baseGroup = {
-    "road": road,
-    "zoom L9": transparency
+    "White": road,
+    "Black": transparency
 }
 
 let overlay = {
@@ -383,7 +383,7 @@ function update() {
 
 function checkIfExist(val) {
     return $('#playerSelector option').map(function() {
-        return this.value == val
+        return this.value === val
     }).get().some(v => v);
 }
 
@@ -393,9 +393,9 @@ function cercleVit(x,y,t,v,i){
 	if (i != 0){
 		let ret = getDepacementVit(lastcoor[0], lastcoor[1], x, y, t, v);
 		if (ret[0] === 1){
-			var tmp1 = game_coord_to_pixels(x,y);
-			var tmp2 = game_coord_to_pixels((x+ret[1]),y);
-			var rayon = tmp2[0]-tmp1[0];
+            let tmp1 = game_coord_to_pixels(x, y);
+            let tmp2 = game_coord_to_pixels((x+ret[1]),y);
+			let rayon = tmp2[0]-tmp1[0];
 
 			L.circle(tmp1, {
 				color: 'red',

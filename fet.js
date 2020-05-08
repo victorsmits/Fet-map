@@ -205,8 +205,8 @@ let mapinfo = L.tileLayer(cdn + '/overlay/{z}/{x}/{y}.png', {
 })
 
 let baseGroup = {
-    "road": road,
-    "zoom L9": transparency
+    "White": road,
+    "Balck": transparency
 }
 
 let overlay = {
