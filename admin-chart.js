@@ -1600,8 +1600,10 @@ let chart = am4core.create("chartdiv", am4charts.XYChart);
 // Create axes
 let pinAxis = chart.xAxes.push(new am4charts.ValueAxis());
 pinAxis.renderer.minGridDistance = 50;
+pinAxis.title.text = "Pin n° {$M}"
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.title.text = "vitesse (Km/h) {$M}"
 
 // Create series
 let series = chart.series.push(new am4charts.LineSeries());
