@@ -19,6 +19,8 @@ let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 let trajectId = [];
 let TimeBetweenPoint = 60; //temps en seconde in game
 
+let currentTrajectId = null;
+
 /* URL variable */
 
 let cdn = "https://cdn.jsdelivr.net/gh/victorsmits/Fet-Tiles"
@@ -243,7 +245,8 @@ playerSelector.change(function () {
 })
 
 trajectSelector.change(function () {
-    getTraject($(this).val());
+    currentTrajectId = $(this).val()
+    getTraject(currentTrajectId);
 })
 
 openGraph.click(function () {
@@ -261,6 +264,7 @@ filtreDistance.click(function () {
 speed_limit_input.prop("value", speed_limit)
 
 speed_limit_input.change(e => {
+    if(currentTrajectId) getTraject(currentTrajectId);
     speed_limit = $(speed_limit_input).val()
 })
 
@@ -365,6 +369,10 @@ function getTrajects(playerId) {
 }
 
 function getTraject(trajectId) {
+    circleMarker.clearLayers();
+    lineMarker.clearLayers();
+    pointMarker.clearLayers();
+
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         let color = "green";
         if (json != null) {
