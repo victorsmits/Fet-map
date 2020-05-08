@@ -369,9 +369,7 @@ function getTrajects(playerId) {
 }
 
 function getTraject(trajectId) {
-    circleMarker.clearLayers();
-    lineMarker.clearLayers();
-    pointMarker.clearLayers();
+    cleanMap();
 
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
         let color = "green";
@@ -537,3 +535,10 @@ function filtreDistanceTraject() {
     trajectSelector.prop('disabled', false);
 }
 
+
+
+function cleanMap() {
+    circleMarker.clearLayers();
+    lineMarker.clearLayers();
+    pointMarker.clearLayers();
+}
