@@ -5,6 +5,7 @@
 let selectedPlayer = "";
 let selectedPlayerid = 0;
 
+let speed_limit = 90;
 
 let MAX_X = 65408;
 let MAX_Y = 65344;
@@ -226,15 +227,15 @@ playerSelector.change(function () {
     if (val !== "-") {
         getTrajects(val);
         trajectSelector.prop("disabled", false);
-        
+
         filtreSpeed.html('<i class="fas fa-filter"> Speed</i>')
-		filtreSpeed.prop('disabled', false);
-		filtreDistance.html('<i class="fas fa-filter"> Distance</i>')
-		filtreDistance.prop('disabled', false);
+        filtreSpeed.prop('disabled', false);
+        filtreDistance.html('<i class="fas fa-filter"> Distance</i>')
+        filtreDistance.prop('disabled', false);
     } else {
         trajectSelector.prop("disabled", true);
-		filtreSpeed.prop('disabled', true);
-		filtreDistance.prop('disabled', true);
+        filtreSpeed.prop('disabled', true);
+        filtreDistance.prop('disabled', true);
     }
 })
 
@@ -309,12 +310,12 @@ function loadPlayer(item) {
 }
 
 function loadTrajects(trajects) {
-	trajectId = []
+    trajectId = []
     $('#trajectSelector').empty()
     $(new Option("–- Select Traject --", "--")).appendTo('#trajectSelector');
     trajects.forEach(traject => {
         console.log(traject)
-		trajectId.push(traject.id);
+        trajectId.push(traject.id);
         $(new Option(`${traject.source} -> ${traject.destination}`, traject.id)).appendTo('#trajectSelector');
     })
 }
@@ -356,20 +357,33 @@ function getTrajects(playerId) {
 
 function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
-        if(json != null) {
-           
+        let color = "green";
+        if (json != null) {
+
             let rawPoints = json.points
             let mapPoints = rawPoints.map(point => game_coord_to_pixels(point.x, point.y))
 
             map.flyTo(new L.latLng(mapPoints[0]), 5)
-            for(let i = 0; i < mapPoints.length; i++) {
-                if(i < mapPoints.length - 1) {
-                    var color = "green";
-                    if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i+1].x, rawPoints[i+1].y, 60, 90)[0]) color = "red";
-                    
-                    lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i+1]], {color: color}).addTo(map))
+            for (let i = 0; i < mapPoints.length; i++) {
+                if (i < mapPoints.length - 1) {
+                    if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
+                        rawPoints[i + 1].y, 60, 90)[0]) color = "red";
+
+                    lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
+                        {color: color}).addTo(map))
                 }
-                pointMarker.addLayer(L.marker(mapPoints[i]).addTo(map).bindTooltip(`${rawPoints[i].speed}km/h`))
+                let marker_color;
+                console.log(rawPoints.speed)
+                if(rawPoints.speed >= speed_limit) marker_color =  "red" ; else marker_color = "green"
+
+                pointMarker.addLayer(L.marker(mapPoints[i])
+                    .setIcon(new L.icon({
+                        iconUrl: `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
+                        iconAnchor: [12, 41],
+                    }))
+                    .addTo(map)
+                    .bindTooltip(`${rawPoints[i].speed}km/h`))
+
                 chartData.push({
                     speed_limit: 90,
                     speed: rawPoints[i].speed,
@@ -390,20 +404,20 @@ function update() {
 }
 
 function checkIfExist(val) {
-    return $('#playerSelector option').map(function() {
+    return $('#playerSelector option').map(function () {
         return this.value === `${val}`
     }).get().some(v => v);
 }
 
 /* ADMIN MAP */
 
-function cercleVit(x,y,t,v,i){
-	if (i != 0){
-		let ret = getDepacementVit(lastcoor[0], lastcoor[1], x, y, t, v);
-		if (ret[0] === 1){
+function cercleVit(x, y, t, v, i) {
+    if (i != 0) {
+        let ret = getDepacementVit(lastcoor[0], lastcoor[1], x, y, t, v);
+        if (ret[0] === 1) {
             let tmp1 = game_coord_to_pixels(x, y);
-            let tmp2 = game_coord_to_pixels((x+ret[1]),y);
-			let rayon = tmp2[0]-tmp1[0];
+            let tmp2 = game_coord_to_pixels((x + ret[1]), y);
+            let rayon = tmp2[0] - tmp1[0];
 
             circleMarker.addLayer(
                 L.circle(tmp1, {
@@ -413,49 +427,50 @@ function cercleVit(x,y,t,v,i){
                     radius: rayon
                 }).addTo(map)
             )
-		}
-	}
-	lastcoor = [x, y];
+        }
+    }
+    lastcoor = [x, y];
 }
 
 /*-- Return 1 si depasement de vitesse, 0 sinon --*/
+
 /*--- t en seconde et limitation en km/h---*/
-function getDepacementVit(x1, y1, x2, y2, t, limitation){
-	let Dmax = limitation*t/3.6;
-	let dxCarre = Math.pow( (x2-x1), 2);
-	let dyCarre = Math.pow( (y2-y1), 2);
-	let D = Math.pow( (dxCarre + dyCarre), 1/2);
-	if (D > Dmax){
-		return [1, Dmax];
-	}else{
-		return [0,0];
-	}
+function getDepacementVit(x1, y1, x2, y2, t, limitation) {
+    let Dmax = limitation * t / 3.6;
+    let dxCarre = Math.pow((x2 - x1), 2);
+    let dyCarre = Math.pow((y2 - y1), 2);
+    let D = Math.pow((dxCarre + dyCarre), 1 / 2);
+    if (D > Dmax) {
+        return [1, Dmax];
+    } else {
+        return [0, 0];
+    }
 }
 
-function filtreSpeedTraject(){
-    
-    
+function filtreSpeedTraject() {
+
+
     filtreSpeed.html('<div class="spinner-border" role="status" style="width: 24px; height:24px"><span class="sr-only">Loading...</span></div>')
     filtreSpeed.prop('disabled', true);
-	
-	if (filtreDistance[0].disabled){
-		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
-	}else{
-		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
-	}
+
+    if (filtreDistance[0].disabled) {
+        $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
+    } else {
+        $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
+    }
     trajectSelector.prop('disabled', true);
-    
-	for(let i = 0; i < trajectId.length; i++) {
-		getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
-            if(json != null) {
+
+    for (let i = 0; i < trajectId.length; i++) {
+        getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
+            if (json != null) {
                 let tooFast = false;
-                for(let i = 0; i < json.points.length - 1; i++) {
-                    if (json.points[i].speed < 94){
+                for (let i = 0; i < json.points.length - 1; i++) {
+                    if (json.points[i].speed < 94) {
                         tooFast = true;
                         break;
                     }
                 }
-                if(!tooFast){
+                if (!tooFast) {
                     $(`#trajectSelector option[value=${trajectId[i]}]`).remove();
                 }
             }
@@ -467,31 +482,31 @@ function filtreSpeedTraject(){
     trajectSelector.prop('disabled', false);
 }
 
-function filtreDistanceTraject(){
-    
-    
+function filtreDistanceTraject() {
+
+
     filtreDistance.html('<div class="spinner-border" role="status" style="width: 24px; height:24px"><span class="sr-only">Loading...</span></div>')
     filtreDistance.prop('disabled', true);
-	
-	if (filtreSpeed[0].disabled){
-		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
-	}else{
-		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Distance Traject --")
-	}
-    
+
+    if (filtreSpeed[0].disabled) {
+        $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
+    } else {
+        $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Distance Traject --")
+    }
+
     trajectSelector.prop('disabled', true);
-    
-	for(let i = 0; i < trajectId.length; i++) {
-		getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
-            if(json != null) {
+
+    for (let i = 0; i < trajectId.length; i++) {
+        getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
+            if (json != null) {
                 let tooFast = false;
-                for(let i = 0; i < json.points.length-1; i++) {
-					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]){
-						tooFast = true;
+                for (let i = 0; i < json.points.length - 1; i++) {
+                    if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i + 1].x, json.points[i + 1].y, 60, 90)[0]) {
+                        tooFast = true;
                         break;
-					} 
+                    }
                 }
-                if(!tooFast){
+                if (!tooFast) {
                     $(`#trajectSelector option[value=${trajectId[i]}]`).remove();
                 }
             }
