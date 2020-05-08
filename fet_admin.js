@@ -476,7 +476,7 @@ function filtreSpeedTraject() {
             if (json != null) {
                 let tooFast = false;
                 for(let i = 0; i < json.points.length - 1; i++) {
-                    if (json.points[i].speed < speedLimit[0].value){
+                    if (json.points[i].speed < speed_limit){
                         tooFast = true;
                         break;
                     }
@@ -512,7 +512,7 @@ function filtreDistanceTraject() {
             if (json != null) {
                 let tooFast = false;
                 for(let i = 0; i < json.points.length-1; i++) {
-					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, TimeBetweenPoint, speedLimit[0].value)[0]){
+					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, TimeBetweenPoint, speed_limit)[0]){
 						tooFast = true;
                         break;
                     }
