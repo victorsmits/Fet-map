@@ -20,5 +20,6 @@
     <orderEntry type="library" name="jquery.nice-select" level="application" />
     <orderEntry type="library" name="nice-select" level="application" />
     <orderEntry type="library" name="Dashboard" level="application" />
+    <orderEntry type="library" name="material" level="application" />
   </component>
 </module>
