@@ -216,6 +216,8 @@ playerSelector.change(function () {
     if (val !== "-") {
         getTrajects(val);
         trajectSelector.prop("disabled", false);
+        
+        filtreSpeed.html('<i class="fas fa-filter"></i>')
 		filtreSpeed.prop('disabled', false);
     } else {
         trajectSelector.prop("disabled", true);
@@ -412,23 +414,33 @@ function getDepacementVit(x1, y1, x2, y2, t, limitation){
 }
 
 function filtreSpeedTraject(){
-	$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
-	
+    
+    
+    filtreSpeed.html('<div class="spinner-border" role="status" style="width: 24px; height:24px"><span class="sr-only">Loading...</span></div>')
+    filtreSpeed.prop('disabled', true);
+
+    $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
+    trajectSelector.prop('disabled', true);
+    
 	for(let i = 0; i < trajectId.length; i++) {
 		getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
-        if(json != null) {
-			let tooFast = false;
-            for(let i = 0; i < json.points.length - 1; i++) {
-                if (json.points[i].speed < 94){
-					tooFast = true;
-					break;
-				}
+            if(json != null) {
+                let tooFast = false;
+                for(let i = 0; i < json.points.length - 1; i++) {
+                    if (json.points[i].speed < 94){
+                        tooFast = true;
+                        break;
+                    }
+                }
+                if(!tooFast){
+                    $(`#trajectSelector option[value=${trajectId[i]}]`).remove();
+                }
             }
-			if(!tooFast){
-				$(`#trajectSelector option[value=${trajectId[i]}]`).remove();
-			}
-        }
-    })
-	}
+        })
+    }
+
+    filtreSpeed.html('<i class="fas fa-check"></i>')
+
+    trajectSelector.prop('disabled', false);
 }
 
