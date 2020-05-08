@@ -367,7 +367,6 @@ function getTrajects(playerId) {
 
 function getTraject(trajectId) {
     getJSON(`${trajectURL}${trajectId}`, (err, json) => {
-        let color = "green";
         if (json != null) {
 
             let rawPoints = json.points
