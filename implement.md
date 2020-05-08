@@ -71,8 +71,7 @@ At the end of body add
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-area-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-pie-demo.js"></script>
 
-    <!--  Custom css -->
-    <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+    <!--  Custom script -->
     <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet_admin.js"></script>
     <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/admin-chart.js"></script>
 ```
