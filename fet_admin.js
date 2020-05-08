@@ -38,6 +38,8 @@ let graphModal = $("#exampleModal");
 let trajectSelector = $("#trajectSelector");
 let MapId = $("#map");
 let filtreSpeed = $("#filtreSpeed");
+let filtreDistance = $("#filtreDistance");
+
 
 /* EU variable */
 
@@ -217,11 +219,14 @@ playerSelector.change(function () {
         getTrajects(val);
         trajectSelector.prop("disabled", false);
         
-        filtreSpeed.html('<i class="fas fa-filter"></i>')
+        filtreSpeed.html('<i class="fas fa-filter"> Speed</i>')
 		filtreSpeed.prop('disabled', false);
+		filtreDistance.html('<i class="fas fa-filter"> Distance</i>')
+		filtreDistance.prop('disabled', false);
     } else {
         trajectSelector.prop("disabled", true);
 		filtreSpeed.prop('disabled', true);
+		filtreDistance.prop('disabled', true);
     }
 })
 
@@ -235,6 +240,10 @@ openGraph.click(function () {
 
 filtreSpeed.click(function () {
     filtreSpeedTraject();
+})
+
+filtreDistance.click(function () {
+    filtreDistanceTraject();
 })
 
 /*----------------- FUNCTION -------------------*/
@@ -418,8 +427,12 @@ function filtreSpeedTraject(){
     
     filtreSpeed.html('<div class="spinner-border" role="status" style="width: 24px; height:24px"><span class="sr-only">Loading...</span></div>')
     filtreSpeed.prop('disabled', true);
-
-    $(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
+	
+	if (filtreDistance[0].disabled){
+		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
+	}else{
+		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed Traject --")
+	}
     trajectSelector.prop('disabled', true);
     
 	for(let i = 0; i < trajectId.length; i++) {
@@ -439,8 +452,44 @@ function filtreSpeedTraject(){
         })
     }
 
-    filtreSpeed.html('<i class="fas fa-check"></i>')
-    setTimeout(() => filtreSpeed.html('<i class="fas fa-filter"></i>'), 2000)
+    filtreSpeed.html('<i class="fas fa-check"> Speed</i>')
+    setTimeout(() => filtreSpeed.html('<i class="fas fa-filter"> Speed</i>'), 2000)
+    trajectSelector.prop('disabled', false);
+}
+
+function filtreDistanceTraject(){
+    
+    
+    filtreDistance.html('<div class="spinner-border" role="status" style="width: 24px; height:24px"><span class="sr-only">Loading...</span></div>')
+    filtreDistance.prop('disabled', true);
+	
+	if (filtreSpeed[0].disabled){
+		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Speed & Distance Traject --")
+	}else{
+		$(`#trajectSelector option[value=${"--"}]`).text("–- Select Over Distance Traject --")
+	}
+    
+    trajectSelector.prop('disabled', true);
+    
+	for(let i = 0; i < trajectId.length; i++) {
+		getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
+            if(json != null) {
+                let tooFast = false;
+                for(let i = 0; i < json.points.length-1; i++) {
+					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, 60, 90)[0]){
+						tooFast = true;
+                        break;
+					} 
+                }
+                if(!tooFast){
+                    $(`#trajectSelector option[value=${trajectId[i]}]`).remove();
+                }
+            }
+        })
+    }
+
+    filtreDistance.html('<i class="fas fa-check"> Distance</i>')
+    setTimeout(() => filtreDistance.html('<i class="fas fa-filter"> Distance</i>'), 2000)
     trajectSelector.prop('disabled', false);
 }
 
