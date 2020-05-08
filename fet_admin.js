@@ -189,6 +189,11 @@ let mapinfo = L.tileLayer(cdn + '/overlay/{z}/{x}/{y}.png', {
     continuousWorld: false
 })
 
+let circleMarker = L.layerGroup().addTo(map);
+let lineMarker = L.layerGroup().addTo(map);
+let pointMarker = L.layerGroup().addTo(map);
+
+
 let baseGroup = {
     "road": road,
     "zoom L9": transparency
@@ -198,6 +203,9 @@ let overlay = {
     "ferry": ferry,
     "city": city,
     "POI": mapinfo,
+    "Circle": circleMarker,
+    "Lines": lineMarker,
+    "Points": pointMarker
 }
 
 L.control.layers(baseGroup, overlay).addTo(map);
@@ -359,9 +367,9 @@ function getTraject(trajectId) {
                     var color = "green";
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i+1].x, rawPoints[i+1].y, 60, 90)[0]) color = "red";
                     
-                    L.polyline([mapPoints[i], mapPoints[i+1]], {color: color}).addTo(map);
+                    lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i+1]], {color: color}).addTo(map))
                 }
-                L.marker(mapPoints[i]).addTo(map).bindTooltip(`${rawPoints[i].speed}km/h`)
+                pointMarker.addLayer(L.marker(mapPoints[i]).addTo(map).bindTooltip(`${rawPoints[i].speed}km/h`))
                 chartData.push({
                     speed_limit: 90,
                     speed: rawPoints[i].speed,
@@ -397,12 +405,14 @@ function cercleVit(x,y,t,v,i){
 			var tmp2 = game_coord_to_pixels((x+ret[1]),y);
 			var rayon = tmp2[0]-tmp1[0];
 
-			L.circle(tmp1, {
-				color: 'red',
-				fillColor: '#f03',
-				fillOpacity: 0.5,
-				radius: rayon
-			}).addTo(map);
+            circleMarker.addLayer(
+                L.circle(tmp1, {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: rayon
+                }).addTo(map)
+            )
 		}
 	}
 	lastcoor = [x, y];
