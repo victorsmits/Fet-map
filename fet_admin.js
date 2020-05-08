@@ -5,7 +5,6 @@
 let selectedPlayer = "";
 let selectedPlayerid = 0;
 
-let speed_limit = 90;
 
 let MAX_X = 65408;
 let MAX_Y = 65344;
@@ -16,6 +15,7 @@ let players = [];
 let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
 let trajectId = [];
+let TimeBetweenPoint = 60; //temps en seconde in game
 
 /* URL variable */
 
@@ -40,7 +40,9 @@ let trajectSelector = $("#trajectSelector");
 let MapId = $("#map");
 let filtreSpeed = $("#filtreSpeed");
 let filtreDistance = $("#filtreDistance");
+let speedLimit = $("#speedLimit");
 
+speedLimit[0].value ="90";
 
 /* EU variable */
 
@@ -367,7 +369,7 @@ function getTraject(trajectId) {
             for (let i = 0; i < mapPoints.length; i++) {
                 if (i < mapPoints.length - 1) {
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
-                        rawPoints[i + 1].y, 60, 90)[0]) color = "red";
+                        rawPoints[i + 1].y, TimeBetweenPoint, speedLimit[0].value)[0]) color = "red";
 
                     lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
                         {color: color}).addTo(map))
@@ -385,11 +387,11 @@ function getTraject(trajectId) {
                     .bindTooltip(`${rawPoints[i].speed}km/h`))
 
                 chartData.push({
-                    speed_limit: 90,
+                    speed_limit: speedLimit[0].value,
                     speed: rawPoints[i].speed,
                     pin: i
                 });
-                cercleVit(rawPoints[i].x, rawPoints[i].y, 60, 90, i);
+                cercleVit(rawPoints[i].x, rawPoints[i].y, TimeBetweenPoint, speedLimit[0].value, i);
             }
         }
         openGraph.prop('disabled', false);
@@ -404,7 +406,7 @@ function update() {
 }
 
 function checkIfExist(val) {
-    return $('#playerSelector option').map(function () {
+    return $('#playerSelector option').map(function() {
         return this.value === `${val}`
     }).get().some(v => v);
 }
@@ -464,8 +466,8 @@ function filtreSpeedTraject() {
         getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
             if (json != null) {
                 let tooFast = false;
-                for (let i = 0; i < json.points.length - 1; i++) {
-                    if (json.points[i].speed < 94) {
+                for(let i = 0; i < json.points.length - 1; i++) {
+                    if (json.points[i].speed < speedLimit[0].value){
                         tooFast = true;
                         break;
                     }
@@ -500,9 +502,9 @@ function filtreDistanceTraject() {
         getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
             if (json != null) {
                 let tooFast = false;
-                for (let i = 0; i < json.points.length - 1; i++) {
-                    if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i + 1].x, json.points[i + 1].y, 60, 90)[0]) {
-                        tooFast = true;
+                for(let i = 0; i < json.points.length-1; i++) {
+					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, TimeBetweenPoint, speedLimit[0].value)[0]){
+						tooFast = true;
                         break;
                     }
                 }

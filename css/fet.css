@@ -49,7 +49,7 @@
 	margin-right: 15px;
 }
 
-#speedLimit{
+#speedLimitTxt, #speedLimit{
     background-color: #484e65;
 	color: white;
 	margin-left: 15px;
