@@ -17,6 +17,7 @@ let players = [];
 let playerid = [198153, 17095, 692781, 1702890, 3407980, 3039723];
 
 let trajectId = [];
+let TimeBetweenPoint = 60; //temps en seconde in game
 
 /* URL variable */
 
@@ -43,6 +44,7 @@ let filtreSpeed = $("#filtreSpeed");
 let filtreDistance = $("#filtreDistance");
 let speed_limit_input = $("#speed_limit_input");
 
+speedLimit[0].value ="90";
 
 /* EU variable */
 
@@ -377,7 +379,7 @@ function getTraject(trajectId) {
                 if (i < mapPoints.length - 1) {
 
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
-                        rawPoints[i + 1].y, time_limit, speed_limit)[0]) color = "red";
+                        rawPoints[i + 1].y, TimeBetweenPoint, speedLimit[0].value)[0]) color = "red";
 
                     lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
                         {color: color}).addTo(map))
@@ -399,7 +401,7 @@ function getTraject(trajectId) {
                     speed: rawPoints[i].speed,
                     pin: i
                 });
-                cercleVit(rawPoints[i].x, rawPoints[i].y, time_limit, speed_limit, i);
+                cercleVit(rawPoints[i].x, rawPoints[i].y, TimeBetweenPoint, speedLimit[0].value, i);
             }
         }
         openGraph.prop('disabled', false);
@@ -414,7 +416,7 @@ function update() {
 }
 
 function checkIfExist(val) {
-    return $('#playerSelector option').map(function () {
+    return $('#playerSelector option').map(function() {
         return this.value === `${val}`
     }).get().some(v => v);
 }
@@ -474,8 +476,8 @@ function filtreSpeedTraject() {
         getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
             if (json != null) {
                 let tooFast = false;
-                for (let i = 0; i < json.points.length - 1; i++) {
-                    if (json.points[i].speed < 94) {
+                for(let i = 0; i < json.points.length - 1; i++) {
+                    if (json.points[i].speed < speedLimit[0].value){
                         tooFast = true;
                         break;
                     }
@@ -510,9 +512,9 @@ function filtreDistanceTraject() {
         getJSON(`${trajectURL}${trajectId[i]}`, (err, json) => {
             if (json != null) {
                 let tooFast = false;
-                for (let i = 0; i < json.points.length - 1; i++) {
-                    if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i + 1].x, json.points[i + 1].y, 60, 90)[0]) {
-                        tooFast = true;
+                for(let i = 0; i < json.points.length-1; i++) {
+					if (getDepacementVit(json.points[i].x, json.points[i].y, json.points[i+1].x, json.points[i+1].y, TimeBetweenPoint, speedLimit[0].value)[0]){
+						tooFast = true;
                         break;
                     }
                 }
