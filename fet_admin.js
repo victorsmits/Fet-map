@@ -377,7 +377,7 @@ function getTraject(trajectId) {
                 if (i < mapPoints.length - 1) {
 
                     if (getDepacementVit(rawPoints[i].x, rawPoints[i].y, rawPoints[i + 1].x,
-                        rawPoints[i + 1].y, TimeBetweenPoint, speedLimit[0].value)[0]) color = "red";
+                        rawPoints[i + 1].y, TimeBetweenPoint, speed_limit)[0]) color = "red";
 
                     lineMarker.addLayer(L.polyline([mapPoints[i], mapPoints[i + 1]],
                         {color: color}).addTo(map))
@@ -399,7 +399,7 @@ function getTraject(trajectId) {
                     speed: rawPoints[i].speed,
                     pin: i
                 });
-                cercleVit(rawPoints[i].x, rawPoints[i].y, TimeBetweenPoint, speedLimit[0].value, i);
+                cercleVit(rawPoints[i].x, rawPoints[i].y, TimeBetweenPoint, speed_limit, i);
             }
         }
         openGraph.prop('disabled', false);
