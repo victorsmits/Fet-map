@@ -203,7 +203,7 @@ let overlay = {
     "ferry": ferry,
     "city": city,
     "POI": mapinfo,
-    "Circle": circleMarker,
+    "Circles": circleMarker,
     "Lines": lineMarker,
     "Points": pointMarker
 }
@@ -391,7 +391,7 @@ function update() {
 
 function checkIfExist(val) {
     return $('#playerSelector option').map(function() {
-        return this.value === val
+        return this.value === `${val}`
     }).get().some(v => v);
 }
 
