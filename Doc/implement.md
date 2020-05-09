@@ -20,7 +20,7 @@ Add [map.html](html/map.html) content
 ### Custom js integration
 At the end of body add
 
-Download the [Dashboard.js](../dashboard.js) file.
+Download the [Dashboard.js](../Dashboard.js) file.
 
 ```html
     <!-- Core plugin JavaScript-->
