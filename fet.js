@@ -34,7 +34,7 @@ let openPicker = $("#openPicker");
 let teamSelector = $("#teamSelector");
 let searchForm = $("#searchForm");
 let picker = $("#picker");
-let mapId = $("#map");
+let MapId = $("#map");
 let search = $("#search");
 
 
