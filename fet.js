@@ -433,23 +433,23 @@ function getPosition() {
 }
 
 function getCurrentTraject() {
-    if (playerid.length === 0) {
-        /* getJSON(urlTraject + playerid[i], (err, json) => {
-             let traject = json.response
-             if (traject.online) {
-                 DashboardCompute(traject);
-                 DashboardRender(traject);
-             }
-         })*/
-    }
-
-    /* Debug */
-    let tmp = JSON.parse(debug);
-    let traject = tmp[0];
-    if (traject.online === 1) {
-        traject = DashboardCompute(traject);
-        DashboardRender(traject);
-    }
+	const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
+    if (playerId != "-") {
+			/* getJSON(urlTraject + playerid[i], (err, json) => {
+				 let traject = json.response
+				 if (traject.online) {
+					 DashboardCompute(traject);
+					 DashboardRender(traject);
+				 }
+			 })*/
+			 /* Debug */
+			let tmp = JSON.parse(debug);
+			let traject = tmp[0];
+			if (traject.online === 1) {
+				traject = DashboardCompute(traject);
+				DashboardRender(traject);
+			}
+    }   
 }
 
 
