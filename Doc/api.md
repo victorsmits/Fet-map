@@ -28,7 +28,7 @@ List of players id
  - *name* : Player name
  - *x*: x position
  - *y*: y position
- - *brand*: truck brand
+ - *team*: player team
 
  URL example : ".../playerPosition/:playerId
 
