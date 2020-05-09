@@ -141,4 +141,4 @@ List of all players of FET with id
  URL example : ".../traject/:trajectId
 
  ## Next step
- [HTML integration](https://github.com/victorsmits/Fet-map/blob/master/implement.md)
+ [HTML integration](Doc/implement.md)
