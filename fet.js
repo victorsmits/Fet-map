@@ -286,7 +286,7 @@ function onClickMarker(e) {
 }
 
 function onMapClick(e) {
-    
+
     popup.setLatLng(e.latlng)
         .setContent("You clicked the map at " + e.latlng.toString())
         .openOn(map);
@@ -400,7 +400,13 @@ function getPosition() {
                             new L.latLng(game_coord_to_pixels(truck.x, truck.y)));
                     } else {
 
-                        const popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
+                        let popup;
+                        if (truck.name === "Tado87") {
+                            popup = `${truck.name} <img src=${cdn + "/kappa.png"} alt="kappa" style="margin-left: 0.2em"> 
+                                        <div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
+                        } else {
+                            popup = `${truck.name}<div id='selectPlayer' style='display: none'>${truck.mp_id}</div>`
+                        }
                         mapMarkers[playerid[i]] = {
                             marker: L.marker(game_coord_to_pixels(truck.x, truck.y),
                                 {icon: getTeamIcon("Volvo")})
@@ -412,13 +418,13 @@ function getPosition() {
                         }
 
                         update()
-						
+
                     }
                 } else if ((!truck.online) && playerid[i] in mapMarkers && (mapMarkers[playerid[i]]["marker"] !== undefined)) {
-					mapMarkers[playerid[i]]["marker"].remove();
-					mapMarkers[playerid[i]] = undefined;
-					
-					update()
+                    mapMarkers[playerid[i]]["marker"].remove();
+                    mapMarkers[playerid[i]] = undefined;
+
+                    update()
                 }
             }
         })
