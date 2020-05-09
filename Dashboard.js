@@ -121,8 +121,7 @@ function showTab(tabName) {
 
     if (tabName == "_cargo" || tabName == "_damage") {
         const playerId = document.getElementById("selectPlayer") ? $('#selectPlayer').text() : $('#playerSelector').val();
-        console.log(playerId)
-        if (playerId == "–-") {
+        if (playerId == "-") {
 			modal.style.display = "block";
             return;
         }
