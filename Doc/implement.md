@@ -15,7 +15,7 @@
 ```
 
 ### Content integration
-Add [map.html](https://github.com/victorsmits/Fet-map/blob/master/html/map.html) content
+Add [map.html](html/map.html) content
 
 ### Custom js integration
 At the end of body add
@@ -55,7 +55,7 @@ At the end of body add
 ```
 
 ### Content integration 
-Add [admin.html](https://github.com/victorsmits/Fet-map/blob/master/html/admin.html) content
+Add [admin.html](html/admin.html) content
 
 ### Custom js integration
 At the end of body add
