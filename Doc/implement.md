@@ -19,6 +19,9 @@ Add [map.html](html/map.html) content
 
 ### Custom js integration
 At the end of body add
+
+Download the [Dashboard.js](../dashboard.js) file.
+
 ```html
     <!-- Core plugin JavaScript-->
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -32,7 +35,7 @@ At the end of body add
     <script src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/js/demo/chart-pie-demo.js"></script>
 
     <!--  Custom script -->
-    <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/Dashboard.js"></script>
+    <script type="application/javascript" src=Dashboard.js"></script>
     <script type="application/javascript" src="https://cdn.jsdelivr.net/gh/victorsmits/Fet-map/fet.js"></script>
 ```
 
